@@ -15,7 +15,7 @@ def main():
 
     from account.account import accounts
     from backend.art_generation.DALLE3_img import generation
-    from chat.spotify import spotify
+    from backend.musicRecommender.spotify import spotify
     app.register_blueprint(accounts)
     app.register_blueprint(generation)
     app.register_blueprint(spotify)
