@@ -55,11 +55,17 @@ def preprocess_datasets(path, new_folder, columns_to_keep):
         print(df)
         df["text"] = df["text"].progress_apply(
             sentence_preprocessing)
-        df["label"] = df["label"].progress_apply(str.lower)
         df = df.dropna(axis=0)
         df = df[columns]
         new_path = os.path.join(new_folder, file)
         save_processed_data(df=df, new_path=new_path)
+
+def convert_labels_to_lowercase(file_path:str):
+    df = load_data(file_path)
+    df["label"] = df["label"].progress_apply(str.lower)
+    filename = file_path.split("/")
+    new_path = new_folder+"/"+filename[2]
+    save_processed_data(df=df, new_path=new_path)
 
 def convert_numeric_label_to_categorical(file_path:str):
     df = load_data(file_path)
@@ -73,7 +79,6 @@ if __name__ == "__main__":
     emotion_path = "./emotion_datasets"
     health_path = "./mental_health_datasets"
     keep_columns_emotion = [
-        ['text', 'label'],
         ['text', 'label'],
         ['text', 'label'],
         ['text', 'admiration',
