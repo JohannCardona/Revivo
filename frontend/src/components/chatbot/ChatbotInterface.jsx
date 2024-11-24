@@ -158,13 +158,24 @@ function ChatbotInterface() {
               <div className="no-conversations">
                 <p>Good {day_time}, Johann</p>
                 <img src={chaticon} alt="chat icon" />
+                <iframe
+                  title="song embedding"
+                  src="https://open.spotify.com/embed/track/6WatFBLVB0x077xWeoVc2k"
+                  width="40%"
+                  height="100%"
+                  frameborder="0"
+                  allowtransparency="true"
+                  allow="encrypted-media"
+                ></iframe>
               </div>
             </>
           ) : (
             conversations.map((conversation, index) => (
               <div
                 key={index}
-                className={`wrapper ${conversation.chatbot ? "chatbot" : "user"}`}
+                className={`wrapper ${
+                  conversation.chatbot ? "chatbot" : "user"
+                }`}
               >
                 <div className="conversations" id={conversation.id}>
                   {conversation.chatbot &&
