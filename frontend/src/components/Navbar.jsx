@@ -8,7 +8,7 @@ function Navbar() {
   const navigate = useNavigate();
   const buttons = [
     { text: "Chatbot", to: "/chat" },
-    { text: "Metrics", to: "/dashboard" },
+    { text: "Dashboard", to: "/dashboard" },
     { text: "ArtStyling", to: "/art_styling" },
   ];
 
@@ -56,9 +56,13 @@ function Navbar() {
               </Button>
             );
           })}
-          <Button color="inherit" data-testid={"logout-btn"} onClick={logout}>
-            Logout
-          </Button>
+          {localStorage.getItem("token") ? (
+            <Button color="inherit" data-testid={"logout-btn"} onClick={logout}>
+              Logout
+            </Button>
+          ) : (
+            ""
+          )}
         </Toolbar>
       </AppBar>
     </div>
