@@ -14,10 +14,11 @@ def main():
     app.secret_key = config["PROD"]["SECRET_KEY"]
 
     from account.account import accounts
-    from backend.art_generation.DALLE3_img import generation
-    from backend.musicRecommender.spotify import spotify
+    from art_generation.DALLE3_img import generation
+    from musicRecommender.spotifyMusicRecommender import spotify_recommender
+    from musicRecommender.spotify import spotify
     app.register_blueprint(accounts)
     app.register_blueprint(generation)
-    app.register_blueprint(spotify)
+    app.register_blueprint(spotify_recommender)
 
     return app
