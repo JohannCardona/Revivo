@@ -60,18 +60,19 @@ def preprocess_datasets(path, new_folder, columns_to_keep):
         new_path = os.path.join(new_folder, file)
         save_processed_data(df=df, new_path=new_path)
 
-def convert_labels_to_lowercase(file_path:str):
+def convert_labels_to_lowercase(file_path:str, destination:str):
     df = load_data(file_path)
     df["label"] = df["label"].progress_apply(str.lower)
     filename = file_path.split("/")
-    new_path = new_folder+"/"+filename[2]
+    new_path = destination+"/"+filename[2]
     save_processed_data(df=df, new_path=new_path)
 
-def convert_numeric_label_to_categorical(file_path:str):
+
+def convert_numeric_label_to_categorical(file_path: str, destination: str):
     df = load_data(file_path)
     df["label"] = df["label"].progress_apply(lambda label: "sadness" if label == 0 else "joy" if label == 1 else "love" if label == 2 else "anger" if label == 3 else "fear" if label == 4 else "surprise" if label == 5 else None)
     filename = file_path.split("/")
-    new_path = new_folder+"/"+filename[2]
+    new_path = destination+"/"+filename[2]
     save_processed_data(df=df, new_path=new_path)
 
 if __name__ == "__main__":
@@ -90,3 +91,7 @@ if __name__ == "__main__":
     ]
 
     preprocess_datasets(path=emotion_path, new_folder=new_folder, columns_to_keep=keep_columns_emotion)
+    convert_numeric_label_to_categorical(
+        file_path="./processed/dair-ai-emotion.csv", destination=new_folder)
+    convert_numeric_label_to_categorical(
+        file_path="./processed/amuvarma_emotions-text.csv", destination=new_folder)
