@@ -15,6 +15,7 @@ downloads/
 preprocessing/emotion_datasets/
 preprocessing/mental_health_datasets/
 preprocessing/processed/
+*.h5
 eggs/
 .eggs/
 lib/
