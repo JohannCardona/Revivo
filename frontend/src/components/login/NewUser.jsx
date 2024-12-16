@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import login from "../../images/secure_login.svg";
 import "../../styles/login/ChangePassword.css";
+import "../../styles/login/RegisterLogin.css";
 import Swal from "sweetalert2";
 
 function NewUser({ onRegister }) {
