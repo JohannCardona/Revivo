@@ -58,11 +58,8 @@ function ExistingUser({ newUser, onSignIn }) {
       <div className="new-panels-container">
         <div className="new-panel new-left-panel">
           <div className="new-panel-content">
-            <h3>Have you forgotten your password?</h3>
-            <p>
-              No problem. Enter your email address and we'll send you an email
-              to reset your password.
-            </p>
+            <h3>Good to see you again!</h3>
+            <p>Enter your username to connect with your chatbot.</p>
           </div>
           <img src={login} className="image" alt="sign in logo" />
         </div>
