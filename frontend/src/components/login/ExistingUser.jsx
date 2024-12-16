@@ -20,6 +20,7 @@ function ExistingUser({ newUser, onSignIn }) {
     e.preventDefault();
     if (existingUser === newUser) {
       onSignIn(existingUser);
+      localStorage.setItem("user", existingUser);
     } else if (existingUser.trim() === "") {
       fireAlert("Username must not be empty", "error", "red");
     } else {
