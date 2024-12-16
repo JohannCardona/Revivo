@@ -7,8 +7,6 @@ import AddIcon from "@mui/icons-material/Add";
 import chaticon from "../../images/chatbot.svg";
 import MenuIcon from "@mui/icons-material/Menu";
 import "../../styles/chatbot/ChatbotInterface.css";
-import ExistingUser from "../login/ExistingUser";
-import NewUser from "../login/NewUser";
 
 function ChatbotInterface() {
   const [prompt, setPrompt] = useState("");
@@ -18,17 +16,6 @@ function ChatbotInterface() {
   const previousMessageRef = useState(null);
   const chatbotTypingSpeed = 10;
   const [loadingChatbotResponse, setLoadingChatbotResponse] = useState(false);
-
-  const [newUser, setNewUser] = useState(null);
-  const [existingUser, setExistingUser] = useState(null);
-
-  const handleRegister = (user) => {
-    setNewUser(user);
-  };
-
-  const handleSignIn = (user) => {
-    setExistingUser(user);
-  };
 
   const time = new Date().getHours();
   let day_time = "";
@@ -113,14 +100,6 @@ function ChatbotInterface() {
       }
     }
   }, [loadingChatbotResponse, conversations]);
-
-  if (!newUser) {
-    return <NewUser onRegister={handleRegister} />;
-  }
-
-  if (!existingUser) {
-    return <ExistingUser newUser={newUser} onSignIn={handleSignIn} />;
-  }
 
   return (
     <div className="chatbot-container">
