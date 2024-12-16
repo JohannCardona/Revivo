@@ -15,8 +15,6 @@ function ArtStyling() {
     dangerouslyAllowBrowser: true,
   });
 
-  console.log(prompt);
-
   const generate_image = async () => {
     if (prompt === "") {
       Swal.fire({
@@ -34,11 +32,6 @@ function ArtStyling() {
         n: 1,
       });
       setImgURL(response.data[0].url);
-      // await axios
-      //   .post("http://localhost:5000/image_generation", { prompt })
-      //   .then((response) => {
-      //     console.log(response.data.result);
-      //   });
     }
   };
 
