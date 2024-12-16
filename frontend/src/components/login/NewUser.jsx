@@ -54,10 +54,9 @@ function NewUser({ onRegister }) {
       <div className="new-panels-container">
         <div className="new-panel new-left-panel">
           <div className="new-panel-content">
-            <h3>Have you forgotten your password?</h3>
+            <h3>Welcome, let's get started!</h3>
             <p>
-              No problem. Enter your email address and we'll send you an email
-              to reset your password.
+              No passwords, no hassle. Just enter a username to start your journey.
             </p>
           </div>
           <img src={login} className="image" alt="sign in logo" />
