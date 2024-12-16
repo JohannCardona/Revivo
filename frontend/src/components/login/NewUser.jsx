@@ -9,7 +9,7 @@ function NewUser({ onRegister }) {
 
   const fireAlert = (response, type, color) => {
     Swal.fire({
-      title: response.data.result,
+      title: response,
       confirmButtonText: "OK",
       confirmButtonColor: color,
       icon: type,
