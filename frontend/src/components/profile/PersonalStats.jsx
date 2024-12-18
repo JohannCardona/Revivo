@@ -9,7 +9,7 @@ import {
   Legend,
   ArcElement,
 } from "chart.js";
-import "../../styles/Plots.css";
+import "../../styles/dashboard/Plots.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { Bar } from "react-chartjs-2";
 import axios from "axios";
