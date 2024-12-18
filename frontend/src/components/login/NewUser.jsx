@@ -4,7 +4,7 @@ import "../../styles/login/ChangePassword.css";
 import "../../styles/login/RegisterLogin.css";
 import Swal from "sweetalert2";
 
-function NewUser({ onRegister }) {
+function NewUser({ onRegister, switchToSignIn }) {
   const [newUser, setNewUser] = useState("");
 
   const fireAlert = (response, type, color) => {
@@ -20,6 +20,7 @@ function NewUser({ onRegister }) {
     e.preventDefault();
     if (newUser.trim() === "") {
       fireAlert("Username must not be empty", "error", "red");
+      return;
     }
     onRegister(newUser);
   };
@@ -48,6 +49,10 @@ function NewUser({ onRegister }) {
               onClick={handleUserRegister}
             />
           </form>
+          <p>
+            Existing user?{" "}
+            <button onClick={switchToSignIn}>Sign in</button>
+          </p>
         </div>
       </div>
 
@@ -56,7 +61,8 @@ function NewUser({ onRegister }) {
           <div className="new-panel-content">
             <h3>Welcome, let's get started!</h3>
             <p>
-              No passwords, no hassle. Just enter a username to start your journey.
+              No passwords, no hassle. Just enter a username to start your
+              journey.
             </p>
           </div>
           <img src={login} className="image" alt="sign in logo" />
