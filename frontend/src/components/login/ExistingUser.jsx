@@ -4,7 +4,7 @@ import "../../styles/login/ChangePassword.css";
 import "../../styles/login/RegisterLogin.css";
 import Swal from "sweetalert2";
 
-function ExistingUser({ newUser, onSignIn }) {
+function ExistingUser({ newUser, onSignIn, switchToRegister }) {
   const [existingUser, setExistingUser] = useState("");
 
   const fireAlert = (response, type, color) => {
@@ -16,11 +16,21 @@ function ExistingUser({ newUser, onSignIn }) {
     });
   };
 
+  const fireAlert1 = (response, type, color, existingUser) => {
+    Swal.fire({
+      title: response,
+      confirmButtonText: "OK",
+      confirmButtonColor: color,
+      icon: type,
+    }).then(() => {
+      onSignIn(existingUser);
+    })
+  };
+
   const handleUserSignIn = (e) => {
     e.preventDefault();
-    if (existingUser === newUser) {
-      onSignIn(existingUser);
-      localStorage.setItem("user", existingUser);
+    if ((newUser && existingUser === newUser) || localStorage.getItem("user")) {
+      fireAlert1("You're in. Let's start the conversation.", "success", "green", existingUser);
     } else if (existingUser.trim() === "") {
       fireAlert("Username must not be empty", "error", "red");
     } else {
@@ -52,6 +62,9 @@ function ExistingUser({ newUser, onSignIn }) {
               onClick={handleUserSignIn}
             />
           </form>
+          <p>
+            New user? <button onClick={switchToRegister}>Sign up</button>
+          </p>
         </div>
       </div>
 
