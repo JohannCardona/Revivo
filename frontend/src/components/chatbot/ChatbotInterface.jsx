@@ -7,15 +7,66 @@ import AddIcon from "@mui/icons-material/Add";
 import chaticon from "../../images/chatbot.svg";
 import MenuIcon from "@mui/icons-material/Menu";
 import "../../styles/chatbot/ChatbotInterface.css";
+import OpenAI from "openai";
+import Swal from "sweetalert2";
+import axios from "axios";
+import ExistingUser from "../login/ExistingUser";
+import NewUser from "../login/NewUser";
 
 function ChatbotInterface() {
   const [prompt, setPrompt] = useState("");
+  const [imgURL, setImgURL] = useState("");
   const [close, setClose] = useState(false);
   const [conversations, setConversations] = useState([]);
   const conversationRef = useRef(null);
-  const previousMessageRef = useState(null);
+  const previousMessageRef = useRef(null);
   const chatbotTypingSpeed = 10;
   const [loadingChatbotResponse, setLoadingChatbotResponse] = useState(false);
+  const song_genres = ["latino", "happy", "calm", "rock"];
+  const song_genre = "happy";
+  const [recommended_songs, setRecommendedSongs] = useState([]);
+  const [newUser, setNewUser] = useState(null);
+  const [existingUser, setExistingUser] = useState(null);
+  const [isSignup, setIsSignUp] = useState(true);
+
+  const handleRegister = (user) => {
+    localStorage.setItem("user", user);
+    setNewUser(user);
+    setIsSignUp(false);
+  };
+
+  const handleSignIn = (user) => {
+    setExistingUser(user);
+  };
+
+  const recommend_songs = () => {
+    axios
+      .get(`http://localhost:5000/music_recommendations/${song_genre}`)
+      .then((response) => {
+        if (response.status === 200) {
+          setRecommendedSongs(response.data);
+        }
+      });
+  };
+
+  const client = new OpenAI({
+    apiKey:
+      "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",
+    dangerouslyAllowBrowser: true,
+  });
+
+  const generate_image = async (prompt) => {
+    console.log("got the prompt");
+    const response = await client.images.generate({
+      model: "dall-e-3",
+      prompt: prompt,
+      size: "1024x1024",
+      quality: "standard",
+      n: 1,
+    });
+    console.log("generated the image");
+    setImgURL(response.data[0].url);
+  };
 
   const time = new Date().getHours();
   let day_time = "";
@@ -56,11 +107,8 @@ function ChatbotInterface() {
     };
   };
 
-  const handleConversationSubmit = async (e) => {
-    e.preventDefault();
-
-    if (prompt.trim() === "") return;
-
+  const handleConversationSubmit = async () => {
+    // e.preventDefault();
     const userResponse = conversationList(false, prompt);
     setConversations((prevConversations) => [
       ...prevConversations,
@@ -93,6 +141,37 @@ function ChatbotInterface() {
     }, 1000);
   };
 
+  const fireAlert = (response, type, color) => {
+    Swal.fire({
+      title: response,
+      confirmButtonText: "OK",
+      confirmButtonColor: color,
+      icon: type,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (prompt.trim() === "") {
+      fireAlert("Input a question before asking the chatbot.", "error", "red");
+      return;
+    }
+    if (prompt.includes("song")) {
+      console.log("Spotify API");
+      recommend_songs();
+    } else if (
+      prompt.includes("create") ||
+      prompt.includes("generate") ||
+      prompt.includes("image")
+    ) {
+      console.log("DALL-E");
+      generate_image(prompt);
+    } else {
+      console.log("conversation");
+      handleConversationSubmit();
+    }
+  };
+
   useEffect(() => {
     if (loadingChatbotResponse && previousMessageRef.current) {
       const response = document.getElementById(previousMessageRef.current);
@@ -101,8 +180,39 @@ function ChatbotInterface() {
     }
   }, [loadingChatbotResponse, conversations]);
 
+  useEffect(() => {
+    const user = localStorage.getItem("username");
+    if (user) {
+      setNewUser(user);
+      setIsSignUp(false);
+    }
+  }, []);
+
+  const logout = (user) => {
+    localStorage.removeItem("user");
+    setNewUser(null);
+    setExistingUser(null);
+    setIsSignUp(true);
+  };
+
+  if (!existingUser) {
+    return isSignup ? (
+      <NewUser
+        onRegister={handleRegister}
+        switchToSignIn={() => setIsSignUp(false)}
+      />
+    ) : (
+      <ExistingUser
+        newUser={newUser}
+        onSignIn={handleSignIn}
+        switchToRegister={() => setIsSignUp(false)}
+      />
+    );
+  }
+
   return (
     <div className="chatbot-container">
+      <input onClick={logout} type="button" value="Logout" />
       <aside className={`sidemenu ${close ? "close" : "open"}`}>
         {!close ? (
           <>
@@ -127,13 +237,6 @@ function ChatbotInterface() {
               <div className="sidemenu-chat">Eleccion de Opciones SPY</div>
               <div className="sidemenu-chat">Inversion SPY hoy</div>
               <div className="sidemenu-chat">Iron Man Thanos Moon</div>
-              {/* <div className="sidemenu-chat">CSS Flexbox Column Layout</div> */}
-              {/* <div className="sidemenu-chat">Centering Text in Grid</div> */}
-              {/* <div className="sidemenu-chat">
-                Retrieve Specific MongoDB Field
-              </div> */}
-              {/* <div className="sidemenu-chat">Track User Logins Flask</div> */}
-              {/* <div className="sidemenu-chat">Apologizing in Emails</div> */}
               <div className="sidemenu-chat">Function Output Differences</div>
               <div className="sidemenu-chat">Vector Element Modification</div>
               <div className="sidemenu-chat">Vector Processing in Python</div>
@@ -156,17 +259,24 @@ function ChatbotInterface() {
           {conversations.length === 0 ? (
             <>
               <div className="no-conversations">
-                <p>Good {day_time}, Johann</p>
+                <p>
+                  Good {day_time}, {localStorage.getItem("user")}. How are you
+                  feeling today?
+                </p>
                 <img src={chaticon} alt="chat icon" />
-                <iframe
-                  title="song embedding"
-                  src="https://open.spotify.com/embed/track/6WatFBLVB0x077xWeoVc2k"
-                  width="40%"
-                  height="100%"
-                  frameborder="0"
-                  allowtransparency="true"
-                  allow="encrypted-media"
-                ></iframe>
+                {recommended_songs.length > 0 ? (
+                  <iframe
+                    title="song embedding"
+                    src={`https://open.spotify.com/embed/track/${recommended_songs[0].spotify_id}`}
+                    width="40%"
+                    height="100%"
+                    frameBorder="0"
+                    allowtransparency="true"
+                    allow="encrypted-media"
+                  ></iframe>
+                ) : (
+                  ""
+                )}
               </div>
             </>
           ) : (
@@ -198,6 +308,22 @@ function ChatbotInterface() {
               </div>
             ))
           )}
+          {recommended_songs.map((item, key) => (
+            <div key={key}>
+              <p>Album: {item.album}</p>
+              <p>Album Date: {item.album_date}</p>
+              <p>Artist: {item.artist}</p>
+              <p>Song Name: {item.name}</p>
+              <p>Popularity: {item.popularity}</p>
+              <p>Spotify_ID: {item.postify_id}</p>
+            </div>
+          ))}
+          {
+            <>
+              <br />
+              <img src={imgURL} alt="AI generated visual art" />
+            </>
+          }
         </div>
         <div className="conversations item-2">
           <div className="user-item user-text-container">
@@ -228,7 +354,7 @@ function ChatbotInterface() {
               style={{ backgroundColor: "rgb(80, 160, 129)" }}
               variant="contained"
               endIcon={<SendRoundedIcon />}
-              onClick={handleConversationSubmit}
+              onClick={handleSubmit}
             >
               Send
             </Button>
