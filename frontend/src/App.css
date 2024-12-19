@@ -8,3 +8,15 @@
 .App {
     min-height: 92vh;
 }
+
+.light-theme {
+    --background: white;
+    --text: black;
+    --bg-navbar: #50a081;
+}
+
+.dark-theme {
+    --background: #504646;
+    --text: rgb(143, 123, 123);
+    --bg-navbar: #092d1f;
+}
