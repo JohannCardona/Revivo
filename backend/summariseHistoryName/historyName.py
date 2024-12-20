@@ -18,7 +18,7 @@ def initialise_API():
 
 @conversation_title.route("/fetch_conversation_title/<context>", methods=['GET'])
 def get_conversation_title(context) -> str:
-    system = "You are an assistant that summarises text in 5 words."
+    system = "You are an assistant that summarises text in 6 words."
     prompt = f"Give the context of this text in 6 words without using punctuation such as `(,!?.;)`:\n{context}"
 
     client = initialise_API()
@@ -29,10 +29,4 @@ def get_conversation_title(context) -> str:
         max_tokens=15,
         temperature=0.8
     )
-    return LLM_response.choices[0].message.content.strip()
-
-
-if __name__ == "__main__":
-    prompt = "I am very happy today because I was able to pass my final exam."
-    title = get_conversation_title(context=prompt)
-    print(title)
+    return jsonify({"result": LLM_response.choices[0].message.content.strip()}), HTTPStatus.OK
