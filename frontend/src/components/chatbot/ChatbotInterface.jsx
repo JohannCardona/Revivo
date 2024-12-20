@@ -28,6 +28,16 @@ function ChatbotInterface() {
   const [newUser, setNewUser] = useState(null);
   const [existingUser, setExistingUser] = useState(null);
   const [isSignup, setIsSignUp] = useState(true);
+  const [conversationTitle, setConversationTitle] = useState("");
+
+  const fetch_conversation_title = async () => {
+    axios.get(`http://localhost:5000/fetch_conversation_title/${prompt}`)
+    .then((response) => {
+      if(response.status === 200) {
+        setConversationTitle(response.data.result);
+      }
+    })
+  }
 
   const handleRegister = (user) => {
     localStorage.setItem("user", user);
@@ -168,6 +178,7 @@ function ChatbotInterface() {
       generate_image(prompt);
     } else {
       console.log("conversation");
+      fetch_conversation_title();
       handleConversationSubmit();
     }
   };
@@ -234,7 +245,11 @@ function ChatbotInterface() {
             </div>
             <div className="divider"></div>
             <div className="chat-history">
-              <div className="sidemenu-chat">Eleccion de Opciones SPY</div>
+              {!conversationTitle ? (
+                <div className="sidemenu-chat">Eleccion de Opciones SPY</div>
+              ) : (
+                <div className="sidemenu-chat">{conversationTitle}</div>
+              )}
               <div className="sidemenu-chat">Inversion SPY hoy</div>
               <div className="sidemenu-chat">Iron Man Thanos Moon</div>
               <div className="sidemenu-chat">Function Output Differences</div>
