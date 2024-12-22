@@ -21,38 +21,41 @@ def account_registration():
 
     print("DATA: \n", data)
 
-    if len(data["username"]) == 0:
+    if len(data["newUser"]) == 0:
         return jsonify({"result": "Username is required"}), HTTPStatus.BAD_REQUEST
-    elif len(data["username"]) < 3:
+    elif len(data["newUser"]) < 3:
         return jsonify({"result": "Username must be at least three characters long"}), HTTPStatus.BAD_REQUEST
-    user = mongo_db.users.find_one({"username": data["username"]})
+    user = mongo_db.users.find_one({"username": data["newUser"]})
+    print(user)
     if user:
         return jsonify({"result": "Username is taken"}), HTTPStatus.CONFLICT
 
     collection = mongo_db.users
     document = {
-        "username": data["username"],
+        "username": data["newUser"],
     }
     collection.insert_one(document).inserted_id
 
-    return HTTPStatus.CREATED
+    return jsonify({"result": "Registered succesfully"}), HTTPStatus.CREATED
 
 
 @accounts.route("/login", methods=["POST"])
 def account_login():
     data = request.get_json()
+    print(data)
     now = datetime.datetime.now().strftime("%d-%m-%Y")
     hour = datetime.datetime.now().hour
     DAY_TIME = 6
     NIGHT_TIME = 18
 
-    if len(data["username"]) == 0:
+    if len(data["existingUser"]) == 0:
         return jsonify({"result": "Username is required"}), HTTPStatus.BAD_REQUEST
 
-    user = mongo_db.users.find_one({"username": data["username"]})
+    user = mongo_db.users.find_one({"username": data["existingUser"]})
+    print(user)
 
     login_date = mongo_db.user_login_stats.find_one(
-        {"username": user["username"], "login_date": now})
+        {"user": user["username"], "login_date": now})
 
     if user is not None:
         if DAY_TIME <= hour < NIGHT_TIME:
@@ -91,7 +94,9 @@ def user_login_info():
 
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
     user = decoded_token["user"]
+    print(user)
 
+    query = {"_id": 0, "username": 1}
     profile_data = mongo_db.users.find_one({"username": user}, query)
 
     query = {"_id": 0, "user": 1, "login_date": 1,
