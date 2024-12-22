@@ -23,7 +23,7 @@ function ChatbotInterface() {
   const chatbotTypingSpeed = 10;
   const [loadingChatbotResponse, setLoadingChatbotResponse] = useState(false);
   const song_genres = ["latino", "happy", "calm", "rock"];
-  const song_genre = "happy";
+  const song_genre = "latino";
   const [recommended_songs, setRecommendedSongs] = useState([]);
   const [newUser, setNewUser] = useState(null);
   const [existingUser, setExistingUser] = useState(null);
@@ -353,7 +353,7 @@ function ChatbotInterface() {
               <Tooltip title="Record your voice">
                 <Button
                   style={{
-                    backgroundColor: "rgb(80, 160, 129)",
+                    backgroundColor: "var(--bg-navbar)",
                     marginRight: 6,
                     marginLeft: -4,
                     paddingRight: 3,
@@ -366,7 +366,7 @@ function ChatbotInterface() {
           </div>
           <div className="user-item">
             <Button
-              style={{ backgroundColor: "rgb(80, 160, 129)" }}
+              style={{ backgroundColor: "var(--bg-navbar)" }}
               variant="contained"
               endIcon={<SendRoundedIcon />}
               onClick={handleSubmit}

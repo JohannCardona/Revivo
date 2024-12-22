@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { AppBar, Toolbar, Button, Typography } from "@mui/material";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import revivo from "../images/Logo1.png";
+import { ThemeContext } from "./Theme/Theme";
+import "../styles/navbar/Navbar.css";
 
 function Navbar() {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
+  const handleThemeToggle = () => {
+    toggleTheme();
+  };
+
   const navigate = useNavigate();
   const buttons = [
-    { text: "Chatbot", to: "/chat" },
     { text: "Dashboard", to: "/dashboard" },
-    { text: "ArtStyling", to: "/art_styling" },
+    { text: "Motivation", to: "/motivation" },
   ];
 
   const logout = (e) => {
@@ -26,14 +33,14 @@ function Navbar() {
   };
 
   return (
-    <div>
+    <div className="navigation-bar">
       <AppBar position="static">
-        <Toolbar style={{ backgroundColor: "#50a081" }}>
+        <Toolbar style={{ backgroundColor: "var(--bg-navbar)" }}>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <NavLink to="/">
               <img
                 style={{
-                  width: 110,
+                  width: 80,
                   height: 64,
                   margin: "0 0 0 -23px",
                   display: "flex",
@@ -63,6 +70,16 @@ function Navbar() {
           ) : (
             ""
           )}
+          <nav>
+            <input
+              type="checkbox"
+              id="theme-toggle"
+              // checked={theme}
+              onChange={handleThemeToggle}
+              hidden
+            />
+            <label htmlFor="theme-toggle" className="theme-toggle"></label>
+          </nav>
         </Toolbar>
       </AppBar>
     </div>

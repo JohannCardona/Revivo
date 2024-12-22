@@ -4,8 +4,8 @@
   min-height: 100vh;
   overflow: hidden;
   margin-bottom: 70px;
+  background: var(--background);
 }
-
 
 
 .account-forms {
@@ -75,7 +75,7 @@
 
 .title {
     font-size: 1.75rem;
-    color: black;
+    color: var(--text);
     font-weight: bold;
     margin-bottom: 5px;
 }
@@ -134,7 +134,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   top: -10%;
   right: 48%;
   transform: translateY(-50%);
-  background-image: linear-gradient(-90deg, #7bdcb5 0%, #56c699 100%);
+  background-image: linear-gradient(-90deg, var(--bg-navbar) 0%, #56c699 100%);
   transition: 1.8s ease-in-out;
   border-radius: 50%;
   z-index: 6;
@@ -268,7 +268,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .registerlogin-btn {
   width: 200px;
-  background-color: #50a081;
+  background-color: var(--bg-navbar);
   border: none;
   outline: none;
   height: 49px;
@@ -282,7 +282,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .registerlogin-btn:hover {
-  background-color: #47b488;
+  background-color: #2f624e;
   color: #fff;
   box-shadow: 1px 3px 3px #ccc;
 }

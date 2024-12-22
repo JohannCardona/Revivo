@@ -1,0 +1,40 @@
+.navigation-bar nav{
+    height: 56px;
+    background: var(--bg-navbar);
+    padding: 0 15px 0 15px;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.navigation-bar nav a{
+    color: var(--dark);
+}
+
+.navigation-bar nav .theme-toggle{
+    display: block;
+    min-width: 50px;
+    height: 25px;
+    background: var(--grey);
+    cursor: pointer;
+    position: relative;
+    border-radius: 25px;
+}
+
+.navigation-bar nav .theme-toggle::before{
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    bottom: 2px;
+    width: calc(25px - 4px);
+    background: var(--bg-navbar);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.navigation-bar nav #theme-toggle:checked+.theme-toggle::before{
+    left: calc(100% - (25px - 4px) - 2px);
+}
