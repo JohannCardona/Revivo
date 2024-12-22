@@ -3,6 +3,7 @@ import login from "../../images/secure_login.svg";
 import "../../styles/login/ChangePassword.css";
 import "../../styles/login/RegisterLogin.css";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 function ExistingUser({ newUser, onSignIn, switchToRegister }) {
   const [existingUser, setExistingUser] = useState("");
@@ -24,13 +25,36 @@ function ExistingUser({ newUser, onSignIn, switchToRegister }) {
       icon: type,
     }).then(() => {
       onSignIn(existingUser);
-    })
+    });
   };
 
   const handleUserSignIn = (e) => {
     e.preventDefault();
     if ((newUser && existingUser === newUser) || localStorage.getItem("user")) {
-      fireAlert1("You're in. Let's start the conversation.", "success", "green", existingUser);
+      axios
+        .post("http://localhost:5000/login", {
+          existingUser,
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            const jwt_token = response.data.token;
+            localStorage.setItem("token", jwt_token);
+            fireAlert1(
+              "You're in. Let's start the conversation.",
+              "success",
+              "green",
+              existingUser
+            );
+          }
+        })
+        .catch((error) => {
+          Swal.fire({
+            title: error.response.data.result,
+            confirmButtonText: "OK",
+            confirmButtonColor: "#ff0055",
+            icon: "error",
+          });
+        });
     } else if (existingUser.trim() === "") {
       fireAlert("Username must not be empty", "error", "red");
     } else {

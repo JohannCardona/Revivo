@@ -3,6 +3,7 @@ import login from "../../images/secure_login.svg";
 import "../../styles/login/ChangePassword.css";
 import "../../styles/login/RegisterLogin.css";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 function NewUser({ onRegister, switchToSignIn }) {
   const [newUser, setNewUser] = useState("");
@@ -16,13 +17,45 @@ function NewUser({ onRegister, switchToSignIn }) {
     });
   };
 
+  const fireAlert1 = (response, type, color, newUser) => {
+    Swal.fire({
+      title: response,
+      confirmButtonText: "OK",
+      confirmButtonColor: color,
+      icon: type,
+    }).then(() => {
+      onRegister(newUser);
+    });
+  };
+
   const handleUserRegister = (e) => {
     e.preventDefault();
     if (newUser.trim() === "") {
       fireAlert("Username must not be empty", "error", "red");
       return;
     }
-    onRegister(newUser);
+    axios
+      .post("http://localhost:5000/register", {
+        newUser,
+      })
+      .then((response) => {
+        if (response.status === 201) {
+          fireAlert1(
+            "That was easy. Let's head to the login.",
+            "success",
+            "green",
+            newUser
+          );
+        }
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: error.response.data.result,
+          confirmButtonText: "OK",
+          confirmButtonColor: "#ff0055",
+          icon: "error",
+        });
+      });
   };
 
   return (
@@ -50,8 +83,7 @@ function NewUser({ onRegister, switchToSignIn }) {
             />
           </form>
           <p>
-            Existing user?{" "}
-            <button onClick={switchToSignIn}>Sign in</button>
+            Existing user? <button onClick={switchToSignIn}>Sign in</button>
           </p>
         </div>
       </div>
