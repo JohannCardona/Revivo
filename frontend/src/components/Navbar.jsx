@@ -16,7 +16,8 @@ function Navbar() {
   const navigate = useNavigate();
   const buttons = [
     { text: "Dashboard", to: "/dashboard" },
-    { text: "Motivation", to: "/motivation" },
+    { text: "Thrive Tips", to: "/motivation" },
+    {text: "Soothing Sounds", to: "/calming_audios"}
   ];
 
   const logout = (e) => {

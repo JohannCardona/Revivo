@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import App from "./App";
 import PersonalStats from "./components/profile/PersonalStats";
 import ChatbotInterface from "./components/chatbot/ChatbotInterface";
+import MindfulnessTips from "./components/mindfulness/MindfulnessTips";
+import TipsCategories from "./components/mindfulness/TipsCategories";
+import CalmingAudios from "./components/mindfulness/CalmingAudios";
 
 function AppRouter() {
   return (
@@ -12,6 +15,12 @@ function AppRouter() {
           <Route path="/" element={<App />}>
             <Route index element={<ChatbotInterface />} />
             <Route path="/dashboard" element={<PersonalStats />} />
+            <Route path="motivation" element={<MindfulnessTips />} />
+            <Route
+              path="motivation/tips/:category"
+              element={<TipsCategories />}
+            />
+            <Route path="calming_audios" element={<CalmingAudios />} />
           </Route>
         </Routes>
       </Router>
