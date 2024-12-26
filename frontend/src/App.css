@@ -47,10 +47,12 @@
     --background: white;
     --text: black;
     --bg-navbar: #50a081;
+    --favourites: #bdecdc;
 }
 
 .dark-theme {
     --background: #4d4747;
     --text: rgb(255, 255, 255);
     --bg-navbar: #397061;
+    --favourites: #567b6d;
 }
