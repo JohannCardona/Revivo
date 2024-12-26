@@ -16,9 +16,10 @@ def main():
     from account.account import accounts
     from art_generation.DALLE3_img import generation
     from musicRecommender.spotifyMusicRecommender import spotify_recommender
-    from musicRecommender.spotify import spotify
+    from summariseHistoryName.historyName import conversation_title
     app.register_blueprint(accounts)
     app.register_blueprint(generation)
     app.register_blueprint(spotify_recommender)
+    app.register_blueprint(conversation_title)
 
     return app
