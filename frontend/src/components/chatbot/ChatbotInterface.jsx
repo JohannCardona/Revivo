@@ -84,7 +84,7 @@ function ChatbotInterface() {
     day_time = "morning";
   } else if (time >= 12 && time < 17) {
     day_time = "afternoon";
-  } else if (time > 17 && time < 21) {
+  } else if (time >= 17 && time < 21) {
     day_time = "evening";
   } else {
     day_time = "night";
@@ -144,9 +144,9 @@ function ChatbotInterface() {
       setLoadingChatbotResponse(false);
       const chatbotDummyResponse =
         "Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life.";
-      const conversation = document.getElementById(chatbotResponseId);
-      if (conversation) {
-        chatbotTypingResponse(conversation, chatbotDummyResponse);
+      const conversationDiv = document.getElementById(chatbotResponseId);
+      if (conversationDiv) {
+        chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
       }
     }, 1000);
   };
@@ -178,7 +178,7 @@ function ChatbotInterface() {
       generate_image(prompt);
     } else {
       console.log("conversation");
-      fetch_conversation_title();
+      // fetch_conversation_title();
       handleConversationSubmit();
     }
   };
@@ -199,13 +199,6 @@ function ChatbotInterface() {
     }
   }, []);
 
-  const logout = (user) => {
-    localStorage.removeItem("user");
-    setNewUser(null);
-    setExistingUser(null);
-    setIsSignUp(true);
-  };
-
   if (!existingUser) {
     return isSignup ? (
       <NewUser
@@ -221,9 +214,11 @@ function ChatbotInterface() {
     );
   }
 
+  console.log(conversations);
+  
+
   return (
     <div className="chatbot-container">
-      <input onClick={logout} type="button" value="Logout" />
       <aside className={`sidemenu ${close ? "close" : "open"}`}>
         {!close ? (
           <>
@@ -270,7 +265,7 @@ function ChatbotInterface() {
         )}
       </aside>
       <div className="chatbot-ui-container">
-        <div ref={previousMessageRef} className="conversations item-1">
+        <div ref={previousMessageRef} className="chat item-1">
           {conversations.length === 0 ? (
             <>
               <div className="no-conversations">
@@ -317,7 +312,7 @@ function ChatbotInterface() {
                       backgroundColor="#50a081"
                     />
                   ) : (
-                    conversation.message
+                    conversation.response
                   )}
                 </div>
               </div>
@@ -340,7 +335,7 @@ function ChatbotInterface() {
             </>
           }
         </div>
-        <div className="conversations item-2">
+        <div className="chat item-2">
           <div className="user-item user-text-container">
             <textarea
               rows="1"

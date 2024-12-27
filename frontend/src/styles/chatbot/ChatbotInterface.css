@@ -160,7 +160,7 @@
     justify-content: flex-start;
 }
 
-.chatbot .conversation{
+.chatbot .conversations{
     background: white;
     color: black;
     box-shadow: 2px 3px 5px #ccc;
@@ -171,7 +171,7 @@
     justify-content: flex-end;
 }
 
-.user .conversation{
+.user .conversations{
     background: #50a081;
     color: white;
     text-align: center;
@@ -179,7 +179,7 @@
     border-radius: 10px 10px 10px 0;
 }
 
-.conversation{
+.conversations{
     padding: 10px 15px;
     border-radius: 15px;
     max-width: 50%;
