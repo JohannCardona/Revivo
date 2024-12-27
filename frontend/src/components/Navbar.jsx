@@ -17,7 +17,7 @@ function Navbar() {
   const buttons = [
     { text: "Dashboard", to: "/dashboard" },
     { text: "Thrive Tips", to: "/motivation" },
-    {text: "Soothing Sounds", to: "/calming_audios"}
+    { text: "Soothing Sounds", to: "/calming_audios" },
   ];
 
   const logout = (e) => {
@@ -29,6 +29,7 @@ function Navbar() {
       icon: "success",
     }).then(() => {
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
       navigate("/");
     });
   };
@@ -52,18 +53,20 @@ function Navbar() {
               />
             </NavLink>
           </Typography>
-          {buttons.map((button) => {
-            return (
-              <Button
-                key={button.text}
-                component={Link}
-                to={button.to}
-                color="inherit"
-              >
-                {button.text}
-              </Button>
-            );
-          })}
+          {localStorage.getItem("token")
+            ? buttons.map((button) => {
+                return (
+                  <Button
+                    key={button.text}
+                    component={Link}
+                    to={button.to}
+                    color="inherit"
+                  >
+                    {button.text}
+                  </Button>
+                );
+              })
+            : ""}
           {localStorage.getItem("token") ? (
             <Button color="inherit" data-testid={"logout-btn"} onClick={logout}>
               Logout
@@ -75,7 +78,6 @@ function Navbar() {
             <input
               type="checkbox"
               id="theme-toggle"
-              // checked={theme}
               onChange={handleThemeToggle}
               hidden
             />
