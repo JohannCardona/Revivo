@@ -126,6 +126,8 @@
     height: 90%;
     background-color: rgb(94, 155, 133);
     padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .item-1 img{
