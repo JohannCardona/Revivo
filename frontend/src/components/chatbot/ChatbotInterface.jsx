@@ -31,13 +31,14 @@ function ChatbotInterface() {
   const [conversationTitle, setConversationTitle] = useState("");
 
   const fetch_conversation_title = async () => {
-    axios.get(`http://localhost:5000/fetch_conversation_title/${prompt}`)
-    .then((response) => {
-      if(response.status === 200) {
-        setConversationTitle(response.data.result);
-      }
-    })
-  }
+    axios
+      .get(`http://localhost:5000/fetch_conversation_title/${prompt}`)
+      .then((response) => {
+        if (response.status === 200) {
+          setConversationTitle(response.data.result);
+        }
+      });
+  };
 
   const handleRegister = (user) => {
     localStorage.setItem("user", user);
@@ -134,10 +135,6 @@ function ChatbotInterface() {
     ]);
     setLoadingChatbotResponse(true);
 
-    if (conversationRef.current) {
-      conversationRef.current.scrollTop = conversationRef.current.scrollHeight;
-    }
-
     previousMessageRef.current = chatbotResponseId;
 
     setTimeout(() => {
@@ -183,13 +180,19 @@ function ChatbotInterface() {
     }
   };
 
+  // useEffect(() => {
+  //   if (loadingChatbotResponse && previousMessageRef.current) {
+  //     const response = document.getElementById(previousMessageRef.current);
+  //     if (response) {
+  //     }
+  //   }
+  // }, [loadingChatbotResponse, conversations]);
+
   useEffect(() => {
-    if (loadingChatbotResponse && previousMessageRef.current) {
-      const response = document.getElementById(previousMessageRef.current);
-      if (response) {
-      }
+    if (conversationRef.current) {
+      conversationRef.current.scrollTop = conversationRef.current.scrollHeight;
     }
-  }, [loadingChatbotResponse, conversations]);
+  }, [conversations]);
 
   useEffect(() => {
     const user = localStorage.getItem("username");
@@ -215,7 +218,7 @@ function ChatbotInterface() {
   }
 
   console.log(conversations);
-  
+  console.log(previousMessageRef);
 
   return (
     <div className="chatbot-container">
@@ -265,7 +268,7 @@ function ChatbotInterface() {
         )}
       </aside>
       <div className="chatbot-ui-container">
-        <div ref={previousMessageRef} className="chat item-1">
+        <div ref={conversationRef} className="chat item-1">
           {conversations.length === 0 ? (
             <>
               <div className="no-conversations">
@@ -328,12 +331,12 @@ function ChatbotInterface() {
               <p>Spotify_ID: {item.postify_id}</p>
             </div>
           ))}
-          {
+          {/* {
             <>
               <br />
               <img src={imgURL} alt="AI generated visual art" />
             </>
-          }
+          } */}
         </div>
         <div className="chat item-2">
           <div className="user-item user-text-container">
