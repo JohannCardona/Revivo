@@ -39,6 +39,27 @@ function PersonalStats() {
     },
   };
 
+  const options1 = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Personal Data",
+      },
+    },
+    scales: {
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true,
+      },
+    },
+  };
+
   const dataset = (statsData) => {
     if (statsData) {
       console.log(statsData);
@@ -54,7 +75,7 @@ function PersonalStats() {
           {
             label: "Night",
             data: statsData.days.map((d) => d.night_count),
-            backgroundColor: "black",
+            backgroundColor: color[1],
           },
         ],
       };
@@ -77,7 +98,7 @@ function PersonalStats() {
     }
   };
 
-  const color = ["#003f5c"];
+  const color = ["#77c3a6", "#565656"];
   const [periodStatsData, setPeriodStatsData] = useState(null);
   const [dayStatsData, setDayStatsData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -120,7 +141,7 @@ function PersonalStats() {
           visible={true}
         />
       ) : (
-        <Bar options={options} data={periodStatsData} />
+        <Bar options={options1} data={periodStatsData} />
       )}
       {dayStatsData ? (
         <Bar options={options} data={dayStatsData} />
