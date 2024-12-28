@@ -93,6 +93,26 @@ function ChatbotInterface() {
       });
   };
 
+  const store_user_conversations = async () => {
+    if (conversations.length !== 0) {
+      const exit_conversation = conversations.some((obj) =>
+        obj.response.toLowerCase().includes("exit")
+      );
+      if (exit_conversation) {
+        await axios
+          .post("http://localhost:5000/conversations", conversations)
+          .then((response) => {
+            if (response.status === 200) {
+              console.log(response.data.result);
+            }
+          });
+      }
+      else {
+        console.log("conversation has not ended...");
+      }
+    }
+  };
+
   const handleRegister = (user) => {
     localStorage.setItem("user", user);
     setNewUser(user);
@@ -187,7 +207,7 @@ function ChatbotInterface() {
       chatbotResponse,
     ]);
     setLoadingChatbotResponse(true);
-
+    
     previousMessageRef.current = chatbotResponseId;
 
     setTimeout(() => {
@@ -228,8 +248,10 @@ function ChatbotInterface() {
       generate_image(prompt);
     } else {
       console.log("conversation");
-      // fetch_conversation_title();
+      fetch_conversation_title();
       handleConversationSubmit();
+      console.log("store conversation");
+      store_user_conversations();
     }
   };
 
@@ -247,20 +269,26 @@ function ChatbotInterface() {
     }
   }, []);
 
-  // if (!existingUser) {
-  //   return isSignup ? (
-  //     <NewUser
-  //       onRegister={handleRegister}
-  //       switchToSignIn={() => setIsSignUp(false)}
-  //     />
-  //   ) : (
-  //     <ExistingUser
-  //       newUser={newUser}
-  //       onSignIn={handleSignIn}
-  //       switchToRegister={() => setIsSignUp(false)}
-  //     />
-  //   );
-  // }
+  if (!existingUser) {
+    return isSignup ? (
+      <NewUser
+        onRegister={handleRegister}
+        switchToSignIn={() => setIsSignUp(false)}
+      />
+    ) : (
+      <ExistingUser
+        newUser={newUser}
+        onSignIn={handleSignIn}
+        switchToRegister={() => setIsSignUp(false)}
+      />
+    );
+  }
+
+  console.log(conversations);
+
+  const newChat = () => {
+    setConversations("");
+  };
 
   return (
     <div className="chatbot-container">
@@ -268,7 +296,7 @@ function ChatbotInterface() {
         {!close ? (
           <>
             <div className="new-chatbot-container">
-              <div className="sidemenu-button">
+              <div className="sidemenu-button" onClick={newChat}>
                 <span>
                   <AddIcon style={{ fontSize: "1.1rem" }} />
                 </span>
