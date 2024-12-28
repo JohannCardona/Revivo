@@ -14,7 +14,12 @@ import ExistingUser from "../login/ExistingUser";
 import NewUser from "../login/NewUser";
 
 function ChatbotInterface() {
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+
   const [prompt, setPrompt] = useState("");
+  const [listening, setListening] = useState(false);
   const [imgURL, setImgURL] = useState("");
   const [close, setClose] = useState(false);
   const [conversations, setConversations] = useState([]);
@@ -29,6 +34,54 @@ function ChatbotInterface() {
   const [existingUser, setExistingUser] = useState(null);
   const [isSignup, setIsSignUp] = useState(true);
   const [conversationTitle, setConversationTitle] = useState("");
+
+  useEffect(() => {
+    if (recognition) {
+      console.log(recognition);
+      recognition.continues = false;
+      recognition.lang = "en-US";
+      recognition.interimResults = true;
+
+      recognition.onStart = () => {
+        console.log("Listening");
+        setListening(true);
+      };
+
+      recognition.onEnd = () => {
+        console.log("Stop Listening");
+        setListening(false);
+      };
+
+      recognition.onresult = (e) => {
+        let completeText = "";
+        let textParts = "";
+        console.log(e);
+        for (let i = 0; i < e.results.length; i++) {
+          const transcript = e.results[i][0].transcript;
+          if (e.results[i].isFinal) {
+            completeText = completeText + transcript;
+          } else {
+            textParts = textParts + transcript;
+          }
+        }
+        setPrompt(completeText || textParts);
+      };
+    }
+  }, []);
+
+  const handleAudioScript = () => {
+    if (recognition) {
+      setPrompt("");
+      recognition.start();
+    } else {
+      Swal.fire({
+        title: "The web browser does support Web Speech API",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#ff0055",
+        icon: "error",
+      }).then(() => {});
+    }
+  };
 
   const fetch_conversation_title = async () => {
     axios
@@ -175,7 +228,7 @@ function ChatbotInterface() {
       generate_image(prompt);
     } else {
       console.log("conversation");
-      fetch_conversation_title();
+      // fetch_conversation_title();
       handleConversationSubmit();
     }
   };
@@ -194,23 +247,20 @@ function ChatbotInterface() {
     }
   }, []);
 
-  if (!existingUser) {
-    return isSignup ? (
-      <NewUser
-        onRegister={handleRegister}
-        switchToSignIn={() => setIsSignUp(false)}
-      />
-    ) : (
-      <ExistingUser
-        newUser={newUser}
-        onSignIn={handleSignIn}
-        switchToRegister={() => setIsSignUp(false)}
-      />
-    );
-  }
-
-  console.log(conversations);
-  console.log(previousMessageRef);
+  // if (!existingUser) {
+  //   return isSignup ? (
+  //     <NewUser
+  //       onRegister={handleRegister}
+  //       switchToSignIn={() => setIsSignUp(false)}
+  //     />
+  //   ) : (
+  //     <ExistingUser
+  //       newUser={newUser}
+  //       onSignIn={handleSignIn}
+  //       switchToRegister={() => setIsSignUp(false)}
+  //     />
+  //   );
+  // }
 
   return (
     <div className="chatbot-container">
@@ -323,12 +373,6 @@ function ChatbotInterface() {
               <p>Spotify_ID: {item.postify_id}</p>
             </div>
           ))}
-          {/* {
-            <>
-              <br />
-              <img src={imgURL} alt="AI generated visual art" />
-            </>
-          } */}
         </div>
         <div className="chat item-2">
           <div className="user-item user-text-container">
@@ -350,6 +394,8 @@ function ChatbotInterface() {
                   }}
                   variant="contained"
                   startIcon={<MicRoundedIcon />}
+                  onClick={handleAudioScript}
+                  disabled={listening}
                 ></Button>
               </Tooltip>
             </div>
