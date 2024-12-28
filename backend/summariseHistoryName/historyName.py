@@ -17,7 +17,7 @@ def initialise_API():
 
 
 @conversation_title.route("/fetch_conversation_title/<context>", methods=['GET'])
-def get_conversation_title(context) -> str:
+def get_conversation_title(context: str) -> str:
     system = "You are an assistant that summarises text in 6 words."
     prompt = f"Give the context of this text in 6 words without using punctuation such as `(,!?.;)`:\n{context}"
 
