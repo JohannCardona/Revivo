@@ -175,18 +175,10 @@ function ChatbotInterface() {
       generate_image(prompt);
     } else {
       console.log("conversation");
-      // fetch_conversation_title();
+      fetch_conversation_title();
       handleConversationSubmit();
     }
   };
-
-  // useEffect(() => {
-  //   if (loadingChatbotResponse && previousMessageRef.current) {
-  //     const response = document.getElementById(previousMessageRef.current);
-  //     if (response) {
-  //     }
-  //   }
-  // }, [loadingChatbotResponse, conversations]);
 
   useEffect(() => {
     if (conversationRef.current) {
