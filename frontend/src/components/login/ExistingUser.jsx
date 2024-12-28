@@ -30,7 +30,11 @@ function ExistingUser({ newUser, onSignIn, switchToRegister }) {
 
   const handleUserSignIn = (e) => {
     e.preventDefault();
-    if ((newUser && existingUser === newUser) || localStorage.getItem("user")) {
+    if (existingUser.trim() === "") {
+      fireAlert("Username must not be empty", "error", "red");
+    }
+    // if ((newUser && existingUser === newUser) || localStorage.getItem("user")) {
+    else {
       axios
         .post("http://localhost:5000/login", {
           existingUser,
@@ -38,6 +42,7 @@ function ExistingUser({ newUser, onSignIn, switchToRegister }) {
         .then((response) => {
           if (response.status === 200) {
             const jwt_token = response.data.token;
+            localStorage.setItem("user", existingUser);
             localStorage.setItem("token", jwt_token);
             fireAlert1(
               "You're in. Let's start the conversation.",
@@ -55,11 +60,11 @@ function ExistingUser({ newUser, onSignIn, switchToRegister }) {
             icon: "error",
           });
         });
-    } else if (existingUser.trim() === "") {
-      fireAlert("Username must not be empty", "error", "red");
-    } else {
-      fireAlert("Username does not match our records", "error", "red");
     }
+    // }
+    // } else {
+    //   fireAlert("Username does not match our records", "error", "red");
+    // }
   };
 
   return (
