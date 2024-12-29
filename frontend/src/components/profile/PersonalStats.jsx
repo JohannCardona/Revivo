@@ -34,7 +34,7 @@ function PersonalStats() {
       },
       title: {
         display: true,
-        text: "Personal Data",
+        text: "Daily User Login Frequency",
       },
     },
   };
@@ -47,7 +47,7 @@ function PersonalStats() {
       },
       title: {
         display: true,
-        text: "Personal Data",
+        text: "Day vs Night: User Login Frequency",
       },
     },
     scales: {
@@ -56,6 +56,19 @@ function PersonalStats() {
       },
       y: {
         stacked: true,
+      },
+    },
+  };
+
+  const options2 = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Most Frequent Keywords In Conversations",
       },
     },
   };
@@ -89,24 +102,45 @@ function PersonalStats() {
         labels: statsData.days.map((d) => d.date),
         datasets: [
           {
-            label: "Day",
+            label: "Login count",
             data: statsData.days.map((d) => d.count),
-            backgroundColor: color[0],
+            backgroundColor: color[2],
           },
         ],
       };
     }
   };
 
-  const color = ["#77c3a6", "#565656"];
+  const dataset2 = (statsData) => {
+    if (statsData) {
+      console.log(statsData);
+      return {
+        labels: statsData.keyword,
+        datasets: [
+          {
+            label: "Keyword",
+            data: statsData.frequency,
+            backgroundColor: color[3],
+          },
+        ],
+      };
+    }
+  };
+
+  const color = ["#77c3a6", "#565656", "#ffd533", "#16bec5"];
   const [periodStatsData, setPeriodStatsData] = useState(null);
   const [dayStatsData, setDayStatsData] = useState(null);
+  const [keywordFrequency, setKeywordFrequency] = useState({
+    keyword: [],
+    frequency: [],
+  });
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const timeout = (m) => new Promise((s) => setTimeout(s, m));
 
   const getUserData = async () => {
     setLoading(true);
-    await timeout(300);
+    await timeout(200);
     axios
       .get("http://localhost:5000/user_login_info", {
         headers: {
@@ -122,8 +156,43 @@ function PersonalStats() {
       });
   };
 
+  const getKeywordFrequencyData = async () => {
+    setLoading(true);
+    await timeout(200);
+    axios
+      .get("http://localhost:5000/keyword_frequency", {
+      })
+      .then((response) => {
+        console.log(response.data.result);
+        const responses = response.data.result
+          .map((response) => response.response)
+          .join(" ");
+        console.log(responses);
+        const keywords = {};
+        responses
+          .toLowerCase()
+          .replace(/[^\w\s]/g, "")
+          .split(/\s+/)
+          .forEach((keyword) => {
+            keywords[keyword] = (keywords[keyword] || 0) + 1;
+          });
+        const sortedKeywords = Object.entries(keywords)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 3);
+        console.log(sortedKeywords);
+        const keyword = sortedKeywords.map(([w]) => w);
+        const frequency = sortedKeywords.map(([, k]) => k);
+        console.log(keyword, frequency);
+        setKeywordFrequency({ keyword, frequency });
+        console.log(keywordFrequency);
+        setData(dataset2(keywordFrequency));
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     getUserData();
+    getKeywordFrequencyData();
   }, []);
 
   return (
@@ -167,7 +236,7 @@ function PersonalStats() {
           visible={true}
         />
       ) : (
-        <Bar options={options} data={dayStatsData} />
+        <Bar options={options2} data={data} />
       )}
     </div>
   );
