@@ -16,7 +16,7 @@ function Navbar() {
   const navigate = useNavigate();
   const buttons = [
     { text: "Dashboard", to: "/dashboard" },
-    { text: "Thrive Tips", to: "/motivation" },
+    { text: "Thrive Tips", to: "/tips" },
     { text: "Soothing Sounds", to: "/calming_audios" },
   ];
 

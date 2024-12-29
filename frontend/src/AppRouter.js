@@ -15,12 +15,12 @@ function AppRouter() {
           <Route path="/" element={<App />}>
             <Route index element={<ChatbotInterface />} />
             <Route path="/dashboard" element={<PersonalStats />} />
-            <Route path="motivation" element={<MindfulnessTips />} />
+            <Route path="/tips" element={<MindfulnessTips />} />
             <Route
-              path="motivation/tips/:category"
+              path="/tips/:tipCategory"
               element={<TipsCategories />}
             />
-            <Route path="calming_audios" element={<CalmingAudios />} />
+            <Route path="/calming_audios" element={<CalmingAudios />} />
           </Route>
         </Routes>
       </Router>
