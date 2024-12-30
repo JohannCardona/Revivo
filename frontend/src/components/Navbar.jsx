@@ -18,6 +18,7 @@ function Navbar() {
     { text: "Dashboard", to: "/dashboard" },
     { text: "Thrive Tips", to: "/tips" },
     { text: "Soothing Sounds", to: "/calming_audios" },
+    {text: "Library", to: "/library"}
   ];
 
   const logout = (e) => {

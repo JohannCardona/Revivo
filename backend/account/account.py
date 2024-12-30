@@ -4,7 +4,6 @@ from db.db import mongo_db
 import jwt
 from dotenv import load_dotenv
 import datetime
-from random import randint
 
 accounts = Blueprint("accounts", __name__)
 load_dotenv()

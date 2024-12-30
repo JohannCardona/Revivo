@@ -34,6 +34,7 @@ function ChatbotInterface() {
   const [existingUser, setExistingUser] = useState(null);
   const [isSignup, setIsSignUp] = useState(true);
   const [conversationTitle, setConversationTitle] = useState("");
+  const [mood, setMood] = useState("");
 
   useEffect(() => {
     if (recognition) {
@@ -230,6 +231,17 @@ function ChatbotInterface() {
     });
   };
 
+  const fetch_emotion_from_text = async () => {
+    await axios.get(`http://localhost:5000/emotion_classifier/${prompt}`).then((response) => {
+      console.log(response.data);
+      setMood(response.data);
+    });
+  }
+  
+  useEffect(() => {
+    localStorage.setItem("mood", mood);
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (prompt.trim() === "") {
@@ -248,10 +260,11 @@ function ChatbotInterface() {
       generate_image(prompt);
     } else {
       console.log("conversation");
-      fetch_conversation_title();
+      // fetch_emotion_from_text();
+      // fetch_conversation_title();
       handleConversationSubmit();
-      console.log("store conversation");
-      store_user_conversations();
+      // console.log("store conversation");
+      // store_user_conversations();
     }
   };
 
