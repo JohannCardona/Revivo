@@ -1,0 +1,56 @@
+.grid {
+  position: relative;
+  width: 390px;
+  height: 290px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+  transition: transform 0.2s, filter 0.2s;
+}
+
+.grid:hover {
+  transform: scale(1.05);
+  filter: brightness(0.8);
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Scrollbar styles for the favorites container */
+.favorites-container {
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: var(--bg-navbar) #f0f8ff; /* Thumb and track colors for Firefox */
+}
+
+/* For Chrome, Edge, and Safari */
+.favorites-container::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.favorites-container::-webkit-scrollbar-track {
+  background: #f0f8ff; /* Track color */
+  border-radius: 5px; /* Optional: rounded edges for the track */
+}
+
+.favorites-container::-webkit-scrollbar-thumb {
+  background-color: var(--bg-navbar); /* Scrollbar thumb color */
+  border-radius: 5px; /* Rounded edges for the thumb */
+  border: 2px solid #f0f8ff; /* Space around the thumb */
+}

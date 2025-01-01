@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import ExistingUser from "../login/ExistingUser";
 import NewUser from "../login/NewUser";
+import Banner from "../Banner/Banner";
 
 function ChatbotInterface() {
   const SpeechRecognition =
@@ -23,6 +24,7 @@ function ChatbotInterface() {
   const [imgURL, setImgURL] = useState("");
   const [close, setClose] = useState(false);
   const [conversations, setConversations] = useState([]);
+  const [isNewChat, setIsNewChat] = useState(false);
   const conversationRef = useRef(null);
   const previousMessageRef = useRef(null);
   const chatbotTypingSpeed = 10;
@@ -33,12 +35,11 @@ function ChatbotInterface() {
   const [newUser, setNewUser] = useState(null);
   const [existingUser, setExistingUser] = useState(null);
   const [isSignup, setIsSignUp] = useState(true);
-  const [conversationTitle, setConversationTitle] = useState("");
+  const [conversationTitle, setConversationTitle] = useState([]);
   const [mood, setMood] = useState("");
 
   useEffect(() => {
     if (recognition) {
-      console.log(recognition);
       recognition.continues = false;
       recognition.lang = "en-US";
       recognition.interimResults = true;
@@ -56,7 +57,6 @@ function ChatbotInterface() {
       recognition.onresult = (e) => {
         let completeText = "";
         let textParts = "";
-        console.log(e);
         for (let i = 0; i < e.results.length; i++) {
           const transcript = e.results[i][0].transcript;
           if (e.results[i].isFinal) {
@@ -84,14 +84,22 @@ function ChatbotInterface() {
     }
   };
 
-  const fetch_conversation_title = async () => {
-    axios
-      .get(`http://localhost:5000/fetch_conversation_title/${prompt}`)
-      .then((response) => {
-        if (response.status === 200) {
-          setConversationTitle(response.data.result);
-        }
-      });
+  const fetch_conversation_title = async (prompt) => {
+    const response = await fetch(
+      "http://localhost:5000/fetch_conversation_title/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          prompt: prompt,
+        }),
+      }
+    );
+    if (response.status === 200) {
+    }
   };
 
   const store_user_conversations = async () => {
@@ -104,11 +112,10 @@ function ChatbotInterface() {
           .post("http://localhost:5000/conversations", conversations)
           .then((response) => {
             if (response.status === 200) {
-              console.log(response.data.result);
+              // console.log(response.data.result);
             }
           });
-      }
-      else {
+      } else {
         console.log("conversation has not ended...");
       }
     }
@@ -141,7 +148,6 @@ function ChatbotInterface() {
   });
 
   const generate_image = async (prompt) => {
-    console.log("got the prompt");
     const response = await client.images.generate({
       model: "dall-e-3",
       prompt: prompt,
@@ -149,7 +155,6 @@ function ChatbotInterface() {
       quality: "standard",
       n: 1,
     });
-    console.log("generated the image");
     setImgURL(response.data[0].url);
   };
 
@@ -208,7 +213,7 @@ function ChatbotInterface() {
       chatbotResponse,
     ]);
     setLoadingChatbotResponse(true);
-    
+
     previousMessageRef.current = chatbotResponseId;
 
     setTimeout(() => {
@@ -219,7 +224,7 @@ function ChatbotInterface() {
       if (conversationDiv) {
         chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
       }
-    }, 1000);
+    }, 2000);
   };
 
   const fireAlert = (response, type, color) => {
@@ -232,12 +237,13 @@ function ChatbotInterface() {
   };
 
   const fetch_emotion_from_text = async () => {
-    await axios.get(`http://localhost:5000/emotion_classifier/${prompt}`).then((response) => {
-      console.log(response.data);
-      setMood(response.data);
-    });
-  }
-  
+    await axios
+      .get(`http://localhost:5000/emotion_classifier/${prompt}`)
+      .then((response) => {
+        setMood(response.data);
+      });
+  };
+
   useEffect(() => {
     localStorage.setItem("mood", mood);
   }, []);
@@ -249,22 +255,26 @@ function ChatbotInterface() {
       return;
     }
     if (prompt.includes("song")) {
-      console.log("Spotify API");
+      // console.log("Spotify API");
       recommend_songs();
     } else if (
       prompt.includes("create") ||
       prompt.includes("generate") ||
       prompt.includes("image")
     ) {
-      console.log("DALL-E");
+      // console.log("DALL-E");
       generate_image(prompt);
     } else {
-      console.log("conversation");
+      // console.log("conversation");
       // fetch_emotion_from_text();
       // fetch_conversation_title();
       handleConversationSubmit();
+      // console.log(conversations);
+      if (conversations.length === 2) {
+        fetch_conversation_title(conversations[0].response);
+      }
       // console.log("store conversation");
-      // store_user_conversations();
+      store_user_conversations();
     }
   };
 
@@ -282,6 +292,25 @@ function ChatbotInterface() {
     }
   }, []);
 
+  useEffect(() => {
+    const fetch_conversation_titles = async () => {
+      await axios
+        .get(`http://localhost:5000/fetch_conversation_titles/`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            // console.log(response.data.titles);
+            setConversationTitle(response.data.titles);
+          }
+        });
+    };
+    fetch_conversation_titles();
+  }, [conversationTitle]);
+
   if (!existingUser) {
     return isSignup ? (
       <NewUser
@@ -297,10 +326,12 @@ function ChatbotInterface() {
     );
   }
 
-  console.log(conversations);
-
   const newChat = () => {
-    setConversations("");
+    setIsNewChat(true);
+    // console.log(isNewChat);
+    setTimeout(() => {
+      setConversations("");
+    }, 2000);
   };
 
   return (
@@ -326,17 +357,15 @@ function ChatbotInterface() {
             </div>
             <div className="divider"></div>
             <div className="chat-history">
-              {!conversationTitle ? (
+              {conversationTitle.length === 0 ? (
                 <div className="sidemenu-chat">Eleccion de Opciones SPY</div>
               ) : (
-                <div className="sidemenu-chat">{conversationTitle}</div>
+                conversationTitle.map((item, index) => (
+                  <div key={index} className="sidemenu-chat">
+                    {item.title}
+                  </div>
+                ))
               )}
-              <div className="sidemenu-chat">Inversion SPY hoy</div>
-              <div className="sidemenu-chat">Iron Man Thanos Moon</div>
-              <div className="sidemenu-chat">Function Output Differences</div>
-              <div className="sidemenu-chat">Vector Element Modification</div>
-              <div className="sidemenu-chat">Vector Processing in Python</div>
-              <div className="sidemenu-chat">Plotting Data in R</div>
             </div>
           </>
         ) : (
@@ -351,6 +380,7 @@ function ChatbotInterface() {
         )}
       </aside>
       <div className="chatbot-ui-container">
+        <Banner />
         <div ref={conversationRef} className="chat item-1">
           {conversations.length === 0 ? (
             <>

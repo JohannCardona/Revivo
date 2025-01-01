@@ -1,7 +1,9 @@
 import openai
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from http import HTTPStatus
 import os
+from db.db import mongo_db
+import jwt
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -16,10 +18,20 @@ def initialise_API():
     return openai
 
 
-@conversation_title.route("/fetch_conversation_title/<context>", methods=['GET'])
-def get_conversation_title(context: str) -> str:
+@conversation_title.route("/fetch_conversation_title/", methods=["POST"])
+def get_conversation_title() -> str:
+    jwt_token = request.authorization
+    print("JWT TOKEN: ", jwt_token)
+    token = jwt_token.token
+
+    decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
+    user = decoded_token["user"]
+    print("USER: ", user)
+
+    data = request.get_json()
+    print(data)
     system = "You are an assistant that summarises text in 6 words."
-    prompt = f"Give the context of this text in 6 words without using punctuation such as `(,!?.;)`:\n{context}"
+    prompt = f"Give the context of this text in 6 words without using punctuation such as `(,!?.;)`:\n{data}"
 
     client = initialise_API()
     LLM_response = client.chat.completions.create(
@@ -29,4 +41,32 @@ def get_conversation_title(context: str) -> str:
         max_tokens=15,
         temperature=0.8
     )
-    return jsonify({"result": LLM_response.choices[0].message.content.strip()}), HTTPStatus.OK
+
+    title = LLM_response.choices[0].message.content.strip()
+    print(title)
+
+    document = {"user": user, "title": title}
+
+    mongo_db.conversation_title.insert_one(document).inserted_id
+
+    return jsonify({"result": "Conversation title stored successfully!!!"}), HTTPStatus.OK
+
+
+@conversation_title.route("/fetch_conversation_titles/", methods=["GET"])
+def fetch_conversation_titles():
+    jwt_token = request.authorization
+    print("JWT TOKEN: ", jwt_token)
+    token = jwt_token.token
+
+    decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
+    user = decoded_token["user"]
+    print("USER: ", user)
+
+    query = {"_id": 0, "user": 1, "title": 1}
+    titles = mongo_db.conversation_title.find({"user": user}, {"_id": 0})
+    print(titles)
+    chat_titles = []
+    for title in titles:
+        print(title)
+        chat_titles.append(title)
+    return jsonify({"titles": chat_titles}), HTTPStatus.OK
