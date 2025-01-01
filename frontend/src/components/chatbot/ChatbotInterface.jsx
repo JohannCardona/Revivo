@@ -453,6 +453,9 @@ function ChatbotInterface() {
               className="text-box"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSubmit(e);
+              }}
             />
             <div className="mic">
               <Tooltip title="Record your voice">

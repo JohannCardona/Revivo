@@ -126,9 +126,26 @@
     height: 90%;
     background-color: rgb(94, 155, 133);
     overflow-y: auto;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--bg-navbar) #e3e3e3;
+}
+
+.item-1::-webkit-scrollbar {
+    width: 6px;
+}
+
+.item-1::-webkit-scrollbar-track {
+    background: #e3e3e3;
+    border-radius: 8px;
+}
+
+.item-1::-webkit-scrollbar-thumb {
+    background-color: #e3e3e3;
+    border-radius: 8px;
+    border: 2px solid #e3e3e3;
 }
 
 .item-1 img{
