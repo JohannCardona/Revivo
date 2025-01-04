@@ -31,7 +31,7 @@ function ChatbotInterface() {
   const chatbotTypingSpeed = 10;
   const [loadingChatbotResponse, setLoadingChatbotResponse] = useState(false);
   const song_genres = ["latin", "happy", "calm", "rock", "pop"];
-  const song_genre = "latin";
+  const song_genre = "latino";
   const [recommended_songs, setRecommendedSongs] = useState([]);
   const [newUser, setNewUser] = useState(null);
   const [existingUser, setExistingUser] = useState(null);
@@ -132,7 +132,7 @@ function ChatbotInterface() {
     setExistingUser(user);
   };
 
-  const recommend_songs = () => {
+  const recommend_songs = async () => {
     axios
       .get(`http://localhost:5000/music_recommendations/${song_genre}`)
       .then((response) => {
@@ -212,7 +212,9 @@ function ChatbotInterface() {
     const songs = recommended_songs
       .map(
         (item, key) =>
-          `${key + 1}.  ${item.album}\n     ${item.artist}\n     ${item.name}`
+          `${key + 1}.  Album: ${item.album}\n     Artist: ${item.artist}\n     Song: ${
+            item.name
+          }\n     Album date: ${item.albumDate}\n`
       )
       .join("\n\n");
     const promptEnd = "\n\n Which one do you want to listen to? Pick a number.";
@@ -242,11 +244,11 @@ function ChatbotInterface() {
       setLoadingChatbotResponse(false);
       const chatbotDummyResponse =
         "Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life.";
-      // const song_response = fetching_recommending_songs_response();
-      // console.log(song_response);
+      const song_response = fetching_recommending_songs_response();
+      console.log(song_response);
       const conversationDiv = document.getElementById(chatbotResponseId);
       if (conversationDiv) {
-        chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
+        chatbotTypingResponse(conversationDiv, song_response);
       }
     }, 3000);
   };
@@ -279,7 +281,6 @@ function ChatbotInterface() {
       return;
     }
     if (prompt.includes("song")) {
-      // console.log("Spotify API");
       recommend_songs();
       handleConversationSubmit(prompt);
     } else if (
@@ -287,15 +288,11 @@ function ChatbotInterface() {
       prompt.includes("generate") ||
       prompt.includes("image")
     ) {
-      // console.log("DALL-E");
       generate_image(prompt);
-      // handleConversationSubmit(prompt);
     } else {
-      // console.log("conversation");
       // fetch_emotion_from_text();
       // fetch_conversation_title();
       handleConversationSubmit(prompt);
-      // console.log(conversations);
       // if (conversations.length === 2) {
       //   fetch_conversation_title(conversations[0].response);
       // }
@@ -329,13 +326,12 @@ function ChatbotInterface() {
         })
         .then((response) => {
           if (response.status === 200) {
-            // console.log(response.data.titles);
             setConversationTitle(response.data.titles);
           }
         });
     };
     fetch_conversation_titles();
-  }, [conversationTitle]);
+  }, []);
 
   if (!existingUser) {
     return isSignup ? (
@@ -416,19 +412,6 @@ function ChatbotInterface() {
                   feeling today?
                 </p>
                 <img src={chaticon} alt="chat icon" />
-                {/* {recommended_songs.length > 0 ? (
-                  <iframe
-                    title="song embedding"
-                    src={`https://open.spotify.com/embed/track/${recommended_songs[0].spotify_id}`}
-                    width="40%"
-                    height="100%"
-                    frameBorder="0"
-                    allowtransparency="true"
-                    allow="encrypted-media"
-                  ></iframe>
-                ) : (
-                  ""
-                )} */}
                 {!imgURL ? (
                   <Comment
                     visible={true}
@@ -453,7 +436,7 @@ function ChatbotInterface() {
                           <button>Download</button>
                           <CloseIcon
                             sx={{ fontSize: 35 }}
-                            onClick={modalClose}
+                            onClick={() => modalClose()}
                           />
                           <img src={imgURL} alt="enlarged" />
                         </div>
@@ -491,6 +474,19 @@ function ChatbotInterface() {
                     />
                   ) : (
                     conversation.response
+                  )}
+                  {conversation.chatbot && recommended_songs.length > 0 ? (
+                    <iframe
+                      title="song embedding"
+                      src={`https://open.spotify.com/embed/track/${recommended_songs[4].songId}`}
+                      width="30%"
+                      height="100%"
+                      frameBorder="0"
+                      allowtransparency="true"
+                      allow="encrypted-media"
+                    ></iframe>
+                  ) : (
+                    ""
                   )}
                 </div>
               </div>
