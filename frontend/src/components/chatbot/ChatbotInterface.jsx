@@ -5,6 +5,7 @@ import { Comment } from "react-loader-spinner";
 import MicRoundedIcon from "@mui/icons-material/MicRounded";
 import AddIcon from "@mui/icons-material/Add";
 import chaticon from "../../images/chatbot.svg";
+import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import "../../styles/chatbot/ChatbotInterface.css";
 import OpenAI from "openai";
@@ -29,8 +30,8 @@ function ChatbotInterface() {
   const previousMessageRef = useRef(null);
   const chatbotTypingSpeed = 10;
   const [loadingChatbotResponse, setLoadingChatbotResponse] = useState(false);
-  const song_genres = ["latino", "happy", "calm", "rock"];
-  const song_genre = "latino";
+  const song_genres = ["latin", "happy", "calm", "rock", "pop"];
+  const song_genre = "latin";
   const [recommended_songs, setRecommendedSongs] = useState([]);
   const [newUser, setNewUser] = useState(null);
   const [existingUser, setExistingUser] = useState(null);
@@ -158,6 +159,14 @@ function ChatbotInterface() {
     setImgURL(response.data[0].url);
   };
 
+  const [clickedImage, setClickedImage] = useState(null);
+  const handleImageModal = (image) => {
+    setClickedImage(image);
+  };
+  const modalClose = () => {
+    setClickedImage(null);
+  };
+
   const time = new Date().getHours();
   let day_time = "";
   if (time >= 5 && time < 12) {
@@ -197,7 +206,20 @@ function ChatbotInterface() {
     };
   };
 
-  const handleConversationSubmit = async () => {
+  const fetching_recommending_songs_response = () => {
+    const promptStart =
+      "Here are the 5 recommended songs for the " + song_genre + " genre:\n\n";
+    const songs = recommended_songs
+      .map(
+        (item, key) =>
+          `${key + 1}.  ${item.album}\n     ${item.artist}\n     ${item.name}`
+      )
+      .join("\n\n");
+    const promptEnd = "\n\n Which one do you want to listen to? Pick a number.";
+    return promptStart + songs + promptEnd;
+  };
+
+  const handleConversationSubmit = async (prompt) => {
     // e.preventDefault();
     const userResponse = conversationList(false, prompt);
     setConversations((prevConversations) => [
@@ -220,11 +242,13 @@ function ChatbotInterface() {
       setLoadingChatbotResponse(false);
       const chatbotDummyResponse =
         "Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life.";
+      // const song_response = fetching_recommending_songs_response();
+      // console.log(song_response);
       const conversationDiv = document.getElementById(chatbotResponseId);
       if (conversationDiv) {
         chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
       }
-    }, 2000);
+    }, 3000);
   };
 
   const fireAlert = (response, type, color) => {
@@ -257,6 +281,7 @@ function ChatbotInterface() {
     if (prompt.includes("song")) {
       // console.log("Spotify API");
       recommend_songs();
+      handleConversationSubmit(prompt);
     } else if (
       prompt.includes("create") ||
       prompt.includes("generate") ||
@@ -264,17 +289,18 @@ function ChatbotInterface() {
     ) {
       // console.log("DALL-E");
       generate_image(prompt);
+      // handleConversationSubmit(prompt);
     } else {
       // console.log("conversation");
       // fetch_emotion_from_text();
       // fetch_conversation_title();
-      handleConversationSubmit();
+      handleConversationSubmit(prompt);
       // console.log(conversations);
-      if (conversations.length === 2) {
-        fetch_conversation_title(conversations[0].response);
-      }
+      // if (conversations.length === 2) {
+      //   fetch_conversation_title(conversations[0].response);
+      // }
       // console.log("store conversation");
-      store_user_conversations();
+      // store_user_conversations();
     }
   };
 
@@ -328,10 +354,10 @@ function ChatbotInterface() {
 
   const newChat = () => {
     setIsNewChat(true);
-    // console.log(isNewChat);
+    console.log(isNewChat);
     setTimeout(() => {
       setConversations("");
-    }, 2000);
+    }, 1000);
   };
 
   return (
@@ -390,7 +416,7 @@ function ChatbotInterface() {
                   feeling today?
                 </p>
                 <img src={chaticon} alt="chat icon" />
-                {recommended_songs.length > 0 ? (
+                {/* {recommended_songs.length > 0 ? (
                   <iframe
                     title="song embedding"
                     src={`https://open.spotify.com/embed/track/${recommended_songs[0].spotify_id}`}
@@ -402,6 +428,38 @@ function ChatbotInterface() {
                   ></iframe>
                 ) : (
                   ""
+                )} */}
+                {!imgURL ? (
+                  <Comment
+                    visible={true}
+                    height="60"
+                    width="60"
+                    ariaLabel="comment-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="comment-wrapper"
+                    color="#fff"
+                    backgroundColor="#50c999"
+                  />
+                ) : (
+                  <>
+                    <img
+                      src={imgURL}
+                      onClick={() => handleImageModal(imgURL)}
+                      alt="chat icon"
+                    />
+                    {clickedImage && (
+                      <div className="modal-container">
+                        <div className="modal-image">
+                          <button>Download</button>
+                          <CloseIcon
+                            sx={{ fontSize: 35 }}
+                            onClick={modalClose}
+                          />
+                          <img src={imgURL} alt="enlarged" />
+                        </div>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </>
@@ -413,7 +471,11 @@ function ChatbotInterface() {
                   conversation.chatbot ? "chatbot" : "user"
                 }`}
               >
-                <div className="conversations" id={conversation.id}>
+                <div
+                  // style={{ whiteSpace: "pre-wrap" }}
+                  className="conversations"
+                  id={conversation.id}
+                >
                   {conversation.chatbot &&
                   loadingChatbotResponse &&
                   conversation.id === previousMessageRef.current ? (
@@ -434,16 +496,6 @@ function ChatbotInterface() {
               </div>
             ))
           )}
-          {recommended_songs.map((item, key) => (
-            <div key={key}>
-              <p>Album: {item.album}</p>
-              <p>Album Date: {item.album_date}</p>
-              <p>Artist: {item.artist}</p>
-              <p>Song Name: {item.name}</p>
-              <p>Popularity: {item.popularity}</p>
-              <p>Spotify_ID: {item.postify_id}</p>
-            </div>
-          ))}
         </div>
         <div className="chat item-2">
           <div className="user-item user-text-container">
