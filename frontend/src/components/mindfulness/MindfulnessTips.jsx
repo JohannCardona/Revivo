@@ -31,20 +31,33 @@ const MindfulnessTips = () => {
   };
   return (
     <div className="tips-container">
-      <h1>Choose a Category</h1>
-      <div className="category-grid">
-        {tipsData.category.map((tipCategory) => (
-          <div
-            className="category-grid-item"
-            key={tipCategory}
-            style={{
-              backgroundImage: `linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url(${tipCategoryImg[tipCategory]})`,
-            }}
-            onClick={() => handleTipCategorySelect(tipCategory.toLowerCase())}
-          >
-            <h2>{tipCategory}</h2>
-          </div>
-        ))}
+      <div className="inner-container">
+        <h1>Discover Tips for a Better You</h1>
+        <h3>
+          Life, Motivation, Mindfulness, Acceptance, and More - Your Guide
+          Awaits
+        </h3>
+        <p>
+          Discover a variety of tips aimed at inspiring and enlightening you on
+          how life advice, motivational hacks, and mindfulness practices will
+          work for you. Click on one of the boxes below to uncover actionable
+          tips for making your way toward becoming the better version of
+          yourself!
+        </p>
+        <div className="category-grid">
+          {tipsData.category.map((tipCategory) => (
+            <div
+              className="category-grid-item"
+              key={tipCategory}
+              style={{
+                backgroundImage: `linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url(${tipCategoryImg[tipCategory]})`,
+              }}
+              onClick={() => handleTipCategorySelect(tipCategory.toLowerCase())}
+            >
+              <h2>{tipCategory}</h2>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
