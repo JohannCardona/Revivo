@@ -208,7 +208,7 @@ function ChatbotInterface() {
 
   const fetching_recommending_songs_response = () => {
     const promptStart =
-      "Here are the 5 recommended songs for the " + song_genre + " genre:\n\n";
+      "Here are the song recommendations for you for " + song_genre + " genre:\n\n";
     const songs = recommended_songs
       .map(
         (item, key) =>
@@ -217,7 +217,8 @@ function ChatbotInterface() {
           }\n     Album date: ${item.albumDate}\n`
       )
       .join("\n\n");
-    const promptEnd = "\n\n Which one do you want to listen to? Pick a number.";
+    const promptEnd =
+      "\n\n Please let me know which one you would like to play by picking a number.";
     return promptStart + songs + promptEnd;
   };
 
