@@ -208,7 +208,7 @@ function ChatbotInterface() {
 
   const fetching_recommending_songs_response = () => {
     const promptStart =
-      "Here are the song recommendations for you for " + song_genre + " genre:\n\n";
+      "Here are some song recommendations for you for " + song_genre + " genre:\n\n";
     const songs = recommended_songs
       .map(
         (item, key) =>
