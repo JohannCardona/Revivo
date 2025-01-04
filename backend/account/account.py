@@ -113,9 +113,14 @@ def user_login_info():
             "night_count": data["night_count"]
         })
 
-    sorted_day = sorted(day, key=lambda y: y["date"], reverse=False)
+    sorted_day = date_comparison(date_object=day)
 
     if profile_data:
         pass
 
     return jsonify({"result": profile_data, "days": sorted_day})
+
+def date_comparison(date_object):
+    date_format = "%d-%m-%Y"
+    sorted_dates = sorted(date_object, key=lambda y: datetime.datetime.strptime(y["date"], date_format))
+    return sorted_dates
