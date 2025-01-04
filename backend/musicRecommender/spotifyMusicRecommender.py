@@ -40,7 +40,7 @@ def music_recommendations(genre):
         return jsonify({"error": "Failed to authenticate with Spotify"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     headers = {"Authorization": f"Bearer {token[0]}"}
-    params = {"q": f"genre:{genre}", "type": "track", "limit": 10}
+    params = {"q": f"genre:{genre}", "type": "track", "limit": 5, "offset": 5}
     res = requests.get(SEARCH_URL, headers=headers, params=params)
 
     if res.status_code != 200:
@@ -49,6 +49,7 @@ def music_recommendations(genre):
     recommended_songs = []
     for song in music_info["tracks"]["items"]:
         songs_info = {"name": song["name"], "artist": ", ".join(
-            [artist["name"] for artist in song["artists"]]), "album": song["album"]["name"], "album_date": song["album"]["release_date"], "spotify_url:": song["external_urls"]["spotify"], "spotify_id": song["id"], "popularity": song["popularity"]}
+            [artist["name"] for artist in song["artists"]]), "album": song["album"]["name"], "albumDate": song["album"]["release_date"], "spotifyURL": song["external_urls"]["spotify"], "songId": song["id"]}
         recommended_songs.append(songs_info)
+    print(recommended_songs)
     return jsonify(recommended_songs), HTTPStatus.OK
