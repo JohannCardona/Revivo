@@ -14,6 +14,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Bar } from "react-chartjs-2";
 import axios from "axios";
 import { Audio } from "react-loader-spinner";
+import MoodMain from "../mindfulness/MoodMain";
 
 ChartJS.register(
   ArcElement,
@@ -26,6 +27,8 @@ ChartJS.register(
 );
 
 function PersonalStats() {
+  let total_day_count = 0;
+  let total_night_count = 0;
   const options = {
     responsive: true,
     plugins: {
@@ -75,7 +78,10 @@ function PersonalStats() {
 
   const dataset = (statsData) => {
     if (statsData) {
-      console.log(statsData);
+      statsData.days.forEach((item) => {
+        total_day_count = total_day_count + item.day_count;
+        total_night_count = total_night_count + item.night_count;
+      });
 
       return {
         labels: statsData.days.map((d) => d.date),
@@ -140,7 +146,7 @@ function PersonalStats() {
 
   const getUserData = async () => {
     setLoading(true);
-    await timeout(200);
+    await timeout(100);
     axios
       .get("http://localhost:5000/user_login_info", {
         headers: {
@@ -160,8 +166,7 @@ function PersonalStats() {
     setLoading(true);
     await timeout(200);
     axios
-      .get("http://localhost:5000/keyword_frequency", {
-      })
+      .get("http://localhost:5000/keyword_frequency", {})
       .then((response) => {
         console.log(response.data.result);
         const responses = response.data.result
@@ -192,13 +197,34 @@ function PersonalStats() {
 
   useEffect(() => {
     getUserData();
-    getKeywordFrequencyData();
+    // getKeywordFrequencyData();
   }, []);
+
+  const user = localStorage.getItem("user");
+  const morning =
+    user +
+    ", you seem to be more of a morning person as you have been more active during the day. 😊";
+  const night =
+    user +
+    ", you seem to be a night owl as you have been more active during the night. 😊";
+  const balance =
+    user +
+    ", you seem to be a 'cathemeral'. It is a fancy word used in biology for people who are equally active during the day and night. 😊";
+
+  console.log(total_day_count - total_night_count);
 
   return (
     <div className="stats-container">
       <h2>User statistics</h2>
       <div className="underline"></div>
+      <MoodMain />
+      <p>
+        {total_day_count - total_night_count > 0
+          ? morning
+          : total_day_count - total_night_count === 0
+          ? balance
+          : night}
+      </p>
       {loading ? (
         <Audio
           height="100"
@@ -225,7 +251,7 @@ function PersonalStats() {
           visible={true}
         />
       )}
-      {loading ? (
+      {/* {loading ? (
         <Audio
           height="100"
           width="100"
@@ -237,7 +263,7 @@ function PersonalStats() {
         />
       ) : (
         <Bar options={options2} data={data} />
-      )}
+      )} */}
     </div>
   );
 }
