@@ -1,0 +1,43 @@
+.banner {
+  background: linear-gradient(45deg, #00b894, #0053e4);
+  background-size: 200% 200%;
+  animation: linear-gradient-animation 10s ease infinite;
+  animation: fade-in-animation 1.5s ease, linear-gradient-animation 6s ease infinite;
+  padding: 7px;
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.banner:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  transform: scale(1.001);
+}
+
+
+.banner-title {
+  font-size: 1.5em;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.banner-content {
+  font-size: 1.1em;
+  font-style: italic;
+  line-height: 1.5;
+  font-weight: bold;
+  color: white;
+}
+
+@keyframes linear-gradient-animation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fade-in-animation {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
