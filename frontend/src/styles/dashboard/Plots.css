@@ -4,6 +4,17 @@
     padding: 30px 50px;
 }
 
+.stats-container p {
+    text-align: center;
+    font-size: large;
+    margin: 20px 0 30px 0;
+    background: #ededed;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+
+}
+
 .data {
     display: grid;
     grid-template-columns: auto auto auto;
