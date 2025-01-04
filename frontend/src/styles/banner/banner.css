@@ -1,4 +1,4 @@
-.banner {
+.banner-container {
   background: linear-gradient(45deg, #00b894, #0053e4);
   background-size: 200% 200%;
   animation: linear-gradient-animation 10s ease infinite;
@@ -23,7 +23,7 @@
   text-transform: uppercase;
 }
 
-.banner-content {
+.banner-text {
   font-size: 1.1em;
   font-style: italic;
   line-height: 1.5;
