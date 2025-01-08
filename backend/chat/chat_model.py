@@ -1,19 +1,13 @@
-from transformers import AutoModel
-from huggingface_hub import login
-from dotenv import load_dotenv
+from flask import Blueprint, request, jsonify
+from http import HTTPStatus
 import os
-import logging
+import requests
+from model import chat_model
 
-logging.basicConfig(level=logging.DEBUG)
+chat = Blueprint("chat", __name__)
 
-load_dotenv()
 
-login(token=os.environ.get('TOKEN'))
-
-print("MODEL...")
-try:
-    model = AutoModel.from_pretrained(
-    "GRMenon/mental-health-mistral-7b-instructv0.2-finetuned-V2")
-    print(model)
-except Exception as e:
-    print("Exception: ", e)
+@chat.route("/chat", methods=["POST"])
+def chatbot_conversations():
+    bot_response = chat_model()
+    return jsonify({"result": bot_response}), HTTPStatus.OK

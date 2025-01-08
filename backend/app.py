@@ -19,11 +19,13 @@ def main():
     from summariseHistoryName.historyName import conversation_title
     from chat.conversations import conversations
     from textEmotion.textEmotion import emotion_classifier
+    from chat.chat_model import chat
     app.register_blueprint(accounts)
     app.register_blueprint(generation)
     app.register_blueprint(spotify_recommender)
     app.register_blueprint(conversation_title)
     app.register_blueprint(conversations)
     app.register_blueprint(emotion_classifier)
+    app.register_blueprint(chat)
 
     return app
