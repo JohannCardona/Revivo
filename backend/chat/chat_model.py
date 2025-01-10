@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from http import HTTPStatus
 import os
 import requests
-from model import chat_model
+from chat.model import chat_model
 
 chat = Blueprint("chat", __name__)
 

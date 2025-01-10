@@ -3,22 +3,21 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel
 from time import time
 
-start = time()
-print("LOAD BASE MODEL")
-base_model_name = "unsloth/llama-3.2-3b-instruct-bnb-4bit"
-tokenizer = AutoTokenizer.from_pretrained(base_model_name)
-base_model = AutoModelForCausalLM.from_pretrained(
-    base_model_name,
-    load_in_4bit=True,
-    device_map="auto",
-)
-
-print("LOAD LORA-ADAPTED MODEL")
-adapter_name = "sujal011/llama3.2-3b-mental-health-chatbot"
-model = PeftModel.from_pretrained(
-    base_model, adapter_name)
-
 def chat_model():
+    start = time()
+    print("LOAD BASE MODEL")
+    base_model_name = "unsloth/llama-3.2-3b-instruct-bnb-4bit"
+    tokenizer = AutoTokenizer.from_pretrained(base_model_name)
+    base_model = AutoModelForCausalLM.from_pretrained(
+        base_model_name,
+        load_in_4bit=True,
+        device_map="auto",
+    )
+
+    print("LOAD LORA-ADAPTED MODEL")
+    adapter_name = "sujal011/llama3.2-3b-mental-health-chatbot"
+    model = PeftModel.from_pretrained(
+        base_model, adapter_name)
     context = "User: What is mental health?\nAssistant:"
     print("TOKENIZER")
     input_ids = tokenizer(context, return_tensors="pt").input_ids.to("cuda")
@@ -28,6 +27,6 @@ def chat_model():
     response = tokenizer.decode(output[0], skip_special_tokens=True)
     print("RAW RESPONSE: \n", response)
     print("PROCESSED RESPONSE: ", response.split("Assistant: ")[-1].strip())
+    end = time()
+    print(f"Execution time: {end - start} sec")
     return response.split("Assistant: ")[-1].strip()
-end = time()
-print(f"Execution time: {end - start} sec")

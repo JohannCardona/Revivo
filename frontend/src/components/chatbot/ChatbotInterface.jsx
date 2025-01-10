@@ -28,7 +28,7 @@ function ChatbotInterface() {
   const [isNewChat, setIsNewChat] = useState(false);
   const conversationRef = useRef(null);
   const previousMessageRef = useRef(null);
-  const chatbotTypingSpeed = 10;
+  const chatbotTypingSpeed = 50;
   const [loadingChatbotResponse, setLoadingChatbotResponse] = useState(false);
   const song_genres = ["latin", "happy", "calm", "rock", "pop"];
   const song_genre = "latino";
@@ -232,26 +232,31 @@ function ChatbotInterface() {
     setPrompt("");
 
     const chatbotResponseId = generateChatbotResponseId();
-    const chatbotResponse = conversationList(true, " ", chatbotResponseId);
-    setConversations((prevConversations) => [
-      ...prevConversations,
-      chatbotResponse,
-    ]);
-    setLoadingChatbotResponse(true);
-
-    previousMessageRef.current = chatbotResponseId;
-
+    const chatbotDummyResponse1 = await handleChatbotResponse();
+    const chatbotDummyResponse = "Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life.";
     setTimeout(() => {
+      console.log(chatbotDummyResponse1);
+      const chatbotResponse = conversationList(
+        true,
+        chatbotDummyResponse1,
+        chatbotResponseId
+      );
+      setConversations((prevConversations) => [
+        ...prevConversations,
+        chatbotResponse,
+      ]);
+      setLoadingChatbotResponse(true);
+
+      previousMessageRef.current = chatbotResponseId;
+
       setLoadingChatbotResponse(false);
-      const chatbotDummyResponse =
-        "Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life.";
-      const song_response = fetching_recommending_songs_response();
-      console.log(song_response);
+      // const song_response = fetching_recommending_songs_response();
+      // console.log(song_response);
       const conversationDiv = document.getElementById(chatbotResponseId);
       if (conversationDiv) {
-        chatbotTypingResponse(conversationDiv, song_response);
+        chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
       }
-    }, 3000);
+    }, 35000);
   };
 
   const fireAlert = (response, type, color) => {
@@ -270,6 +275,16 @@ function ChatbotInterface() {
         setMood(response.data);
       });
   };
+
+  const fetch_chatbot_response = async () => {
+    const res = await axios.post(`http://localhost:5000/chat`);
+    return res;
+  }
+
+  const handleChatbotResponse = async () => {
+    const response = await fetch_chatbot_response();
+    return response.data.result;
+  }
 
   useEffect(() => {
     localStorage.setItem("mood", mood);
@@ -356,6 +371,8 @@ function ChatbotInterface() {
       setConversations("");
     }, 1000);
   };
+
+  console.log(conversations);
 
   return (
     <div className="chatbot-container">
