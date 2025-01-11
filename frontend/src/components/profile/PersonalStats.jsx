@@ -215,7 +215,7 @@ function PersonalStats() {
 
   return (
     <div className="stats-container">
-      <h2>User statistics</h2>
+      <h1>User statistics</h1>
       <div className="underline"></div>
       <MoodMain />
       <p>

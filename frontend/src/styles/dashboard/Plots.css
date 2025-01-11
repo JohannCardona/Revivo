@@ -4,6 +4,10 @@
     padding: 30px 50px;
 }
 
+.stats-container h1 {
+    color: var(--bg-navbar);;
+}
+
 .stats-container p {
     text-align: center;
     font-size: large;
@@ -40,7 +44,6 @@
 
 .personal-item { 
     display: flex;
-    /* justify-content: center; */
     align-items: center;
 }
 
