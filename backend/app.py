@@ -13,6 +13,8 @@ def main():
     app.config["MONGO_URI"] = config["PROD"]["DB_URI"]
     app.secret_key = config["PROD"]["SECRET_KEY"]
 
+    from videos.storeVideoCollection import store_videos
+    store_videos()
     from account.account import accounts
     from art_generation.DALLE3_img import generation
     from musicRecommender.spotifyMusicRecommender import spotify_recommender
@@ -20,6 +22,7 @@ def main():
     from chat.conversations import conversations
     from textEmotion.textEmotion import emotion_classifier
     from chat.chat_model import chat
+    from videos.video_library import video_library
     app.register_blueprint(accounts)
     app.register_blueprint(generation)
     app.register_blueprint(spotify_recommender)
@@ -27,5 +30,6 @@ def main():
     app.register_blueprint(conversations)
     app.register_blueprint(emotion_classifier)
     app.register_blueprint(chat)
+    app.register_blueprint(video_library)
 
     return app
