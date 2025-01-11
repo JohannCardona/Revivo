@@ -7,6 +7,8 @@ import MindfulnessTips from "./components/mindfulness/MindfulnessTips";
 import TipsCategories from "./components/mindfulness/TipsCategories";
 import CalmingAudios from "./components/mindfulness/CalmingAudios";
 import VideoLibrary from "./components/library/VideoMain";
+import NewUser from "./components/login/NewUser";
+import ExistingUser from "./components/login/ExistingUser";
 
 function AppRouter() {
   return (
@@ -14,7 +16,9 @@ function AppRouter() {
       <Router>
         <Routes>
           <Route path="/" element={<App />}>
-            <Route index element={<ChatbotInterface />} />
+            <Route index element={<NewUser />} />
+            <Route path="/login" element={<ExistingUser />} />
+            <Route path="/chat" element={<ChatbotInterface />} />
             <Route path="/dashboard" element={<PersonalStats />} />
             <Route path="/tips" element={<MindfulnessTips />} />
             <Route path="/tips/:tipCategory" element={<TipsCategories />} />
