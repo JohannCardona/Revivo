@@ -28,7 +28,7 @@ function ChatbotInterface() {
   const [isNewChat, setIsNewChat] = useState(false);
   const conversationRef = useRef(null);
   const previousMessageRef = useRef(null);
-  const chatbotTypingSpeed = 50;
+  const chatbotTypingSpeed = 100;
   const [loadingChatbotResponse, setLoadingChatbotResponse] = useState(false);
   const song_genres = ["latin", "happy", "calm", "rock", "pop"];
   const song_genre = "latino";
@@ -234,7 +234,6 @@ function ChatbotInterface() {
     const chatbotResponseId = generateChatbotResponseId();
     const chatbotDummyResponse1 = await handleChatbotResponse();
     const chatbotDummyResponse = "Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life.";
-    setTimeout(() => {
       console.log(chatbotDummyResponse1);
       const chatbotResponse = conversationList(
         true,
@@ -249,14 +248,13 @@ function ChatbotInterface() {
 
       previousMessageRef.current = chatbotResponseId;
 
-      setLoadingChatbotResponse(false);
-      // const song_response = fetching_recommending_songs_response();
-      // console.log(song_response);
-      const conversationDiv = document.getElementById(chatbotResponseId);
-      if (conversationDiv) {
-        chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
-      }
-    }, 35000);
+      setTimeout(() => {
+        setLoadingChatbotResponse(false);
+        const conversationDiv = document.getElementById(chatbotResponseId);
+        if (conversationDiv) {
+          chatbotTypingResponse(conversationDiv, chatbotDummyResponse1);
+        }
+      }, 3000);
   };
 
   const fireAlert = (response, type, color) => {
@@ -348,21 +346,6 @@ function ChatbotInterface() {
     };
     fetch_conversation_titles();
   }, []);
-
-  if (!existingUser) {
-    return isSignup ? (
-      <NewUser
-        onRegister={handleRegister}
-        switchToSignIn={() => setIsSignUp(false)}
-      />
-    ) : (
-      <ExistingUser
-        newUser={newUser}
-        onSignIn={handleSignIn}
-        switchToRegister={() => setIsSignUp(false)}
-      />
-    );
-  }
 
   const newChat = () => {
     setIsNewChat(true);
