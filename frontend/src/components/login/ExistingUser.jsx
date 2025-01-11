@@ -4,9 +4,11 @@ import "../../styles/login/ChangePassword.css";
 import "../../styles/login/RegisterLogin.css";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-function ExistingUser({ newUser, onSignIn, switchToRegister }) {
+function ExistingUser() {
   const [existingUser, setExistingUser] = useState("");
+  const navigate = useNavigate();
 
   const fireAlert = (response, type, color) => {
     Swal.fire({
@@ -17,14 +19,14 @@ function ExistingUser({ newUser, onSignIn, switchToRegister }) {
     });
   };
 
-  const fireAlert1 = (response, type, color, existingUser) => {
+  const fireAlert1 = (response, type, color) => {
     Swal.fire({
       title: response,
       confirmButtonText: "OK",
       confirmButtonColor: color,
       icon: type,
     }).then(() => {
-      onSignIn(existingUser);
+      navigateToChat();
     });
   };
 
@@ -32,9 +34,7 @@ function ExistingUser({ newUser, onSignIn, switchToRegister }) {
     e.preventDefault();
     if (existingUser.trim() === "") {
       fireAlert("Username must not be empty", "error", "red");
-    }
-    // if ((newUser && existingUser === newUser) || localStorage.getItem("user")) {
-    else {
+    } else {
       axios
         .post("http://localhost:5000/login", {
           existingUser,
@@ -47,8 +47,7 @@ function ExistingUser({ newUser, onSignIn, switchToRegister }) {
             fireAlert1(
               "You're in. Let's start the conversation.",
               "success",
-              "green",
-              existingUser
+              "green"
             );
           }
         })
@@ -61,10 +60,14 @@ function ExistingUser({ newUser, onSignIn, switchToRegister }) {
           });
         });
     }
-    // }
-    // } else {
-    //   fireAlert("Username does not match our records", "error", "red");
-    // }
+  };
+
+  const goBackToRegister = () => {
+    navigate("/");
+  };
+
+  const navigateToChat = () => {
+    navigate("/chat");
   };
 
   return (
@@ -91,9 +94,6 @@ function ExistingUser({ newUser, onSignIn, switchToRegister }) {
               onClick={handleUserSignIn}
             />
           </form>
-          <p>
-            New user? <button onClick={switchToRegister}>Sign up</button>
-          </p>
         </div>
       </div>
 
@@ -102,8 +102,24 @@ function ExistingUser({ newUser, onSignIn, switchToRegister }) {
           <div className="new-panel-content">
             <h3>Good to see you again!</h3>
             <p>Enter your username to connect with your chatbot.</p>
+            <p style={{ fontWeight: "bold", fontStyle: "italic", fontSize: 16 }}>
+              New user?{" "}
+              <button
+                style={{ marginLeft: 20 }}
+                className="registerlogin-btn transparent"
+                id="sign-up-btn"
+                onClick={goBackToRegister}
+              >
+                Sign up
+              </button>
+            </p>
           </div>
-          <img src={login} className="image" alt="sign in logo" />
+          <img
+            style={{ width: "100%", marginTop: 10 }}
+            src={login}
+            className="image"
+            alt="sign in logo"
+          />
         </div>
       </div>
     </div>

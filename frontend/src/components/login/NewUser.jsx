@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import login from "../../images/secure_login.svg";
+import login from "../../images/signup4.svg";
 import "../../styles/login/ChangePassword.css";
 import "../../styles/login/RegisterLogin.css";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-function NewUser({ onRegister, switchToSignIn }) {
+function NewUser() {
   const [newUser, setNewUser] = useState("");
+  const navigate = useNavigate();
 
   const fireAlert = (response, type, color) => {
     Swal.fire({
@@ -17,14 +19,14 @@ function NewUser({ onRegister, switchToSignIn }) {
     });
   };
 
-  const fireAlert1 = (response, type, color, newUser) => {
+  const fireAlert1 = (response, type, color) => {
     Swal.fire({
       title: response,
       confirmButtonText: "OK",
       confirmButtonColor: color,
       icon: type,
     }).then(() => {
-      onRegister(newUser);
+      navigateToLogin();
     });
   };
 
@@ -43,8 +45,7 @@ function NewUser({ onRegister, switchToSignIn }) {
           fireAlert1(
             "That was easy. Let's head to the login.",
             "success",
-            "green",
-            newUser
+            "green"
           );
         }
       })
@@ -56,6 +57,10 @@ function NewUser({ onRegister, switchToSignIn }) {
           icon: "error",
         });
       });
+  };
+
+  const navigateToLogin = () => {
+    navigate("/login");
   };
 
   return (
@@ -82,9 +87,6 @@ function NewUser({ onRegister, switchToSignIn }) {
               onClick={handleUserRegister}
             />
           </form>
-          <p>
-            Existing user? <button onClick={switchToSignIn}>Sign in</button>
-          </p>
         </div>
       </div>
 
@@ -96,8 +98,24 @@ function NewUser({ onRegister, switchToSignIn }) {
               No passwords, no hassle. Just enter a username to start your
               journey.
             </p>
+            <p style={{ fontWeight: "bold", fontStyle: "italic", fontSize: 16 }}>
+              Existing user?{" "}
+              <button
+                style={{ marginLeft: 20 }}
+                className="registerlogin-btn transparent"
+                id="sign-in-btn"
+                onClick={navigateToLogin}
+              >
+                Sign in
+              </button>
+            </p>
           </div>
-          <img src={login} className="image" alt="sign in logo" />
+          <img
+            src={login}
+            style={{ width: "60%", marginTop: 20 }}
+            className="image"
+            alt="register logo"
+          />
         </div>
       </div>
     </div>
