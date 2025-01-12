@@ -32,25 +32,3 @@
     background-position: 0% 50%;
   }
 }
-
-/* Scrollbar styles for the favorites container */
-.favorites-container {
-  scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: var(--bg-navbar) #f0f8ff; /* Thumb and track colors for Firefox */
-}
-
-/* For Chrome, Edge, and Safari */
-.favorites-container::-webkit-scrollbar {
-  width: 8px; /* Width of the scrollbar */
-}
-
-.favorites-container::-webkit-scrollbar-track {
-  background: #f0f8ff; /* Track color */
-  border-radius: 5px; /* Optional: rounded edges for the track */
-}
-
-.favorites-container::-webkit-scrollbar-thumb {
-  background-color: var(--bg-navbar); /* Scrollbar thumb color */
-  border-radius: 5px; /* Rounded edges for the thumb */
-  border: 2px solid #f0f8ff; /* Space around the thumb */
-}
