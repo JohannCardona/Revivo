@@ -27,6 +27,8 @@ ChartJS.register(
 );
 
 function PersonalStats() {
+  // const [totalDayCount, setTotalDayCount] = useState(0);
+  // const [totalNightCount, setTotalNightCount] = useState(0);
   let total_day_count = 0;
   let total_night_count = 0;
   const options = {
@@ -78,11 +80,6 @@ function PersonalStats() {
 
   const dataset = (statsData) => {
     if (statsData) {
-      statsData.days.forEach((item) => {
-        total_day_count = total_day_count + item.day_count;
-        total_night_count = total_night_count + item.night_count;
-      });
-
       return {
         labels: statsData.days.map((d) => d.date),
         datasets: [
@@ -197,8 +194,12 @@ function PersonalStats() {
 
   useEffect(() => {
     getUserData();
-    // getKeywordFrequencyData();
   }, []);
+
+  if (periodStatsData) {
+    total_day_count = periodStatsData.datasets[0].data.reduce((a, b) => a + b, 0);
+    total_night_count = periodStatsData.datasets[1].data.reduce((a,b) => a+b, 0);
+  }
 
   const user = localStorage.getItem("user");
   const morning =
@@ -210,8 +211,6 @@ function PersonalStats() {
   const balance =
     user +
     ", you seem to be a 'cathemeral'. It is a fancy word used in biology for people who are equally active during the day and night. 😊";
-
-  console.log(total_day_count - total_night_count);
 
   return (
     <div className="stats-container">
