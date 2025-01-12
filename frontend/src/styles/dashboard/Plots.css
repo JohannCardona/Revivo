@@ -1,7 +1,10 @@
 .stats-container {
-    display: grid;
-    grid-template-columns: auto;
-    padding: 30px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px 50px;
+  margin: 0 auto;
+  width: 80%;
 }
 
 .stats-container h1 {
