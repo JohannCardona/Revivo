@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MoodGraph from "./MoodGraph";
+import MoodGraph from "../profile/MoodGraph";
 import MoodTracker from "./MoodTracker";
 
 function MoodMain() {

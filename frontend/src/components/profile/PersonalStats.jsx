@@ -14,7 +14,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Bar } from "react-chartjs-2";
 import axios from "axios";
 import { Audio } from "react-loader-spinner";
-import MoodMain from "../mindfulness/MoodMain";
+import MoodMain from "./MoodMain";
 
 ChartJS.register(
   ArcElement,
