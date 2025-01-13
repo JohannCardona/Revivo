@@ -1,0 +1,74 @@
+.emotion-container {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+.emotion-buttons-section {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 20px 0;
+}
+
+.mood-emoji-button {
+  cursor: pointer;
+  padding: 10px;
+  font-size: 3rem;
+  border-radius: 8px;
+  background: none;
+  border: 3px solid transparent;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.mood-emoji-button:hover {
+  transform: scale(1.2);
+}
+
+.mood-emoji-button.selected {
+  border-color: #50a081;
+  transform: scale(1.2);
+}
+
+.notes-section {
+  display: block;
+  margin-bottom: 20px;
+}
+
+#user-notes {
+    font-size: 0.8rem;
+    line-height: 1.3;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    background: none;
+    background-color: #f0e9e9;
+    box-shadow: 5px 5px 5px #ccc;
+    width: 100%;
+    height: 30px;
+    max-width: 80%;
+    border-radius: 50px;
+    margin: 5px 0;
+    padding: 0 1rem;
+}
+
+.mood-submit {
+  width: 200px;
+  background-color: var(--bg-navbar);
+  border: none;
+  outline: none;
+  height: 49px;
+  border-radius: 49px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.mood-submit:hover {
+  background-color: #2f624e;
+  color: #fff;
+  box-shadow: 1px 3px 3px #ccc;
+}

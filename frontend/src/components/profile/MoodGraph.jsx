@@ -41,7 +41,7 @@ function MoodGraph({ data }) {
       y: {
         ticks: {
           callback: function (item) {
-            return Object.keys(moods).find((i) => moods[i] === item || item);
+            return Object.keys(moods).find((i) => moods[i] === item) || item;
           },
           stepSize: 1,
         },
