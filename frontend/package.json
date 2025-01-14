@@ -7,7 +7,7 @@
       "localhost",
       ".localhost"
     ],
-    "proxy": "https://localhost:5000/"
+    "proxy": "http://localhost:5000/"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
