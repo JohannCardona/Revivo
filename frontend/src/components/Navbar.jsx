@@ -15,10 +15,11 @@ function Navbar() {
 
   const navigate = useNavigate();
   const buttons = [
+    { text: "Chatbot", to: "/chat" },
     { text: "Dashboard", to: "/dashboard" },
     { text: "Thrive Tips", to: "/tips" },
-    { text: "Soothing Sounds", to: "/calming_audios" },
-    {text: "Library", to: "/library"}
+    { text: "Soothing Sounds", to: "/audios" },
+    { text: "Library", to: "/library" },
   ];
 
   const logout = (e) => {
