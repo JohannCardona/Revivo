@@ -47,7 +47,7 @@
   font-size: 1.25rem;
 }
 
-.listen-button button,
+.listen-button input[type="button"],
 .listen-button-controls {
   border: none;
   color: white;
@@ -62,7 +62,7 @@
   transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.listen-button button:hover,
+.listen-button input[type="button"]:hover,
 .listen-button-controls:hover {
   background: linear-gradient(90deg, #587bda, #50a081);
 }
