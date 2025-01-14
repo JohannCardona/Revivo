@@ -22,7 +22,7 @@ function AppRouter() {
             <Route path="/dashboard" element={<PersonalStats />} />
             <Route path="/tips" element={<MindfulnessTips />} />
             <Route path="/tips/:tipCategory" element={<CategoryTips />} />
-            <Route path="/calming_audios" element={<CalmingAudios />} />
+            <Route path="/audios" element={<CalmingAudios />} />
             <Route path="/library" element={<VideoLibrary />} />
           </Route>
         </Routes>
