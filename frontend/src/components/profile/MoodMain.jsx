@@ -1,27 +1,20 @@
 import React, { useState, useEffect } from "react";
 import MoodGraph from "../profile/MoodGraph";
 import MoodTracker from "./MoodTracker";
+import axios from "axios";
 
 function MoodMain() {
   const [userMoods, setUserMoods] = useState([]);
-  const addUserMood = (userMood) => {
-    setUserMoods([...userMoods, userMood]);
-  };
-  useEffect(() => {
-    localStorage.setItem("userMoods", JSON.stringify(userMoods));
-  }, [userMoods]);
-  useEffect(() => {
-    const UserMoods = JSON.parse(localStorage.getItem("userMoods"));
-    setUserMoods(UserMoods);
-  }, []);
 
-  console.log(userMoods);
+  const storeUserMoods = async (userMoods) => {
+    axios.post("http://localhost:5000/store_user_moods", userMoods);
+  };
 
   return (
     <div>
       <h2>Mood Tracker</h2>
-      <MoodTracker addUserMood={addUserMood} />
-      <MoodGraph data={userMoods} />
+      <MoodTracker addUserMood={storeUserMoods} />
+      <MoodGraph />
     </div>
   );
 }

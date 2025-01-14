@@ -16,6 +16,7 @@ const MoodTracker = ({ addUserMood }) => {
       icon: type,
     });
   };
+
   const handleMoodSubmit = (e) => {
     e.preventDefault();
     if (!mood) {
@@ -23,9 +24,10 @@ const MoodTracker = ({ addUserMood }) => {
       return;
     }
     addUserMood({
+      user: localStorage.getItem("user"),
       mood,
       userNote,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString()
     });
     setMood("");
     setUserNote("");

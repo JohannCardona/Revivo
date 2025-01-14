@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart,
@@ -9,6 +9,7 @@ import {
   PointElement,
   Legend,
 } from "chart.js";
+import axios from "axios";
 
 Chart.register(
   LineElement,
@@ -19,7 +20,26 @@ Chart.register(
   Legend
 );
 
-function MoodGraph({ data }) {
+function MoodGraph() {
+  const [userMoodData, setUserMoodData] = useState([]);
+
+  const fetchUserMoods = async () => {
+    await axios
+      .get("http://localhost:5000/fetch_user_moods", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        setUserMoodData(response.data.result);
+      });
+  };
+
+  useEffect(() => {
+    fetchUserMoods();
+  }, [userMoodData]);
+
   const moods = {
     Joy: 6,
     Love: 5,
@@ -50,11 +70,13 @@ function MoodGraph({ data }) {
   };
 
   const moodData = {
-    labels: data.map((item) => new Date(item.timestamp).toLocaleDateString()),
+    labels: userMoodData.map((item) =>
+      new Date(item.timestamp).toLocaleDateString()
+    ),
     datasets: [
       {
         label: "Mood Level",
-        data: data.map((item) => moods[item.mood]),
+        data: userMoodData.map((item) => moods[item.mood]),
         borderColor: "rgba(118, 246, 246)",
         backgroundColor: "rgba(82, 159, 159, 0.2)",
         tension: 0.4,
