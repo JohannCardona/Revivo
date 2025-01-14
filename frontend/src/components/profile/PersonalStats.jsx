@@ -27,8 +27,6 @@ ChartJS.register(
 );
 
 function PersonalStats() {
-  // const [totalDayCount, setTotalDayCount] = useState(0);
-  // const [totalNightCount, setTotalNightCount] = useState(0);
   let total_day_count = 0;
   let total_night_count = 0;
   const options = {
@@ -215,7 +213,6 @@ function PersonalStats() {
   return (
     <div className="stats-container">
       <h1>User statistics</h1>
-      <div className="underline"></div>
       <MoodMain />
       <p>
         {total_day_count - total_night_count > 0

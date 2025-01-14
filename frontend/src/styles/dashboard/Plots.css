@@ -8,7 +8,11 @@
 }
 
 .stats-container h1 {
-    color: var(--bg-navbar);;
+    font-size: 2.5rem;
+    color: var(--bg-navbar);
+    margin-bottom: 20px;
+    border-bottom: 2px solid #000;
+    width: 10.4%;
 }
 
 .stats-container p {
@@ -38,11 +42,6 @@
     align-items: center;
     justify-content: center;
     margin: 0 auto;
-}
-
-.underline {
-    border-bottom:  2px solid #002646;
-    margin-bottom: 20px;
 }
 
 .personal-item { 
