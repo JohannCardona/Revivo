@@ -1,0 +1,25 @@
+.note-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.inner-note-modal-container {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 100px;
+    max-width: 500px;
+    box-shadow:  4px 4px 4px 4px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.inner-note-modal-container h2 {
+    padding-bottom: 10px;
+}
