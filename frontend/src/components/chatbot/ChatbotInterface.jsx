@@ -11,8 +11,6 @@ import "../../styles/chatbot/ChatbotInterface.css";
 import OpenAI from "openai";
 import Swal from "sweetalert2";
 import axios from "axios";
-import ExistingUser from "../login/ExistingUser";
-import NewUser from "../login/NewUser";
 import Banner from "../Banner/Banner";
 
 function ChatbotInterface() {
@@ -151,12 +149,14 @@ function ChatbotInterface() {
   const generate_image = async (prompt) => {
     const response = await client.images.generate({
       model: "dall-e-3",
+      response_format: "b64_json",
       prompt: prompt,
       size: "1024x1024",
       quality: "standard",
       n: 1,
     });
-    setImgURL(response.data[0].url);
+    const b64 = response.data[0].b64_json; 
+    setImgURL(`data:image/jpeg;base64,${b64}`);
   };
 
   const [clickedImage, setClickedImage] = useState(null);
@@ -208,13 +208,15 @@ function ChatbotInterface() {
 
   const fetching_recommending_songs_response = () => {
     const promptStart =
-      "Here are some song recommendations for you for " + song_genre + " genre:\n\n";
+      "Here are some song recommendations for you for " +
+      song_genre +
+      " genre:\n\n";
     const songs = recommended_songs
       .map(
         (item, key) =>
-          `${key + 1}.  Album: ${item.album}\n     Artist: ${item.artist}\n     Song: ${
-            item.name
-          }\n     Album date: ${item.albumDate}\n`
+          `${key + 1}.  Album: ${item.album}\n     Artist: ${
+            item.artist
+          }\n     Song: ${item.name}\n     Album date: ${item.albumDate}\n`
       )
       .join("\n\n");
     const promptEnd =
@@ -223,7 +225,6 @@ function ChatbotInterface() {
   };
 
   const handleConversationSubmit = async (prompt) => {
-    // e.preventDefault();
     const userResponse = conversationList(false, prompt);
     setConversations((prevConversations) => [
       ...prevConversations,
@@ -233,28 +234,29 @@ function ChatbotInterface() {
 
     const chatbotResponseId = generateChatbotResponseId();
     const chatbotDummyResponse1 = await handleChatbotResponse();
-    const chatbotDummyResponse = "Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life.";
-      console.log(chatbotDummyResponse1);
-      const chatbotResponse = conversationList(
-        true,
-        chatbotDummyResponse1,
-        chatbotResponseId
-      );
-      setConversations((prevConversations) => [
-        ...prevConversations,
-        chatbotResponse,
-      ]);
-      setLoadingChatbotResponse(true);
+    const chatbotDummyResponse =
+      "Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life.";
+    console.log(chatbotDummyResponse1);
+    const chatbotResponse = conversationList(
+      true,
+      chatbotDummyResponse1,
+      chatbotResponseId
+    );
+    setConversations((prevConversations) => [
+      ...prevConversations,
+      chatbotResponse,
+    ]);
+    setLoadingChatbotResponse(true);
 
-      previousMessageRef.current = chatbotResponseId;
+    previousMessageRef.current = chatbotResponseId;
 
-      setTimeout(() => {
-        setLoadingChatbotResponse(false);
-        const conversationDiv = document.getElementById(chatbotResponseId);
-        if (conversationDiv) {
-          chatbotTypingResponse(conversationDiv, chatbotDummyResponse1);
-        }
-      }, 3000);
+    setTimeout(() => {
+      setLoadingChatbotResponse(false);
+      const conversationDiv = document.getElementById(chatbotResponseId);
+      if (conversationDiv) {
+        chatbotTypingResponse(conversationDiv, chatbotDummyResponse1);
+      }
+    }, 3000);
   };
 
   const fireAlert = (response, type, color) => {
@@ -277,12 +279,12 @@ function ChatbotInterface() {
   const fetch_chatbot_response = async () => {
     const res = await axios.post(`http://localhost:5000/chat`);
     return res;
-  }
+  };
 
   const handleChatbotResponse = async () => {
     const response = await fetch_chatbot_response();
     return response.data.result;
-  }
+  };
 
   useEffect(() => {
     localStorage.setItem("mood", mood);
@@ -314,6 +316,16 @@ function ChatbotInterface() {
       // store_user_conversations();
     }
   };
+
+  const downloadDALLEImage = () => {
+    if(!imgURL) return;
+    const imageLink = document.createElement("a");
+    imageLink.href = imgURL;
+    imageLink.download = "dalle_image.jpeg";
+    document.body.appendChild(imageLink);
+    imageLink.click();
+    document.body.removeChild(imageLink);
+  }
 
   useEffect(() => {
     if (conversationRef.current) {
@@ -354,8 +366,6 @@ function ChatbotInterface() {
       setConversations("");
     }, 1000);
   };
-
-  console.log(conversations);
 
   return (
     <div className="chatbot-container">
@@ -434,7 +444,7 @@ function ChatbotInterface() {
                     {clickedImage && (
                       <div className="modal-container">
                         <div className="modal-image">
-                          <button>Download</button>
+                          <button onClick={downloadDALLEImage}>Download</button>
                           <CloseIcon
                             sx={{ fontSize: 35 }}
                             onClick={() => modalClose()}
