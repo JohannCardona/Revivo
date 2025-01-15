@@ -12,6 +12,7 @@ import OpenAI from "openai";
 import Swal from "sweetalert2";
 import axios from "axios";
 import Banner from "../Banner/Banner";
+import { IoCloudDownloadOutline } from "react-icons/io5";
 
 function ChatbotInterface() {
   const SpeechRecognition =
@@ -444,11 +445,15 @@ function ChatbotInterface() {
                     {clickedImage && (
                       <div className="modal-container">
                         <div className="modal-image">
-                          <button onClick={downloadDALLEImage}>Download</button>
                           <CloseIcon
-                            sx={{ fontSize: 35 }}
+                            sx={{ fontSize: 40 }}
                             onClick={() => modalClose()}
                           />
+                        </div>
+                        <div className="download-container">
+                          <button onClick={downloadDALLEImage}>
+                            <IoCloudDownloadOutline sx={{ fontSize: 50 }} />
+                          </button>
                           <img src={imgURL} alt="enlarged" />
                         </div>
                       </div>
