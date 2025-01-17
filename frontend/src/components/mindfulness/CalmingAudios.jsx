@@ -43,6 +43,7 @@ const audios1 = [
 const AudioPlayer = () => {
   const [playAudio, setPlayAudio] = useState({});
   const [audioProgress, setAudioProgress] = useState({});
+  const[audioPlaying, setAudioPlaying] = useState(false);
   const audioRef = useRef({});
 
   const handleAudioDurationFormat = (sec) => {
@@ -64,15 +65,12 @@ const AudioPlayer = () => {
     const audioFile = audioRef.current[item];
     if (audioFile.paused) {
       audioFile.play();
+      setAudioPlaying(true);
+    } else {
+      audioFile.pause();
+      setAudioPlaying(false);
     }
   };
-
-  const handleAudioStop = (item) => {
-    const audioFile = audioRef.current[item];
-    if (audioFile.play) {
-      audioFile.pause();
-    }
-  }
 
   const handleAudioProgressBar = (item, value) => {
     const audioFile = audioRef.current[item];
@@ -142,23 +140,20 @@ const AudioPlayer = () => {
                     <div className="listen-button">
                       <div className="audios-section-item-progress">
                         <div className="play-button">
-                          <FaPlay
-                            onClick={() => handleToggleAudio(audio_item.id)}
-                          />
+                          {audioPlaying ? (
+                            <FaPause
+                            className="stop"
+                              onClick={() => handleToggleAudio(audio_item.id)}
+                            />
+                          ) : (
+                            <FaPlay
+                              onClick={() => handleToggleAudio(audio_item.id)}
+                            />
+                          )}
                           <input
                             style={{ width: 60 }}
                             type="button"
                             onClick={() => handleToggleAudio(audio_item.id)}
-                          />
-                        </div>
-                        <div className="play-button stop">
-                          <FaPause
-                            onClick={() => handleAudioStop(audio_item.id)}
-                          />
-                          <input
-                            type="button"
-                            style={{ width: 60 }}
-                            onClick={() => handleAudioStop(audio_item.id)}
                           />
                         </div>
                         <input
