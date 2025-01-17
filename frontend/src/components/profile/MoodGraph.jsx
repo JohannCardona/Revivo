@@ -10,6 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import axios from "axios";
+import NoteModal from "./NoteModal";
 
 Chart.register(
   LineElement,
@@ -22,6 +23,8 @@ Chart.register(
 
 function MoodGraph() {
   const [userMoodData, setUserMoodData] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectUserNote, setSelectUserNote] = useState(null);
 
   const fetchUserMoods = async () => {
     await axios
@@ -67,6 +70,18 @@ function MoodGraph() {
         },
       },
     },
+    onClick: (_, elements) => {
+      displayNotesModal(elements);
+    },
+  };
+
+  const displayNotesModal = (dataPoints) => {
+    if (dataPoints.length > 0) {
+      const dataPointIndex = dataPoints[0].index;
+      const clickedDataPoint = userMoodData[dataPointIndex];
+      setSelectUserNote(clickedDataPoint.userNote || "No note available");
+      setOpenModal(true);
+    }
   };
 
   const moodData = {
@@ -88,6 +103,9 @@ function MoodGraph() {
   return (
     <div>
       <Line data={moodData} options={chartOptions} />
+      {openModal && (
+        <NoteModal selectUserNote={selectUserNote} setOpenModal={setOpenModal} />
+      )}
     </div>
   );
 }

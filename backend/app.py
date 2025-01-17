@@ -23,6 +23,8 @@ def main():
     from textEmotion.textEmotion import emotion_classifier
     from chat.chat_model import chat
     from videos.video_library import video_library
+    from userMoods.userMoods import userMoods
+    from category_tips.tips import tips
     app.register_blueprint(accounts)
     app.register_blueprint(generation)
     app.register_blueprint(spotify_recommender)
@@ -31,5 +33,7 @@ def main():
     app.register_blueprint(emotion_classifier)
     app.register_blueprint(chat)
     app.register_blueprint(video_library)
+    app.register_blueprint(userMoods)
+    app.register_blueprint(tips)
 
     return app

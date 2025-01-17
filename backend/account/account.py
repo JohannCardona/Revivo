@@ -88,12 +88,9 @@ def account_login():
 @accounts.route("/user_login_info", methods=["GET"])
 def user_login_info():
     jwt_token = request.authorization
-
     token = jwt_token.token
-
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
     user = decoded_token["user"]
-    print(user)
 
     query = {"_id": 0, "username": 1}
     profile_data = mongo_db.users.find_one({"username": user}, query)
