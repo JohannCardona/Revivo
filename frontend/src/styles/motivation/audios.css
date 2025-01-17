@@ -129,8 +129,10 @@
   position: absolute;
   margin-left: 26px;
   color: white;
+  cursor: pointer;
 }
 
-.stop svg {
+.play-button .stop {
   font-size: 20px;
+  cursor: pointer;
 }
