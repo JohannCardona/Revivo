@@ -1,6 +1,9 @@
 import React, { useState, useRef } from "react";
 import "../../styles/motivation/audios.css";
 import audio from "../../audio/rainSounds.flac";
+import { FaPlay } from "react-icons/fa";
+import { FaPause } from "react-icons/fa6";
+import CloseIcon from "@mui/icons-material/Close";
 
 const audios1 = [
   {
@@ -61,17 +64,15 @@ const AudioPlayer = () => {
     const audioFile = audioRef.current[item];
     if (audioFile.paused) {
       audioFile.play();
-    } else {
-      audioFile.pause();
     }
   };
 
   const handleAudioStop = (item) => {
     const audioFile = audioRef.current[item];
-    audioFile.pause();
-    audioFile.currentTime = 0;
-    setAudioProgress((prev) => ({ ...prev, [item]: 0 }));
-  };
+    if (audioFile.play) {
+      audioFile.pause();
+    }
+  }
 
   const handleAudioProgressBar = (item, value) => {
     const audioFile = audioRef.current[item];
@@ -88,12 +89,35 @@ const AudioPlayer = () => {
           {au.audios.map((audio_item) => (
             <>
               <div className="audios-section-item">
-                <input
-                  type="button"
-                  className="listen-button-controls"
-                  onClick={() => handleToggleAudioPlayer(audio_item.id)}
-                  value={`${playAudio[audio_item.id] ? "Close" : "Listen Now"}`}
-                />
+                {!playAudio[audio_item.id] ? (
+                  <>
+                    <input
+                      type="button"
+                      className="listen-button-controls"
+                      onClick={() => handleToggleAudioPlayer(audio_item.id)}
+                      value="Listen Now"
+                    />
+                  </>
+                ) : (
+                  <div className="close-button-container">
+                    <CloseIcon
+                      sx={{
+                        fontSize: 35,
+                        color: "white",
+                        position: "absolute",
+                        marginTop: "7px",
+                        marginLeft: "28px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleToggleAudioPlayer(audio_item.id)}
+                    />
+                    <input
+                      type="button"
+                      className="listen-button-controls isClose"
+                      onClick={() => handleToggleAudioPlayer(audio_item.id)}
+                    />
+                  </div>
+                )}
                 <h3>{audio_item.title}</h3>
                 {playAudio[audio_item.id] && (
                   <>
@@ -116,23 +140,27 @@ const AudioPlayer = () => {
                       }}
                     />
                     <div className="listen-button">
-                      <input
-                        type="button"
-                        onClick={() => handleToggleAudio(audio_item.id)}
-                        value="Play/Pause"
-                      />
-                      <input
-                        type="button"
-                        onClick={() => handleAudioStop(audio_item.id)}
-                        value="Stop"
-                      />
-                      <div
-                        id={`duration-${audio_item.id}`}
-                        className="audios-section-item-duration"
-                      >
-                        00:00 / 00:00
-                      </div>
                       <div className="audios-section-item-progress">
+                        <div className="play-button">
+                          <FaPlay
+                            onClick={() => handleToggleAudio(audio_item.id)}
+                          />
+                          <input
+                            style={{ width: 60 }}
+                            type="button"
+                            onClick={() => handleToggleAudio(audio_item.id)}
+                          />
+                        </div>
+                        <div className="play-button stop">
+                          <FaPause
+                            onClick={() => handleAudioStop(audio_item.id)}
+                          />
+                          <input
+                            type="button"
+                            style={{ width: 60 }}
+                            onClick={() => handleAudioStop(audio_item.id)}
+                          />
+                        </div>
                         <input
                           type="range"
                           name=""
@@ -147,6 +175,12 @@ const AudioPlayer = () => {
                             )
                           }
                         />
+                        <div
+                          id={`duration-${audio_item.id}`}
+                          className="audios-section-item-duration"
+                        >
+                          00:00 / 00:00
+                        </div>
                       </div>
                     </div>
                   </>

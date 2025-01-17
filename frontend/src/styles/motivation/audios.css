@@ -67,14 +67,14 @@
   background: linear-gradient(90deg, #587bda, #50a081);
 }
 
-.audios-section-item-duration {
-  color: black;
-  font-size: 1rem;
-  text-align: center;
-  margin: 20px 0;
+.audios-section-item-progress {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .audios-section-item-progress input[type="range"] {
+  margin-left: 10px;
   width: 100%;
   height: 8px;
   border-radius: 8px;
@@ -104,4 +104,33 @@
 
 .audios-section-item-progress input[type="range"]::-webkit-slider-thumb:hover {
   transform: scale(1.25);
+}
+
+.audios-section-item-duration {
+  color: black;
+  font-size: 1rem;
+  text-align: center;
+  margin: 0 5px;
+  width: 5%;
+}
+
+.isClose {
+  width: 80px;
+}
+
+.play-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.play-button svg {
+  width: 20px;
+  position: absolute;
+  margin-left: 26px;
+  color: white;
+}
+
+.stop svg {
+  font-size: 20px;
 }
