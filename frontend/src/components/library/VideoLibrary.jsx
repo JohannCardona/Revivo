@@ -1,17 +1,27 @@
 import React, { useState } from "react";
 import "../../styles/library/library.css";
-import { CgSpinnerTwo } from "react-icons/cg";
+import { ColorRing } from "react-loader-spinner";
 
 const VideoLibrary = ({ videoCollection }) => {
   const [selectedVideo, setSelectedVideo] = useState(null);
 
   return (
     <div className="video-library-container">
-      <h1>{!selectedVideo ? "Mental Health Video Library" : "Playing for You"}</h1>
+      <h1>
+        {!selectedVideo ? "Mental Health Video Library" : "Playing for You"}
+      </h1>
       {!selectedVideo ? (
         <div className="video-category-container">
           {videoCollection.length === 0 ? (
-            <CgSpinnerTwo size={30} color="#50a081" />
+            <ColorRing
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="color-ring-loading"
+              wrapperStyle={{}}
+              wrapperClass="color-ring-wrapper"
+              colors={["#50a081", "#587bda", "#50a081", "#587bda", "#50a081"]}
+            />
           ) : (
             videoCollection.map((videoCategory, i) => (
               <div key={i} className="video-category-section">
