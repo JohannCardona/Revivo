@@ -15,6 +15,7 @@ import { Bar } from "react-chartjs-2";
 import axios from "axios";
 import { Audio } from "react-loader-spinner";
 import MoodMain from "./MoodMain";
+import BadgesSection from "../mindfulness/BadgesSection";
 
 ChartJS.register(
   ArcElement,
@@ -212,8 +213,12 @@ function PersonalStats() {
 
   return (
     <div className="stats-container">
-      <h1>User statistics</h1>
+      <h1>Dashboard</h1>
       <MoodMain />
+      <BadgesSection />
+      <h2 style={{ borderBottom: "2px solid black", width: 170 }}>
+        User Statistics
+      </h2>
       <p>
         {total_day_count - total_night_count > 0
           ? morning
@@ -222,30 +227,60 @@ function PersonalStats() {
           : night}
       </p>
       {loading ? (
-        <Audio
-          height="100"
-          width="100"
-          color="#4fa94d"
-          ariaLabel="audio-loading"
-          wrapperStyle={{}}
-          wrapperClass="wrapper-class"
-          visible={true}
-        />
+        <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              margin: "100px auto",
+            }}
+          >
+            <Audio
+              height="100"
+              width="100"
+              color="#4fa94d"
+              ariaLabel="audio-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        </>
       ) : (
-        <Bar options={options1} data={periodStatsData} />
+        <>
+          <div style={{ marginTop: 10 }}>
+            <Bar options={options1} data={periodStatsData} />
+          </div>
+        </>
       )}
       {dayStatsData ? (
-        <Bar options={options} data={dayStatsData} />
+        <>
+          <div style={{ marginTop: 40 }}>
+            <Bar options={options} data={dayStatsData} />
+          </div>
+        </>
       ) : (
-        <Audio
-          height="100"
-          width="100"
-          color="#4fa94d"
-          ariaLabel="audio-loading"
-          wrapperStyle={{}}
-          wrapperClass="wrapper-class"
-          visible={true}
-        />
+        <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              margin: "100px auto",
+            }}
+          >
+            <Audio
+              height="100"
+              width="100"
+              color="#4fa94d"
+              ariaLabel="audio-loading"
+              wrapperStyle={{}}
+              wrapperClass="wrapper-class"
+              visible={true}
+            />
+          </div>
+        </>
       )}
       {/* {loading ? (
         <Audio
