@@ -28,16 +28,11 @@ const CategoryTips = () => {
     const randomTip = Math.floor(Math.random() * tipsData.length);
     setCurrentTip(tipsData[randomTip]);
     setTipTrack(tipTrack + 1);
-  };
-
-  const addTipToFavourites = () => {
-    if (currentTip && !favouriteTips.includes(currentTip)) {
-      setFavouriteTips([...favouriteTips, currentTip]);
-    }
-  };
-
-  const removeTipFromFavourites = (removeTip) => {
-    setFavouriteTips(favouriteTips.filter((tip) => tip !== removeTip));
+    const count = tipTrack + 1;
+    axios.post(`http://localhost:5000/generate_tip_count`, {
+      user,
+      count,
+    });
   };
 
   const store_category_tip = () => {
