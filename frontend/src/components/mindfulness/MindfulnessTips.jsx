@@ -8,6 +8,7 @@ import Motivation from "../../images/motivation.webp";
 import Healing from "../../images/healing.webp";
 import Love from "../../images/love.webp";
 import "../../styles/motivation/mindfulnesstips.css";
+import axios from "axios";
 
 // Mindfulness: A serene individual meditating by a calm lake at sunrise.
 // Motivation: A climber triumphantly reaching the summit of a mountain.
@@ -26,7 +27,11 @@ const tipCategoryImg = {
 
 const MindfulnessTips = () => {
   const navigate = useNavigate();
+  const user = localStorage.getItem("user");
   const handleTipCategorySelect = (tipCategory) => {
+    axios.post(`http://localhost:5000/category_click_count`, {user, tipCategory}).then((response) => {
+      console.log(response.data.result);
+    })
     navigate(`/tips/${tipCategory}`);
   };
   return (
