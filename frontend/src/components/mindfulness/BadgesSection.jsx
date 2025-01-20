@@ -14,14 +14,14 @@ function BadgesSection() {
 
   const [badgesInfo, setBadgesInfo] = useState([
     { id: 1, badgeName: "Generated First Tip", badgeUnlocked: false },
-    { id: 2, badgeName: "Visit Mindfulness tips", badgeUnlocked: false },
-    { id: 3, badgeName: "Visit Acceptance tips", badgeUnlocked: false },
+    { id: 2, badgeName: "Visit Mindfulness Tips", badgeUnlocked: false },
+    { id: 3, badgeName: "Visit Acceptance Tips", badgeUnlocked: false },
     { id: 4, badgeName: "Stored 10 Tips", badgeUnlocked: false },
-    { id: 5, badgeName: "Visit Life tips", badgeUnlocked: false },
-    { id: 6, badgeName: "Visit Motivation tips", badgeUnlocked: false },
+    { id: 5, badgeName: "Visit Life Tips", badgeUnlocked: false },
+    { id: 6, badgeName: "Visit Motivation Tips", badgeUnlocked: false },
     { id: 7, badgeName: "Stored 50 Tips", badgeUnlocked: false },
-    { id: 8, badgeName: "Visit Healing tips", badgeUnlocked: false },
-    { id: 9, badgeName: "Visit Love tips", badgeUnlocked: false },
+    { id: 8, badgeName: "Visit Healing Tips", badgeUnlocked: false },
+    { id: 9, badgeName: "Visit Love Tips", badgeUnlocked: false },
     { id: 10, badgeName: "Visited All Tip Categories", badgeUnlocked: false },
   ]);
 
@@ -59,10 +59,51 @@ function BadgesSection() {
             (item) => item.tipCategory
           );
           setVisitCategories(categories);
+          setBadgesInfo((badges) =>
+            badges.map((badge) => {
+              if (
+                badge.badgeName === "Visit Mindfulness Tips" &&
+                visitCategories.includes("mindfulness")
+              ) {
+                return { ...badge, badgeUnlocked: true };
+              }
+              if (
+                badge.badgeName === "Visit Acceptance Tips" &&
+                visitCategories.includes("acceptance")
+              ) {
+                return { ...badge, badgeUnlocked: true };
+              }
+              if (
+                badge.badgeName === "Visit Life Tips" &&
+                visitCategories.includes("life")
+              ) {
+                return { ...badge, badgeUnlocked: true };
+              }
+              if (
+                badge.badgeName === "Visit Motivation Tips" &&
+                visitCategories.includes("motivation")
+              ) {
+                return { ...badge, badgeUnlocked: true };
+              }
+              if (
+                badge.badgeName === "Visit Healing Tips" &&
+                visitCategories.includes("healing")
+              ) {
+                return { ...badge, badgeUnlocked: true };
+              }
+              if (
+                badge.badgeName === "Visit Love Tips" &&
+                visitCategories.includes("love")
+              ) {
+                return { ...badge, badgeUnlocked: true };
+              }
+              return badge;
+            })
+          );
         });
     };
     fetch_visited_categories();
-  }, []);
+  }, [visitCategories]);
 
   useEffect(() => {
     const fetch_tip_count = async () => {
