@@ -1,23 +1,124 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/motivation/mainbadges.css";
+import axios from "axios";
 
 function BadgesSection() {
-  const badgesInfo = [
-    { id: 1, title: "Generated First Tip", unlocked: true },
-    { id: 2, title: "Visit Mindfulness tips", unlocked: false },
-    { id: 3, title: "Visit Acceptance tips", unlocked: false },
-    { id: 4, title: "Stored 10 Tips", unlocked: true },
-    { id: 5, title: "Visit Life tips", unlocked: false },
-    { id: 6, title: "Visit Motivation tips", unlocked: false },
-    { id: 7, title: "Stored 50 Tips", unlocked: true },
-    { id: 8, title: "Visit Healing tips", unlocked: false },
-    { id: 8, title: "Visit Love tips", unlocked: false },
+  const tipCategories = [
+    "Mindfulness",
+    "Acceptance",
+    "Life",
+    "Love",
+    "Healing",
+    "Motivation",
   ];
-  const [achievementBadges] = useState(badgesInfo);
-  const badgesCompleted = achievementBadges.filter(
-    (achievementBadge) => achievementBadge.unlocked
+
+  const [badgesInfo, setBadgesInfo] = useState([
+    { id: 1, badgeName: "Generated First Tip", badgeUnlocked: false },
+    { id: 2, badgeName: "Visit Mindfulness tips", badgeUnlocked: false },
+    { id: 3, badgeName: "Visit Acceptance tips", badgeUnlocked: false },
+    { id: 4, badgeName: "Stored 10 Tips", badgeUnlocked: false },
+    { id: 5, badgeName: "Visit Life tips", badgeUnlocked: false },
+    { id: 6, badgeName: "Visit Motivation tips", badgeUnlocked: false },
+    { id: 7, badgeName: "Stored 50 Tips", badgeUnlocked: false },
+    { id: 8, badgeName: "Visit Healing tips", badgeUnlocked: false },
+    { id: 9, badgeName: "Visit Love tips", badgeUnlocked: false },
+    { id: 10, badgeName: "Visited All Tip Categories", badgeUnlocked: false },
+  ]);
+
+  const [favouriteTips, setFavouriteTips] = useState(0);
+  const [visitCategories, setVisitCategories] = useState([]);
+
+  useEffect(() => {
+    const fetch_all_favourite_tips = async () => {
+      axios
+        .get("http://localhost:5000/fetch_favourite_tips", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          console.log(response.data.result);
+          setFavouriteTips(response.data.result);
+        });
+    };
+    fetch_all_favourite_tips();
+  }, []);
+
+  useEffect(() => {
+    const fetch_visited_categories = async () => {
+      axios
+        .get(`http://localhost:5000/fetch_visited_categories`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          const categories = response.data.result.map(
+            (item) => item.tipCategory
+          );
+          setVisitCategories(categories);
+        });
+    };
+    fetch_visited_categories();
+  }, []);
+
+  useEffect(() => {
+    const fetch_tip_count = async () => {
+      axios
+        .get(`http://localhost:5000/fetch_tip_count`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          console.log(response.data.result.count);
+          const tipCount = response.data.result.count;
+          setBadgesInfo((prevBadges) =>
+            prevBadges.map((badge) => {
+              if (badge.badgeName === "Generated First Tip" && tipCount >= 1) {
+                return { ...badge, badgeUnlocked: true };
+              }
+              if (badge.badgeName === "Stored 10 Tips" && favouriteTips >= 10) {
+                return { ...badge, badgeUnlocked: true };
+              }
+              if (badge.badgeName === "Stored 50 Tips" && favouriteTips >= 50) {
+                return { ...badge, badgeUnlocked: true };
+              }
+              return badge;
+            })
+          );
+        });
+    };
+    fetch_tip_count();
+  }, [favouriteTips]);
+
+  useEffect(() => {
+    const test = visitCategories.length === tipCategories.length;
+    console.log(test);
+    if (visitCategories.length === tipCategories.length) {
+      setBadgesInfo((prevBadges) =>
+        prevBadges.map((badge) =>
+          badge.badgeName === "Visited All Tip Categories"
+            ? { ...badge, badgeUnlocked: true }
+            : badge
+        )
+      );
+    }
+  }, [visitCategories.length, tipCategories.length]);
+
+  console.log(badgesInfo);
+
+  const badgesCompleted = badgesInfo.filter(
+    (achievementBadge) => achievementBadge.badgeUnlocked
   ).length;
-  const progress = (badgesCompleted / achievementBadges.length) * 100;
+  const progress = (badgesCompleted / badgesInfo.length) * 100;
+  const badgesCompletedList = badgesInfo.filter(
+    (achievementBadge) => achievementBadge.badgeUnlocked
+  );
+
   return (
     <div style={{ padding: 20 }}>
       <h2
@@ -26,23 +127,23 @@ function BadgesSection() {
         Achievement Badges
       </h2>
       <div className="achievement-badge-container">
-        {achievementBadges.map((achievementBadge) => (
+        {badgesInfo.map((achievementBadge) => (
           <div
             key={achievementBadge.id}
             className={`badge-box ${
-              achievementBadge.unlocked ? "badgeUnlocked" : "badgeLocked"
+              achievementBadge.badgeUnlocked ? "badgeUnlocked" : "badgeLocked"
             }`}
           >
             <div className="badge-status-icon">
-              {achievementBadge.unlocked ? "🏅" : "🔒"}
+              {achievementBadge.badgeUnlocked ? "🏅" : "🔒"}
             </div>
-            <p className="badge-name">{achievementBadge.title}</p>
+            <p className="badge-name">{achievementBadge.badgeName}</p>
           </div>
         ))}
       </div>
       <div className="badge-completion-progress">
         <p>
-          {badgesCompleted} of {achievementBadges.length} Badges Unlocked
+          {badgesCompleted} of {badgesInfo.length} Badges Unlocked
         </p>
       </div>
       <div>
@@ -51,7 +152,11 @@ function BadgesSection() {
           {Math.min(progress, 100).toFixed(0)}%
         </p>
         <div
-          style={{ width: "100%", backgroundColor: "#eee", borderRadius: "8px" }}
+          style={{
+            width: "100%",
+            backgroundColor: "#eee",
+            borderRadius: "8px",
+          }}
           className="main-progress-bar-container"
         >
           <div
@@ -67,10 +172,10 @@ function BadgesSection() {
       </div>
       <div className="unlocked-badges">
         <h3 style={{ marginTop: 30 }}>Unlocked Badges:</h3>
-        {badgesCompleted.length > 0 ? (
+        {badgesCompletedList.length ? (
           <ul>
-            {badgesCompleted.map((unlockedBadge) => (
-              <li key={unlockedBadge.id}>{unlockedBadge.title}</li>
+            {badgesCompletedList.map((unlockedBadge) => (
+              <li key={unlockedBadge.id}>{unlockedBadge.badgeName}</li>
             ))}
           </ul>
         ) : (
