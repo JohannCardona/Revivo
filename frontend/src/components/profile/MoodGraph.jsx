@@ -92,9 +92,9 @@ function MoodGraph() {
       {
         label: "Mood Level",
         data: userMoodData.map((item) => moods[item.mood]),
-        borderColor: "rgba(118, 246, 246)",
-        backgroundColor: "rgba(82, 159, 159, 0.2)",
-        tension: 0.4,
+        borderColor: "#397061",
+        backgroundColor: "#50a081",
+        tension: 0.5,
         pointRadius: 5,
       },
     ],
