@@ -8,7 +8,6 @@ import chaticon from "../../images/chatbot.svg";
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import "../../styles/chatbot/ChatbotInterface.css";
-import OpenAI from "openai";
 import Swal from "sweetalert2";
 import axios from "axios";
 import Banner from "../Banner/Banner";
@@ -45,12 +44,10 @@ function ChatbotInterface() {
       recognition.interimResults = true;
 
       recognition.onStart = () => {
-        console.log("Listening");
         setListening(true);
       };
 
       recognition.onEnd = () => {
-        console.log("Stop Listening");
         setListening(false);
       };
 
@@ -112,23 +109,11 @@ function ChatbotInterface() {
           .post("http://localhost:5000/conversations", conversations)
           .then((response) => {
             if (response.status === 200) {
-              // console.log(response.data.result);
             }
           });
       } else {
-        console.log("conversation has not ended...");
       }
     }
-  };
-
-  const handleRegister = (user) => {
-    localStorage.setItem("user", user);
-    setNewUser(user);
-    setIsSignUp(false);
-  };
-
-  const handleSignIn = (user) => {
-    setExistingUser(user);
   };
 
   const recommend_songs = async () => {
@@ -141,23 +126,12 @@ function ChatbotInterface() {
       });
   };
 
-  const client = new OpenAI({
-    apiKey:
-      "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",
-    dangerouslyAllowBrowser: true,
-  });
-
-  const generate_image = async (prompt) => {
-    const response = await client.images.generate({
-      model: "dall-e-3",
-      response_format: "b64_json",
-      prompt: prompt,
-      size: "1024x1024",
-      quality: "standard",
-      n: 1,
-    });
-    const b64 = response.data[0].b64_json; 
-    setImgURL(`data:image/jpeg;base64,${b64}`);
+  const generate_image = async () => {
+    const response = await axios.post(
+      `http://localhost:5000/image_generation`,
+      { prompt }
+    );
+    setImgURL(`data:image/jpeg;base64,${response.data[0].result}`);
   };
 
   const [clickedImage, setClickedImage] = useState(null);
@@ -234,13 +208,12 @@ function ChatbotInterface() {
     setPrompt("");
 
     const chatbotResponseId = generateChatbotResponseId();
-    const chatbotDummyResponse1 = await handleChatbotResponse();
+    // const chatbotDummyResponse1 = await handleChatbotResponse();
     const chatbotDummyResponse =
       "Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life.";
-    console.log(chatbotDummyResponse1);
     const chatbotResponse = conversationList(
       true,
-      chatbotDummyResponse1,
+      chatbotDummyResponse,
       chatbotResponseId
     );
     setConversations((prevConversations) => [
@@ -255,7 +228,7 @@ function ChatbotInterface() {
       setLoadingChatbotResponse(false);
       const conversationDiv = document.getElementById(chatbotResponseId);
       if (conversationDiv) {
-        chatbotTypingResponse(conversationDiv, chatbotDummyResponse1);
+        chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
       }
     }, 3000);
   };
@@ -313,20 +286,19 @@ function ChatbotInterface() {
       // if (conversations.length === 2) {
       //   fetch_conversation_title(conversations[0].response);
       // }
-      // console.log("store conversation");
       // store_user_conversations();
     }
   };
 
   const downloadDALLEImage = () => {
-    if(!imgURL) return;
+    if (!imgURL) return;
     const imageLink = document.createElement("a");
     imageLink.href = imgURL;
     imageLink.download = "dalle_image.jpeg";
     document.body.appendChild(imageLink);
     imageLink.click();
     document.body.removeChild(imageLink);
-  }
+  };
 
   useEffect(() => {
     if (conversationRef.current) {
@@ -362,7 +334,6 @@ function ChatbotInterface() {
 
   const newChat = () => {
     setIsNewChat(true);
-    console.log(isNewChat);
     setTimeout(() => {
       setConversations("");
     }, 1000);
