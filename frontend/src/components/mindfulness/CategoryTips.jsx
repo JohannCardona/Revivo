@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import "../../styles/motivation/motivation.css";
 import axios from "axios";
 import Swal from "sweetalert2";
+import logo from "../../images/meditation.svg";
 
 const CategoryTips = () => {
   const fireAlert = (response, type, color) => {
@@ -35,24 +36,6 @@ const CategoryTips = () => {
     });
   };
 
-  const store_category_tip = () => {
-    if (currentTip && !favouriteTips.includes(currentTip)) {
-      axios
-        .post(`http://localhost:5000/store_tip/${tipCategory}`, {
-          user,
-          currentTip,
-        })
-        .then((response) => {
-          console.log(response.data.result);
-          fireAlert(response.data.result, "success", "green");
-        });
-    } else if (!currentTip) {
-      fireAlert(`Please generate a tip before clicking on Add to Favourites`, "warning", "#50a081");
-    } else {
-      fireAlert(`Tip is already stored: ${currentTip}`, "warning", "#50a081");
-    }
-  };
-
   useEffect(() => {
     const fetch_category_tips = async () => {
       axios
@@ -69,6 +52,28 @@ const CategoryTips = () => {
     };
     fetch_category_tips();
   }, [tipCategory, currentTip, favouriteTips]);
+
+  const store_category_tip = () => {
+    if (currentTip && !favouriteTips.includes(currentTip)) {
+      axios
+        .post(`http://localhost:5000/store_tip/${tipCategory}`, {
+          user,
+          currentTip,
+        })
+        .then((response) => {
+          console.log(response.data.result);
+          fireAlert(response.data.result, "success", "green");
+        });
+    } else if (!currentTip) {
+      fireAlert(
+        `Please generate a tip before clicking on Add to Favourites`,
+        "warning",
+        "#50a081"
+      );
+    } else {
+      fireAlert(`Tip is already stored: ${currentTip}`, "warning", "#50a081");
+    }
+  };
 
   const remove_category_tip = async (categoryTip) => {
     Swal.fire({
@@ -103,62 +108,102 @@ const CategoryTips = () => {
 
   return (
     <div className="category-tips-container">
-      <h1 className="category-tips-container-heading">
-        {tipCategory.toUpperCase()} Tips
-      </h1>
-      <div className="current-tip-container">
-        {!currentTip ? (
-          <p>Click the button to generate a tip!</p>
-        ) : (
-          <p>{currentTip}</p>
-        )}
-      </div>
-      <div className="tips-container-buttons">
-        <motion.button
-          className="tip-container-button"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={generateRandomTip}
-        >
-          {tipTrack === 0 ? "Generate Tip" : "Generate Next Tip"}
-        </motion.button>
-        <motion.button
-          className="tip-container-button"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={store_category_tip}
-        >
-          Add to Favourites
-        </motion.button>
-      </div>
-      {favouriteTips.length > 0 && (
-        <motion.div
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          initial={{ opacity: 0, y: -20 }}
-          className="favourite-tips-container"
-        >
-          <h2 className="favourite-tips-container-heading">
-            Your Favourite Tips
-          </h2>
-          <ul className="favourite-tips-list">
-            {favouriteTips.map((favouriteTip, i) => (
-              <>
-                <li key={i} className="favourite-tip-item">
-                  {favouriteTip}
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="remove-favourite-tip-button"
-                    onClick={() => remove_category_tip(favouriteTip)}
-                  >
-                    Remove
-                  </motion.button>
-                </li>
-              </>
-            ))}
-          </ul>
-        </motion.div>
+      {favouriteTips.length === 0 ? (
+        <>
+          <div className="no-favourites-container">
+            <div className="tips">
+              <h1 className="category-tips-container-heading">
+                {tipCategory.toUpperCase()} Tips
+              </h1>
+              <div className="current-tip-container">
+                {!currentTip ? (
+                  <p>Click the button to generate a tip!</p>
+                ) : (
+                  <p>{currentTip}</p>
+                )}
+              </div>
+              <div className="tips-container-buttons">
+                <motion.button
+                  className="tip-container-button"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={generateRandomTip}
+                >
+                  {tipTrack === 0 ? "Generate Tip" : "Generate Next Tip"}
+                </motion.button>
+                <motion.button
+                  className="tip-container-button"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={store_category_tip}
+                >
+                  Add to Favourites
+                </motion.button>
+              </div>
+            </div>
+            <img className="no-favourites" src={logo} alt="Tips Logo" />
+          </div>
+        </>
+      ) : (
+        <>
+          <h1 className="category-tips-container-heading">
+            {tipCategory.toUpperCase()} Tips
+          </h1>
+          <div className="current-tip-container">
+            {!currentTip ? (
+              <p>Click the button to generate a tip!</p>
+            ) : (
+              <p>{currentTip}</p>
+            )}
+          </div>
+          <div className="tips-container-buttons">
+            <motion.button
+              className="tip-container-button"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={generateRandomTip}
+            >
+              {tipTrack === 0 ? "Generate Tip" : "Generate Next Tip"}
+            </motion.button>
+            <motion.button
+              className="tip-container-button"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={store_category_tip}
+            >
+              Add to Favourites
+            </motion.button>
+          </div>
+          {favouriteTips.length > 0 && (
+            <motion.div
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              initial={{ opacity: 0, y: -20 }}
+              className="favourite-tips-container"
+            >
+              <h2 className="favourite-tips-container-heading">
+                Your Favourite Tips
+              </h2>
+              <ul className="favourite-tips-list">
+                {favouriteTips.map((favouriteTip, i) => (
+                  <>
+                    <li key={i} className="favourite-tip-item">
+                      {favouriteTip}
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="remove-favourite-tip-button"
+                        onClick={() => remove_category_tip(favouriteTip)}
+                      >
+                        Remove
+                      </motion.button>
+                    </li>
+                  </>
+                ))}
+              </ul>
+            </motion.div>
+          )}
+        </>
       )}
     </div>
   );
