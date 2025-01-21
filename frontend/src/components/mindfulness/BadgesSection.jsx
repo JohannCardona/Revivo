@@ -18,11 +18,13 @@ function BadgesSection() {
     { id: 3, badgeName: "Visit Acceptance Tips", badgeUnlocked: false },
     { id: 4, badgeName: "Stored 10 Tips", badgeUnlocked: false },
     { id: 5, badgeName: "Visit Life Tips", badgeUnlocked: false },
-    { id: 6, badgeName: "Visit Motivation Tips", badgeUnlocked: false },
-    { id: 7, badgeName: "Stored 50 Tips", badgeUnlocked: false },
-    { id: 8, badgeName: "Visit Healing Tips", badgeUnlocked: false },
-    { id: 9, badgeName: "Visit Love Tips", badgeUnlocked: false },
-    { id: 10, badgeName: "Visited All Tip Categories", badgeUnlocked: false },
+    { id: 6, badgeName: "Stored 20 Tips", badgeUnlocked: false },
+    { id: 7, badgeName: "Visit Motivation Tips", badgeUnlocked: false },
+    { id: 8, badgeName: "Stored 50 Tips", badgeUnlocked: false },
+    { id: 9, badgeName: "Visit Healing Tips", badgeUnlocked: false },
+    { id: 10, badgeName: "Generated 50 Tips", badgeUnlocked: false },
+    { id: 11, badgeName: "Visit Love Tips", badgeUnlocked: false },
+    { id: 12, badgeName: "Visited All Tip Categories", badgeUnlocked: false },
   ]);
 
   const [favouriteTips, setFavouriteTips] = useState(0);
@@ -125,6 +127,12 @@ function BadgesSection() {
               if (badge.badgeName === "Stored 10 Tips" && favouriteTips >= 10) {
                 return { ...badge, badgeUnlocked: true };
               }
+              if (badge.badgeName === "Stored 20 Tips" && favouriteTips >= 20) {
+                return { ...badge, badgeUnlocked: true };
+              }
+              if (badge.badgeName === "Generated 50 Tips" && tipCount >= 50) {
+                return { ...badge, badgeUnlocked: true };
+              }
               if (badge.badgeName === "Stored 50 Tips" && favouriteTips >= 50) {
                 return { ...badge, badgeUnlocked: true };
               }
@@ -150,18 +158,13 @@ function BadgesSection() {
     }
   }, [visitCategories.length, tipCategories.length]);
 
-  console.log(badgesInfo);
-
   const badgesCompleted = badgesInfo.filter(
     (achievementBadge) => achievementBadge.badgeUnlocked
   ).length;
   const progress = (badgesCompleted / badgesInfo.length) * 100;
-  const badgesCompletedList = badgesInfo.filter(
-    (achievementBadge) => achievementBadge.badgeUnlocked
-  );
 
   return (
-    <div style={{ padding: 20 }}>
+    <div style={{ margin: "30px 0 55px 0" }}>
       <h2
         style={{ borderBottom: "2px solid black", width: 245, marginTop: 20 }}
       >
@@ -210,18 +213,6 @@ function BadgesSection() {
             className="progress-bar"
           ></div>
         </div>
-      </div>
-      <div className="unlocked-badges">
-        <h3 style={{ marginTop: 30 }}>Unlocked Badges:</h3>
-        {badgesCompletedList.length ? (
-          <ul>
-            {badgesCompletedList.map((unlockedBadge) => (
-              <li key={unlockedBadge.id}>{unlockedBadge.badgeName}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>No badges unlocked yet.</p>
-        )}
       </div>
     </div>
   );
