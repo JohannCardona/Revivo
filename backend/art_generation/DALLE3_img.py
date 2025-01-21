@@ -14,7 +14,6 @@ client = openai.OpenAI(
     api_key=os.environ.get('api_key')
 )
 
-
 @generation.route("/image_generation", methods=["POST"])
 def get_user_prompt():
     data = request.get_json()
@@ -27,6 +26,4 @@ def get_user_prompt():
         response_format="b64_json"
     )
     img_url = response.data[0].b64_json
-    # img_url = "Yo brother"
-    print(img_url)
     return jsonify({"result": img_url}, HTTPStatus.OK)
