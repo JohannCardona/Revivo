@@ -7,7 +7,7 @@ import { ThemeContext } from "./Theme/Theme";
 import "../styles/navbar/Navbar.css";
 
 function Navbar() {
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { toggleTheme } = useContext(ThemeContext);
 
   const handleThemeToggle = () => {
     toggleTheme();
