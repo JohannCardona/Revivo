@@ -87,16 +87,28 @@
     flex-direction: column;
 }
 
+.no-favourites-container {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.no-favourites {
+    width: 50%;
+}
+
 .category-tips-container-heading {
     margin-bottom: 20px;
-    font-size: 2.5rem;
+    font-size: 3.5rem;
 }
 
 .current-tip-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.9rem;
     font-style: italic;
     min-height: 100px;
     margin-bottom: 20px;
@@ -109,7 +121,7 @@
 }
 
 .tip-container-button {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     cursor: pointer;
     color: white;
     border-radius: 8px;
@@ -120,7 +132,7 @@
 
 .favourite-tips-container {
     width: 100%;
-    max-width: 600px;
+    max-width: 1000px;
     max-height: 350px;
     margin-top: 20px;
     padding: 20px;
@@ -153,8 +165,10 @@
 }
 
 .favourite-tips-container-heading {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
+    border-bottom: 2px solid #000;
     margin-bottom: 20px;
+    width: 28%;
 }
 
 .favourite-tips-list {
@@ -166,6 +180,7 @@
     border-radius: 8px;
     padding: 10px;
     display: flex;
+    font-size: 1.2rem;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 5px;
@@ -176,7 +191,8 @@
     margin-left: 20px;
     background-color: #d04242;
     border-radius: 8px;
-    padding: 5px 10px;
+    font-size: 1.25rem;
+    padding: 10px 20px;
     border: none;
     cursor: pointer;
 }
@@ -191,11 +207,76 @@
     .tips-container {
       height: 95vh;
     }
+
+    .category-grid-item {
+      width: 550px;
+      height: 450px;
+    }
+
+    .category-tips-container-heading {
+      font-size: 3.5rem;
+    }
+
+    .current-tip-container {
+    font-size: 1.9rem;
+    }
+
+    .tip-container-button {
+    font-size: 1.75rem;
+    padding: 16px 26px;
+    }
+
+    .favourite-tips-container {
+    width: 100%;
+    max-width: 1000px;
+    max-height: 500px;
+    }
+
+    .favourite-tips-container-heading {
+    font-size: 2rem;
+    border-bottom: 2px solid #000;
+    width: 32%;
+    }
+
+    .favourite-tip-item {
+        font-size: 1.2rem;
+        border-radius: 8px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 5px;
+    }
+
+    .remove-favourite-tip-button {
+        font-size: 1.25rem;
+        padding: 10px 20px;
+    }
+
+    .no-favourites-container {
+        display: flex;
+        flex-direction: row;
+        text-align: center;
+        align-items: center;
+    }
+
+    .no-favourites-container .tips {
+        width: 50%;
+    }
+
+    .no-favourites {
+        width: 75%;
+        margin-left: 500px;
+    }
 }
 
 @media only screen and (min-width: 2090px) {
     .tips-container {
       height: 95vh;
+    }
+
+    .category-tips-container {
+        height: 95vh;
     }
 }
 
