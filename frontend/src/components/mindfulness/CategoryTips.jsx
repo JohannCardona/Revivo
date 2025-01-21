@@ -46,6 +46,8 @@ const CategoryTips = () => {
           console.log(response.data.result);
           fireAlert(response.data.result, "success", "green");
         });
+    } else if (!currentTip) {
+      fireAlert(`Please generate a tip before clicking on Add to Favourites`, "warning", "#50a081");
     } else {
       fireAlert(`Tip is already stored: ${currentTip}`, "warning", "#50a081");
     }
