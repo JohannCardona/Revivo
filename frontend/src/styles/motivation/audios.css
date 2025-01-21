@@ -136,3 +136,9 @@
   font-size: 20px;
   cursor: pointer;
 }
+
+@media only screen and (min-width: 1705px) {
+    .audios-container {
+      margin-bottom: 1px;
+    }
+}
