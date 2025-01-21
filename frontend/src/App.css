@@ -6,7 +6,7 @@
     font-family: 'Poppins', sans-serif;
 }
 .App {
-    min-height: 92vh;
+    min-height: 100vh;
     font-family: "Roboto", sans-serif;
     background: linear-gradient(to bottom, #b2e8ee, #ade7bd);
 }
