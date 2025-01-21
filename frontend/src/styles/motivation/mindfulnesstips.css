@@ -186,3 +186,21 @@
     box-shadow: 1px 3px 3px #ccc;
     transform: scale(1.02);
 }
+
+@media only screen and (min-width: 1710px) {
+    .tips-container {
+      height: 95vh;
+    }
+}
+
+@media only screen and (min-width: 2090px) {
+    .tips-container {
+      height: 95vh;
+    }
+}
+
+@media only screen and (min-width: 2310px) {
+    .tips-container {
+      height: 95vh;
+    }
+}
