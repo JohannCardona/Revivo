@@ -36,12 +36,14 @@ function Navbar() {
     });
   };
 
+  const user = localStorage.getItem("token");
+
   return (
     <div className="navigation-bar">
       <AppBar position="static">
         <Toolbar style={{ backgroundColor: "var(--bg-navbar)" }}>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <NavLink to="/">
+            <NavLink  to={user ? "/chat" : "/"}>
               <img
                 style={{
                   width: 80,
