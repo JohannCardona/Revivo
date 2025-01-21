@@ -48,29 +48,3 @@
 .badge-name {
   font-weight: bold;
 }
-
-.unlocked-badges {
-  text-align: left;
-  max-width: 600px;
-  margin: 20px auto;
-}
-
-.unlocked-badges h3 {
-  color: #1a2877;
-  font-size: 1.2rem;
-}
-
-.unlocked-badges ul {
-  padding: 0;
-  list-style: none;
-}
-
-.unlocked-badges ul li,
-.unlocked-badges p {
-  margin: 15px 0;
-  border-radius: 8px;
-  padding: 20px 24px;
-  font-size: 1rem;
-  background-color: #e3f2fd;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
