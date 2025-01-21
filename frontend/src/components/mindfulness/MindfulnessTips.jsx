@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import tipsData from "../json/categories.json";
 import Mindfulness from "../../images/mindfulness.webp";
@@ -27,13 +27,45 @@ const tipCategoryImg = {
 
 const MindfulnessTips = () => {
   const navigate = useNavigate();
+  const [visitedCategories, setVisitedCategories] = useState([]);
+
+  useEffect(() => {
+    const fetch_visited_categories = async () => {
+      axios
+        .get(`http://localhost:5000/fetch_visited_categories`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          const categories = response.data.result.map(
+            (item) => item.tipCategory
+          );
+          setVisitedCategories(categories);
+        });
+    };
+    fetch_visited_categories();
+  }, []);
+
   const user = localStorage.getItem("user");
   const handleTipCategorySelect = (tipCategory) => {
-    axios.post(`http://localhost:5000/category_click_count`, {user, tipCategory}).then((response) => {
-      console.log(response.data.result);
-    })
-    navigate(`/tips/${tipCategory}`);
+    if (visitedCategories.includes(tipCategory)) {
+      alert(`${tipCategory} already visited!`);
+      navigate(`/tips/${tipCategory}`);
+    } else {
+      axios
+        .post(`http://localhost:5000/category_click_count`, {
+          user,
+          tipCategory,
+        })
+        .then((response) => {
+          console.log(response.data.result);
+        });
+      navigate(`/tips/${tipCategory}`);
+    }
   };
+
   return (
     <div className="tips-container">
       <div className="inner-container">
