@@ -148,8 +148,8 @@
 }
 
 .item-1 img{
-    margin-top: 10px;
-    width: 250px;
+    margin-top: 14px;
+    width: 300px;
     height: auto;
     border-radius: 8px;
 }
@@ -331,5 +331,19 @@
 
     .modal-image svg {
         left: 97.5%;
-}
+    }
+
+    .chatbot-container {
+        min-height: 95vh;
+    }
+
+    .item1 {
+        margin-top: 20px;
+    }
+
+    .item-1 img{
+        margin-top: 50px;
+        width: 750px;
+        height: auto;
+    }
 }
