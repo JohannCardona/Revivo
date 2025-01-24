@@ -32,8 +32,6 @@ function ChatbotInterface() {
   const song_genre = "latino";
   const [recommended_songs, setRecommendedSongs] = useState([]);
   const [newUser, setNewUser] = useState(null);
-  const [existingUser, setExistingUser] = useState(null);
-  const [isSignup, setIsSignUp] = useState(true);
   const [conversationTitle, setConversationTitle] = useState([]);
   const [mood, setMood] = useState("");
 
@@ -307,14 +305,6 @@ function ChatbotInterface() {
   }, [conversations]);
 
   useEffect(() => {
-    const user = localStorage.getItem("username");
-    if (user) {
-      setNewUser(user);
-      setIsSignUp(false);
-    }
-  }, []);
-
-  useEffect(() => {
     const fetch_conversation_titles = async () => {
       await axios
         .get(`http://localhost:5000/fetch_conversation_titles/`, {
@@ -363,7 +353,7 @@ function ChatbotInterface() {
             <div className="divider"></div>
             <div className="chat-history">
               {conversationTitle.length === 0 ? (
-                <div className="sidemenu-chat">Eleccion de Opciones SPY</div>
+                <div className="sidemenu-chat">New conversation</div>
               ) : (
                 conversationTitle.map((item, index) => (
                   <div key={index} className="sidemenu-chat">
@@ -395,7 +385,7 @@ function ChatbotInterface() {
                   feeling today?
                 </p>
                 <img src={chaticon} alt="chat icon" />
-                {!imgURL ? (
+                {/* {!imgURL ? (
                   <Comment
                     visible={true}
                     height="60"
@@ -430,7 +420,7 @@ function ChatbotInterface() {
                       </div>
                     )}
                   </>
-                )}
+                )} */}
               </div>
             </>
           ) : (
