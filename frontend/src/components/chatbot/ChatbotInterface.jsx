@@ -26,12 +26,11 @@ function ChatbotInterface() {
   const [isNewChat, setIsNewChat] = useState(false);
   const conversationRef = useRef(null);
   const previousMessageRef = useRef(null);
-  const chatbotTypingSpeed = 100;
+  const chatbotTypingSpeed = 30;
   const [loadingChatbotResponse, setLoadingChatbotResponse] = useState(false);
   const song_genres = ["latin", "happy", "calm", "rock", "pop"];
   const song_genre = "latino";
   const [recommended_songs, setRecommendedSongs] = useState([]);
-  const [newUser, setNewUser] = useState(null);
   const [conversationTitle, setConversationTitle] = useState([]);
   const [mood, setMood] = useState("");
 
@@ -174,8 +173,8 @@ function ChatbotInterface() {
   const conversationList = (chatbot, response, responseId) => {
     return {
       id: responseId,
-      chatbot,
-      response,
+      chatbot: chatbot,
+      response: response,
     };
   };
 
@@ -206,29 +205,41 @@ function ChatbotInterface() {
     setPrompt("");
 
     const chatbotResponseId = generateChatbotResponseId();
-    // const chatbotDummyResponse1 = await handleChatbotResponse();
-    const chatbotDummyResponse =
-      "Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life.";
-    const chatbotResponse = conversationList(
-      true,
-      chatbotDummyResponse,
-      chatbotResponseId
-    );
+    const chatbotResponse = conversationList(true, "", chatbotResponseId);
     setConversations((prevConversations) => [
       ...prevConversations,
       chatbotResponse,
     ]);
     setLoadingChatbotResponse(true);
-
+    const botMessageIndex = conversations.length + 1;
     previousMessageRef.current = chatbotResponseId;
 
-    setTimeout(() => {
-      setLoadingChatbotResponse(false);
-      const conversationDiv = document.getElementById(chatbotResponseId);
-      if (conversationDiv) {
-        chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
+    try {
+      const chatbotDummyResponse = await handleChatbotResponse();
+        // "Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life. Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life. Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life.";
+      if (chatbotDummyResponse) {
+        setLoadingChatbotResponse(false);
+        const conversationDiv = document.getElementById(chatbotResponseId);
+          if (conversationDiv) {
+            chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
+          }
+          setConversations((prev) => {
+            const currentMessage = [...prev];
+            currentMessage[botMessageIndex].response = chatbotDummyResponse;
+            return currentMessage;
+          });
+      } else {
+        throw new Error(chatbotDummyResponse);
       }
-    }, 3000);
+    } catch (err) {
+      setLoadingChatbotResponse(false);
+      setConversations((prev) => {
+        const currentMessage = [...prev];
+        currentMessage[botMessageIndex].value = "Error";
+        return currentMessage;
+      });
+      fireAlert(err, "error", "red");
+    }
   };
 
   const fireAlert = (response, type, color) => {
@@ -328,6 +339,8 @@ function ChatbotInterface() {
       setConversations("");
     }, 1000);
   };
+
+  console.log(conversations);
 
   return (
     <div className="chatbot-container">
@@ -436,7 +449,7 @@ function ChatbotInterface() {
                   className="conversations"
                   id={conversation.id}
                 >
-                  {conversation.chatbot &&
+                  {conversation.chatbot && conversation.response === "" &&
                   loadingChatbotResponse &&
                   conversation.id === previousMessageRef.current ? (
                     <Comment
