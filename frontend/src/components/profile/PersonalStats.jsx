@@ -129,7 +129,7 @@ function PersonalStats() {
     }
   };
 
-  const color = ["#77c3a6", "#565656", "#ffd533", "#16bec5"];
+  const color = ["#77c3a6", "#565656", "#587bda", "#16bec5"];
   const [periodStatsData, setPeriodStatsData] = useState(null);
   const [dayStatsData, setDayStatsData] = useState(null);
   const [keywordFrequency, setKeywordFrequency] = useState({
