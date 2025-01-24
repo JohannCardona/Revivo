@@ -114,7 +114,7 @@ function ChatbotInterface() {
   };
 
   const recommend_songs = async () => {
-    axios
+    await axios
       .get(`http://localhost:5000/music_recommendations/${song_genre}`)
       .then((response) => {
         if (response.status === 200) {
@@ -178,7 +178,7 @@ function ChatbotInterface() {
     };
   };
 
-  const fetching_recommending_songs_response = () => {
+  const fetching_recommending_songs_response = async () => {
     const promptStart =
       "Here are some song recommendations for you for " +
       song_genre +
@@ -196,13 +196,17 @@ function ChatbotInterface() {
     return promptStart + songs + promptEnd;
   };
 
-  const handleConversationSubmit = async (prompt) => {
+  const handleConversationSubmit = async () => {
+    if (prompt.trim() === "") {
+      fireAlert("Input a question before asking the chatbot.", "error", "red");
+      setPrompt("");
+      return;
+    }
     const userResponse = conversationList(false, prompt);
     setConversations((prevConversations) => [
       ...prevConversations,
       userResponse,
     ]);
-    setPrompt("");
 
     const chatbotResponseId = generateChatbotResponseId();
     const chatbotResponse = conversationList(true, "", chatbotResponseId);
@@ -214,20 +218,23 @@ function ChatbotInterface() {
     const botMessageIndex = conversations.length + 1;
     previousMessageRef.current = chatbotResponseId;
 
+    const chatbot_response = await handleChatbotResponseType(prompt);
+    setPrompt("");
+
     try {
-      const chatbotDummyResponse = await handleChatbotResponse();
-        // "Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life. Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life. Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life.";
+      const chatbotDummyResponse = chatbot_response;
+      // "Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life. Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life. Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life.";
       if (chatbotDummyResponse) {
         setLoadingChatbotResponse(false);
         const conversationDiv = document.getElementById(chatbotResponseId);
-          if (conversationDiv) {
-            chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
-          }
-          setConversations((prev) => {
-            const currentMessage = [...prev];
-            currentMessage[botMessageIndex].response = chatbotDummyResponse;
-            return currentMessage;
-          });
+        if (conversationDiv) {
+          chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
+        }
+        setConversations((prev) => {
+          const currentMessage = [...prev];
+          currentMessage[botMessageIndex].response = chatbotDummyResponse;
+          return currentMessage;
+        });
       } else {
         throw new Error(chatbotDummyResponse);
       }
@@ -273,12 +280,30 @@ function ChatbotInterface() {
     localStorage.setItem("mood", mood);
   }, []);
 
+  const handleChatbotResponseType = async (prompt) => {
+    if (
+      prompt.includes("song") ||
+      prompt.includes("songs") ||
+      prompt.includes("music")
+    ) {
+      console.log("recommend songs");
+      recommend_songs();
+      return await fetching_recommending_songs_response();
+    } else if (
+      prompt.includes("create") ||
+      prompt.includes("generate") ||
+      prompt.includes("image")
+    ) {
+      return await generate_image();
+    } else {
+      console.log("prompt: ", prompt);
+      console.log("normal chatbot response");
+      return await handleChatbotResponse();
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (prompt.trim() === "") {
-      fireAlert("Input a question before asking the chatbot.", "error", "red");
-      return;
-    }
     if (prompt.includes("song")) {
       recommend_songs();
       handleConversationSubmit(prompt);
@@ -398,42 +423,6 @@ function ChatbotInterface() {
                   feeling today?
                 </p>
                 <img src={chaticon} alt="chat icon" />
-                {/* {!imgURL ? (
-                  <Comment
-                    visible={true}
-                    height="60"
-                    width="60"
-                    ariaLabel="comment-loading"
-                    wrapperStyle={{}}
-                    wrapperClass="comment-wrapper"
-                    color="#fff"
-                    backgroundColor="#50c999"
-                  />
-                ) : (
-                  <>
-                    <img
-                      src={imgURL}
-                      onClick={() => handleImageModal(imgURL)}
-                      alt="chat icon"
-                    />
-                    {clickedImage && (
-                      <div className="modal-container">
-                        <div className="modal-image">
-                          <CloseIcon
-                            sx={{ fontSize: 40 }}
-                            onClick={() => modalClose()}
-                          />
-                        </div>
-                        <div className="download-container">
-                          <button onClick={downloadDALLEImage}>
-                            <IoCloudDownloadOutline sx={{ fontSize: 50 }} />
-                          </button>
-                          <img src={imgURL} alt="enlarged" />
-                        </div>
-                      </div>
-                    )}
-                  </>
-                )} */}
               </div>
             </>
           ) : (
@@ -449,7 +438,8 @@ function ChatbotInterface() {
                   className="conversations"
                   id={conversation.id}
                 >
-                  {conversation.chatbot && conversation.response === "" &&
+                  {conversation.chatbot &&
+                  conversation.response === "" &&
                   loadingChatbotResponse &&
                   conversation.id === previousMessageRef.current ? (
                     <Comment
@@ -462,21 +452,32 @@ function ChatbotInterface() {
                       color="#fff"
                       backgroundColor="#50a081"
                     />
+                  ) : conversation.chatbot && imgURL ? (
+                    <>
+                      <img
+                        src={imgURL}
+                        onClick={() => handleImageModal(imgURL)}
+                        alt="chat icon"
+                      />
+                      {clickedImage && (
+                        <div className="modal-container">
+                          <div className="modal-image">
+                            <CloseIcon
+                              sx={{ fontSize: 40 }}
+                              onClick={() => modalClose()}
+                            />
+                          </div>
+                          <div className="download-container">
+                            <button onClick={downloadDALLEImage}>
+                              <IoCloudDownloadOutline sx={{ fontSize: 50 }} />
+                            </button>
+                            <img src={imgURL} alt="enlarged" />
+                          </div>
+                        </div>
+                      )}
+                    </>
                   ) : (
                     conversation.response
-                  )}
-                  {conversation.chatbot && recommended_songs.length > 0 ? (
-                    <iframe
-                      title="song embedding"
-                      src={`https://open.spotify.com/embed/track/${recommended_songs[4].songId}`}
-                      width="30%"
-                      height="100%"
-                      frameBorder="0"
-                      allowtransparency="true"
-                      allow="encrypted-media"
-                    ></iframe>
-                  ) : (
-                    ""
                   )}
                 </div>
               </div>
@@ -492,7 +493,7 @@ function ChatbotInterface() {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") handleSubmit(e);
+                if (e.key === "Enter") handleConversationSubmit(e);
               }}
             />
             <div className="mic">
@@ -517,7 +518,7 @@ function ChatbotInterface() {
               style={{ backgroundColor: "var(--bg-navbar)" }}
               variant="contained"
               endIcon={<SendRoundedIcon />}
-              onClick={handleSubmit}
+              onClick={handleConversationSubmit}
             >
               Send
             </Button>
