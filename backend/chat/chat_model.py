@@ -9,5 +9,6 @@ chat = Blueprint("chat", __name__)
 
 @chat.route("/chat", methods=["POST"])
 def chatbot_conversations():
-    bot_response = chat_model()
+    data = request.get_json()
+    bot_response = chat_model(data["prompt"])
     return jsonify({"result": bot_response}), HTTPStatus.OK

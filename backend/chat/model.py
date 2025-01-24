@@ -3,7 +3,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel
 from time import time
 
-def chat_model():
+def chat_model(prompt):
     start = time()
     print("LOAD BASE MODEL")
     base_model_name = "unsloth/llama-3.2-3b-instruct-bnb-4bit"
@@ -18,7 +18,7 @@ def chat_model():
     adapter_name = "sujal011/llama3.2-3b-mental-health-chatbot"
     model = PeftModel.from_pretrained(
         base_model, adapter_name)
-    context = "User: What is mental health?\nAssistant:"
+    context = f"User: {prompt}\nAssistant:"
     print("TOKENIZER")
     input_ids = tokenizer(context, return_tensors="pt").input_ids.to("cuda")
     print("GENERATE")

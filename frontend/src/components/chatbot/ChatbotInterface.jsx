@@ -129,6 +129,7 @@ function ChatbotInterface() {
       { prompt }
     );
     setImgURL(`data:image/jpeg;base64,${response.data[0].result}`);
+    return imgURL;
   };
 
   const [clickedImage, setClickedImage] = useState(null);
@@ -178,19 +179,22 @@ function ChatbotInterface() {
     };
   };
 
-  const fetching_recommending_songs_response = async () => {
+  const fetching_recommending_songs_response = () => {
     const promptStart =
       "Here are some song recommendations for you for " +
       song_genre +
       " genre:\n\n";
-    const songs = recommended_songs
-      .map(
-        (item, key) =>
-          `${key + 1}.  Album: ${item.album}\n     Artist: ${
-            item.artist
-          }\n     Song: ${item.name}\n     Album date: ${item.albumDate}\n`
-      )
-      .join("\n\n");
+    let songs = "";
+    if (recommended_songs) {
+      songs = recommended_songs
+        .map(
+          (item, key) =>
+            `${key + 1}.  Album: ${item.album}\n     Artist: ${
+              item.artist
+            }\n     Song: ${item.name}\n     Album date: ${item.albumDate}\n`
+        )
+        .join("\n\n");
+    }
     const promptEnd =
       "\n\n Please let me know which one you would like to play by picking a number.";
     return promptStart + songs + promptEnd;
@@ -207,6 +211,8 @@ function ChatbotInterface() {
       ...prevConversations,
       userResponse,
     ]);
+    localStorage.setItem("user_message", prompt);
+    setPrompt("");
 
     const chatbotResponseId = generateChatbotResponseId();
     const chatbotResponse = conversationList(true, "", chatbotResponseId);
@@ -218,11 +224,13 @@ function ChatbotInterface() {
     const botMessageIndex = conversations.length + 1;
     previousMessageRef.current = chatbotResponseId;
 
-    const chatbot_response = await handleChatbotResponseType(prompt);
-    setPrompt("");
+    const message = localStorage.getItem("user_message");
+    await fetch_emotion_from_text(message);
 
+    const chatbotDummyResponse = await handleChatbotResponseType(message);
+    // console.log(chatbot_response);
     try {
-      const chatbotDummyResponse = chatbot_response;
+      // console.log(chatbot_response);
       // "Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life. Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life. Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life.";
       if (chatbotDummyResponse) {
         setLoadingChatbotResponse(false);
@@ -235,17 +243,21 @@ function ChatbotInterface() {
           currentMessage[botMessageIndex].response = chatbotDummyResponse;
           return currentMessage;
         });
-      } else {
-        throw new Error(chatbotDummyResponse);
+      } else if (chatbotDummyResponse.includes("jpeg")) {
+        setConversations((prev) => {
+          const currentMessage = [...prev];
+          currentMessage[botMessageIndex].response = chatbotDummyResponse;
+          return currentMessage;
+        });
       }
     } catch (err) {
       setLoadingChatbotResponse(false);
       setConversations((prev) => {
         const currentMessage = [...prev];
-        currentMessage[botMessageIndex].value = "Error";
+        currentMessage[botMessageIndex].response = "Error";
         return currentMessage;
       });
-      fireAlert(err, "error", "red");
+      // fireAlert(err, "error", "red");
     }
   };
 
@@ -258,7 +270,7 @@ function ChatbotInterface() {
     });
   };
 
-  const fetch_emotion_from_text = async () => {
+  const fetch_emotion_from_text = async (prompt) => {
     await axios
       .get(`http://localhost:5000/emotion_classifier/${prompt}`)
       .then((response) => {
@@ -266,8 +278,8 @@ function ChatbotInterface() {
       });
   };
 
-  const fetch_chatbot_response = async () => {
-    const res = await axios.post(`http://localhost:5000/chat`);
+  const fetch_chatbot_response = async (prompt) => {
+    const res = await axios.post(`http://localhost:5000/chat`, { prompt });
     return res;
   };
 
@@ -278,7 +290,7 @@ function ChatbotInterface() {
 
   useEffect(() => {
     localStorage.setItem("mood", mood);
-  }, []);
+  }, [mood]);
 
   const handleChatbotResponseType = async (prompt) => {
     if (
@@ -287,13 +299,14 @@ function ChatbotInterface() {
       prompt.includes("music")
     ) {
       console.log("recommend songs");
-      recommend_songs();
-      return await fetching_recommending_songs_response();
+      await recommend_songs();
+      return fetching_recommending_songs_response();
     } else if (
       prompt.includes("create") ||
       prompt.includes("generate") ||
       prompt.includes("image")
     ) {
+      console.log("generate image");
       return await generate_image();
     } else {
       console.log("prompt: ", prompt);
@@ -441,7 +454,7 @@ function ChatbotInterface() {
                   {conversation.chatbot &&
                   conversation.response === "" &&
                   loadingChatbotResponse &&
-                  conversation.id === previousMessageRef.current ? (
+                  conversation.id === conversationRef.current ? (
                     <Comment
                       visible={true}
                       height="40"
@@ -476,6 +489,8 @@ function ChatbotInterface() {
                         </div>
                       )}
                     </>
+                  ) : conversation.chatbot && recommended_songs ? (
+                    conversation.response
                   ) : (
                     conversation.response
                   )}
