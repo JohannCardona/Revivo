@@ -20,7 +20,6 @@ function ChatbotInterface() {
 
   const [prompt, setPrompt] = useState("");
   const [listening, setListening] = useState(false);
-  const [imgURL, setImgURL] = useState("");
   const [close, setClose] = useState(false);
   const [conversations, setConversations] = useState([]);
   const [isNewChat, setIsNewChat] = useState(false);
@@ -128,8 +127,8 @@ function ChatbotInterface() {
       `http://localhost:5000/image_generation`,
       { prompt }
     );
-    setImgURL(`data:image/jpeg;base64,${response.data[0].result}`);
-    return imgURL;
+    const genImage = `data:image/jpeg;base64,${response.data[0].result}`;
+    return genImage;
   };
 
   const [clickedImage, setClickedImage] = useState(null);
@@ -228,22 +227,15 @@ function ChatbotInterface() {
     await fetch_emotion_from_text(message);
 
     const chatbotDummyResponse = await handleChatbotResponseType(message);
-    // console.log(chatbot_response);
+    console.log("RESPONSE: ", chatbotDummyResponse);
     try {
-      // console.log(chatbot_response);
-      // "Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life. Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life. Hello, I am ChatGPT, an AI language model developed by OpenAI. Let's bring your creativity to life.";
       if (chatbotDummyResponse) {
         setLoadingChatbotResponse(false);
         const conversationDiv = document.getElementById(chatbotResponseId);
-        if (conversationDiv) {
+        if (chatbotDummyResponse.includes("data:image")) {
+        } else if (conversationDiv) {
           chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
         }
-        setConversations((prev) => {
-          const currentMessage = [...prev];
-          currentMessage[botMessageIndex].response = chatbotDummyResponse;
-          return currentMessage;
-        });
-      } else if (chatbotDummyResponse.includes("jpeg")) {
         setConversations((prev) => {
           const currentMessage = [...prev];
           currentMessage[botMessageIndex].response = chatbotDummyResponse;
@@ -257,7 +249,6 @@ function ChatbotInterface() {
         currentMessage[botMessageIndex].response = "Error";
         return currentMessage;
       });
-      // fireAlert(err, "error", "red");
     }
   };
 
@@ -337,7 +328,7 @@ function ChatbotInterface() {
     }
   };
 
-  const downloadDALLEImage = () => {
+  const downloadDALLEImage = (imgURL) => {
     if (!imgURL) return;
     const imageLink = document.createElement("a");
     imageLink.href = imgURL;
@@ -451,10 +442,10 @@ function ChatbotInterface() {
                   className="conversations"
                   id={conversation.id}
                 >
-                  {conversation.chatbot &&
-                  conversation.response === "" &&
-                  loadingChatbotResponse &&
-                  conversation.id === conversationRef.current ? (
+                  {loadingChatbotResponse &&
+                  index === conversations.length - 1 &&
+                  conversation.chatbot &&
+                  conversation.response === "" ? (
                     <Comment
                       visible={true}
                       height="40"
@@ -465,11 +456,13 @@ function ChatbotInterface() {
                       color="#fff"
                       backgroundColor="#50a081"
                     />
-                  ) : conversation.chatbot && imgURL ? (
+                  ) : conversation.chatbot &&
+                    conversation.response.startsWith("data:image") ? (
                     <>
                       <img
-                        src={imgURL}
-                        onClick={() => handleImageModal(imgURL)}
+                        key={conversation.id}
+                        src={conversation.response}
+                        onClick={() => handleImageModal(conversation.response)}
                         alt="chat icon"
                       />
                       {clickedImage && (
@@ -477,14 +470,22 @@ function ChatbotInterface() {
                           <div className="modal-image">
                             <CloseIcon
                               sx={{ fontSize: 40 }}
-                              onClick={() => modalClose()}
+                              onClick={() => modalClose(conversation.response)}
                             />
                           </div>
                           <div className="download-container">
-                            <button onClick={downloadDALLEImage}>
+                            <button
+                              onClick={() =>
+                                downloadDALLEImage(conversation.response)
+                              }
+                            >
                               <IoCloudDownloadOutline sx={{ fontSize: 50 }} />
                             </button>
-                            <img src={imgURL} alt="enlarged" />
+                            <img
+                              key={conversation.id}
+                              src={conversation.response}
+                              alt="enlarged"
+                            />
                           </div>
                         </div>
                       )}
