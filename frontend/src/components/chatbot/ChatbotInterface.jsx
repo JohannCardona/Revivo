@@ -113,13 +113,10 @@ function ChatbotInterface() {
   };
 
   const recommend_songs = async () => {
-    await axios
-      .get(`http://localhost:5000/music_recommendations/${song_genre}`)
-      .then((response) => {
-        if (response.status === 200) {
-          setRecommendedSongs(response.data);
-        }
-      });
+    const response = await axios.get(
+      `http://localhost:5000/music_recommendations/${song_genre}`
+    );
+    return await fetching_recommending_songs_response(response.data);
   };
 
   const generate_image = async () => {
@@ -178,14 +175,14 @@ function ChatbotInterface() {
     };
   };
 
-  const fetching_recommending_songs_response = () => {
-    const promptStart =
-      "Here are some song recommendations for you for " +
-      song_genre +
-      " genre:\n\n";
-    let songs = "";
-    if (recommended_songs) {
-      songs = recommended_songs
+  const fetching_recommending_songs_response = async (response) => {
+    let song_list = "";
+    if (response.length !== 0) {
+      const promptStart =
+        "Here are some song recommendations for you for " +
+        song_genre +
+        " genre:\n\n";
+      const songs = response
         .map(
           (item, key) =>
             `${key + 1}.  Album: ${item.album}\n     Artist: ${
@@ -193,10 +190,11 @@ function ChatbotInterface() {
             }\n     Song: ${item.name}\n     Album date: ${item.albumDate}\n`
         )
         .join("\n\n");
+      const promptEnd =
+        "\n\nPlease let me know which one you would like to play by picking a number.";
+      song_list = promptStart + songs + promptEnd;
     }
-    const promptEnd =
-      "\n\n Please let me know which one you would like to play by picking a number.";
-    return promptStart + songs + promptEnd;
+    return song_list;
   };
 
   const handleConversationSubmit = async () => {
@@ -224,23 +222,38 @@ function ChatbotInterface() {
     previousMessageRef.current = chatbotResponseId;
 
     const message = localStorage.getItem("user_message");
-    await fetch_emotion_from_text(message);
+    // await fetch_emotion_from_text(message);
 
     const chatbotDummyResponse = await handleChatbotResponseType(message);
-    console.log("RESPONSE: ", chatbotDummyResponse);
+    // console.log(chatbotDummyResponse);
+
     try {
       if (chatbotDummyResponse) {
         setLoadingChatbotResponse(false);
         const conversationDiv = document.getElementById(chatbotResponseId);
         if (chatbotDummyResponse.includes("data:image")) {
-        } else if (conversationDiv) {
+          setConversations((prev) => {
+            const currentMessage = [...prev];
+            currentMessage[botMessageIndex].response = chatbotDummyResponse;
+            return currentMessage;
+          });
+        } 
+        if (chatbotDummyResponse.includes("recommendations")) {
           chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
+          setConversations((prev) => {
+            const currentMessage = [...prev];
+            currentMessage[botMessageIndex].response = chatbotDummyResponse;
+            return currentMessage;
+          });
         }
-        setConversations((prev) => {
-          const currentMessage = [...prev];
-          currentMessage[botMessageIndex].response = chatbotDummyResponse;
-          return currentMessage;
-        });
+        // else if (conversationDiv) {
+        //   chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
+        //   setConversations((prev) => {
+        //     const currentMessage = [...prev];
+        //     currentMessage[botMessageIndex].response = chatbotDummyResponse;
+        //     return currentMessage;
+        //   });
+        // }
       }
     } catch (err) {
       setLoadingChatbotResponse(false);
@@ -290,8 +303,7 @@ function ChatbotInterface() {
       prompt.includes("music")
     ) {
       console.log("recommend songs");
-      await recommend_songs();
-      return fetching_recommending_songs_response();
+      return await recommend_songs();
     } else if (
       prompt.includes("create") ||
       prompt.includes("generate") ||
@@ -438,7 +450,6 @@ function ChatbotInterface() {
                 }`}
               >
                 <div
-                  // style={{ whiteSpace: "pre-wrap" }}
                   className="conversations"
                   id={conversation.id}
                 >
@@ -490,8 +501,8 @@ function ChatbotInterface() {
                         </div>
                       )}
                     </>
-                  ) : conversation.chatbot && recommended_songs ? (
-                    conversation.response
+                  ) : conversation.chatbot && conversation.response.includes("recommendations") ? (
+                    ""
                   ) : (
                     conversation.response
                   )}
