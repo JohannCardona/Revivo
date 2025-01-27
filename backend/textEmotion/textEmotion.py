@@ -33,7 +33,7 @@ def fetch_emotion_from_text(prompt: str):
     predicted_labels = np.argmax(preds.tolist(), axis=1)
     # print(predicted_labels)
     categorical_value = [classes[label] for label in predicted_labels]
-    # print(categorical_value)
+    print(categorical_value)
     end = start
     print(f"{end - start} seconds")
     return jsonify(categorical_value), HTTPStatus.OK
