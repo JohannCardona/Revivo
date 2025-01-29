@@ -15,7 +15,6 @@ import { Bar } from "react-chartjs-2";
 import axios from "axios";
 import { Audio } from "react-loader-spinner";
 import MoodMain from "./MoodMain";
-import BadgesSection from "../mindfulness/BadgesSection";
 
 ChartJS.register(
   ArcElement,
@@ -215,7 +214,6 @@ function PersonalStats() {
     <div className="stats-container">
       <h1>Dashboard</h1>
       <MoodMain />
-      <BadgesSection />
       <h2 style={{ borderBottom: "2px solid black", width: 170 }}>
         User Statistics
       </h2>

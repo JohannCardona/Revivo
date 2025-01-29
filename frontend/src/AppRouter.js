@@ -9,6 +9,7 @@ import VideoLibrary from "./components/library/VideoMain";
 import NewUser from "./components/login/NewUser";
 import ExistingUser from "./components/login/ExistingUser";
 import CategoryTips from "./components/mindfulness/CategoryTips";
+import BadgesSection from "./components/Badges/BadgesSection";
 
 function AppRouter() {
   return (
@@ -20,6 +21,7 @@ function AppRouter() {
             <Route path="/login" element={<ExistingUser />} />
             <Route path="/chat" element={<ChatbotInterface />} />
             <Route path="/dashboard" element={<PersonalStats />} />
+            <Route path="/badges" element={<BadgesSection />} />
             <Route path="/tips" element={<MindfulnessTips />} />
             <Route path="/tips/:tipCategory" element={<CategoryTips />} />
             <Route path="/audios" element={<CalmingAudios />} />

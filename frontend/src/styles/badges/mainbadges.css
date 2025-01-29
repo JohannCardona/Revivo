@@ -1,3 +1,20 @@
+.badges-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px 50px;
+  margin: 0 auto;
+  width: 80%;
+}
+
+.badges-container h1 {
+  font-size: 2.5rem;
+  color: var(--bg-navbar);
+  margin-bottom: 20px;
+  border-bottom: 2px solid #000;
+  width: 32.5%;
+}
+
 .achievement-badge-container{
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(250px, 1fr));
@@ -8,7 +25,7 @@
 }
 
 .badge-box {
-  padding: 20px;
+  padding: 50px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -27,7 +44,7 @@
 .badge-box.badgeUnlocked {
   color: #50a081;
   background: white;
-  border: 3px solid #50a081;
+  border: 1px solid #50a081;
 }
 
 .badge-box:hover {
@@ -40,9 +57,24 @@
 }
 
 .badge-completion-progress {
+  text-align: center;
+  margin: 20px 0 30px 0;
+  background: #ededed;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   font-size: 1.2rem;
   color: #00796b;
-  margin: 20px 0;
+}
+
+.completion-progress {
+  text-align: center;
+  margin: 20px 0 30px 0;
+  background: #ededed;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  font-size: 1.2rem;
 }
 
 .badge-name {

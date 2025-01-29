@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import "../../styles/motivation/mainbadges.css";
+import "../../styles/badges/mainbadges.css";
 import axios from "axios";
+import { Progress } from "react-sweet-progress";
+import "react-sweet-progress/lib/style.css";
 
 function BadgesSection() {
   const tipCategories = [
@@ -40,7 +42,6 @@ function BadgesSection() {
           },
         })
         .then((response) => {
-          console.log(response.data.result);
           setFavouriteTips(response.data.result);
         });
     };
@@ -117,36 +118,47 @@ function BadgesSection() {
           },
         })
         .then((response) => {
-          console.log(response.data.result.count);
-          const tipCount = response.data.result.count;
-          setBadgesInfo((prevBadges) =>
-            prevBadges.map((badge) => {
-              if (badge.badgeName === "Generated First Tip" && tipCount >= 1) {
-                return { ...badge, badgeUnlocked: true };
-              }
-              if (badge.badgeName === "Stored 10 Tips" && favouriteTips >= 10) {
-                return { ...badge, badgeUnlocked: true };
-              }
-              if (badge.badgeName === "Stored 20 Tips" && favouriteTips >= 20) {
-                return { ...badge, badgeUnlocked: true };
-              }
-              if (badge.badgeName === "Generated 50 Tips" && tipCount >= 50) {
-                return { ...badge, badgeUnlocked: true };
-              }
-              if (badge.badgeName === "Stored 50 Tips" && favouriteTips >= 50) {
-                return { ...badge, badgeUnlocked: true };
-              }
-              return badge;
-            })
-          );
+          if (response?.data?.result?.count) {
+            const tipCount = response.data.result.count;
+            setBadgesInfo((prevBadges) =>
+              prevBadges.map((badge) => {
+                if (
+                  badge.badgeName === "Generated First Tip" &&
+                  tipCount >= 1
+                ) {
+                  return { ...badge, badgeUnlocked: true };
+                }
+                if (
+                  badge.badgeName === "Stored 10 Tips" &&
+                  favouriteTips >= 10
+                ) {
+                  return { ...badge, badgeUnlocked: true };
+                }
+                if (
+                  badge.badgeName === "Stored 20 Tips" &&
+                  favouriteTips >= 20
+                ) {
+                  return { ...badge, badgeUnlocked: true };
+                }
+                if (badge.badgeName === "Generated 50 Tips" && tipCount >= 50) {
+                  return { ...badge, badgeUnlocked: true };
+                }
+                if (
+                  badge.badgeName === "Stored 50 Tips" &&
+                  favouriteTips >= 50
+                ) {
+                  return { ...badge, badgeUnlocked: true };
+                }
+                return badge;
+              })
+            );
+          }
         });
     };
     fetch_tip_count();
   }, [favouriteTips]);
 
   useEffect(() => {
-    const test = visitCategories.length === tipCategories.length;
-    console.log(test);
     if (visitCategories.length === tipCategories.length) {
       setBadgesInfo((prevBadges) =>
         prevBadges.map((badge) =>
@@ -164,12 +176,8 @@ function BadgesSection() {
   const progress = (badgesCompleted / badgesInfo.length) * 100;
 
   return (
-    <div style={{ margin: "30px 0 55px 0" }}>
-      <h2
-        style={{ borderBottom: "2px solid black", width: 245, marginTop: 20 }}
-      >
-        Achievement Badges
-      </h2>
+    <div className="badges-container">
+      <h1>Achievement Badges</h1>
       <div className="achievement-badge-container">
         {badgesInfo.map((achievementBadge) => (
           <div
@@ -191,28 +199,15 @@ function BadgesSection() {
         </p>
       </div>
       <div>
-        <p>
-          Progress to Completing All Badges:{" "}
+        <p className="completion-progress">
+          {progress === 100
+            ? "All Badges Completed: "
+            : "Progress to Completing All Badges: "}
           {Math.min(progress, 100).toFixed(0)}%
         </p>
-        <div
-          style={{
-            width: "100%",
-            backgroundColor: "#eee",
-            borderRadius: "8px",
-          }}
-          className="main-progress-bar-container"
-        >
-          <div
-            style={{
-              width: `${progress}%`,
-              height: "10px",
-              borderRadius: "8px",
-              backgroundColor: "var(--bg-navbar)",
-            }}
-            className="progress-bar"
-          ></div>
-        </div>
+        <Progress
+          percent={Math.min(progress, 100).toFixed(0)}
+        />
       </div>
     </div>
   );

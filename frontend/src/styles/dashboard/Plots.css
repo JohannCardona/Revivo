@@ -15,6 +15,10 @@
     width: 16.75%;
 }
 
+.stats-container h2 {
+    margin-top: 40px;
+}
+
 .stats-container p {
     text-align: center;
     font-size: large;
