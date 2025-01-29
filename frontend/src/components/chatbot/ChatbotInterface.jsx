@@ -19,6 +19,7 @@ function ChatbotInterface() {
   const recognition = SpeechRecognition ? new SpeechRecognition() : null;
 
   const [prompt, setPrompt] = useState("");
+  const [chatModelResponse, setChatModelResponse] = useState(false);
   const [listening, setListening] = useState(false);
   const [close, setClose] = useState(false);
   const [conversations, setConversations] = useState([]);
@@ -26,8 +27,6 @@ function ChatbotInterface() {
   const conversationRef = useRef(null);
   const chatbotTypingSpeed = 10;
   const [loadingChatbotResponse, setLoadingChatbotResponse] = useState(false);
-  const song_genres = ["latin", "happy", "calm", "rock", "pop"];
-  const song_genre = "latino";
   const [recommended_songs, setRecommendedSongs] = useState([]);
   const [selectedSong, setSelectedSong] = useState(false);
   const [songSelection, setSongSelection] = useState(false);
