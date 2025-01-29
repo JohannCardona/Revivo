@@ -570,6 +570,8 @@ function ChatbotInterface() {
                         loading="lazy"
                       ></iframe>
                     </>
+                  ) : conversation.response && chatModelResponse === true ? (
+                    ""
                   ) : (
                     conversation.response
                   )}
