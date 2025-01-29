@@ -30,8 +30,25 @@ function ChatbotInterface() {
   const [recommended_songs, setRecommendedSongs] = useState([]);
   const [selectedSong, setSelectedSong] = useState(false);
   const [songSelection, setSongSelection] = useState(false);
+  const [songGenres, setSongGenres] = useState([]);
+  const [selectedSongGenre, setSelectedSongGenre] = useState(false);
+  const genreEmotions = {
+    joy: ["dance", "latino", "rock", "pop", "edm", "rap", "r&b"],
+    sadness: [
+      "classical",
+      "acoustic",
+      "indie",
+      "ambient",
+      "rain",
+      "sleep",
+      "waves",
+    ],
+    love: ["rap", "soul", "r&b", "romantic", "jazz"],
+    surprise: ["rock", "indie", "edm"],
+    anger: ["rap", "metal", "rock", "heavy metal", "hard rock"],
+    fear: ["ambient", "classical", "chill", "calm", "rain", "sleep", "waves"],
+  };
   const [conversationTitle, setConversationTitle] = useState([]);
-  const [mood, setMood] = useState("");
   const songID = localStorage.getItem("songID");
 
   useEffect(() => {
