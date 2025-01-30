@@ -16,6 +16,22 @@
     overflow-x: hidden;
 }
 
+/* For Chrome, Edge, and Safari */
+.sidemenu.open::-webkit-scrollbar {
+  width: 10px;
+}
+
+.sidemenu.open::-webkit-scrollbar-track {
+  background: #f0f8ff;
+  /* border-radius: 5px; */
+}
+
+.sidemenu.open::-webkit-scrollbar-thumb {
+  background-color: var(--bg-navbar);
+  /* border-radius: 5px; */
+  border: 2px solid #f0f8ff;
+}
+
 .sidemenu.close {
     width: 50px;
 }
