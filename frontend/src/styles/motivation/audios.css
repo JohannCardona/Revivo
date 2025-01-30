@@ -93,11 +93,11 @@
 }
 
 .audios-section-item-duration {
-  color: black;
+  color: rgb(83, 83, 83);
   font-size: 1rem;
   text-align: center;
-  margin: 0 5px;
-  width: 5%;
+  margin: 0 5px 0 15px;
+  width: 9%;
 }
 
 .isClose {
