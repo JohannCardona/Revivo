@@ -124,7 +124,7 @@ const CategoryTips = () => {
               </div>
               <div className="tips-container-buttons">
                 <motion.button
-                  className="tip-container-button"
+                  className="mood-submit"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={generateRandomTip}
@@ -132,7 +132,7 @@ const CategoryTips = () => {
                   {tipTrack === 0 ? "Generate Tip" : "Generate Next Tip"}
                 </motion.button>
                 <motion.button
-                  className="tip-container-button"
+                  className="mood-submit"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={store_category_tip}
@@ -158,7 +158,7 @@ const CategoryTips = () => {
           </div>
           <div className="tips-container-buttons">
             <motion.button
-              className="tip-container-button"
+              className="mood-submit"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={generateRandomTip}
@@ -166,7 +166,7 @@ const CategoryTips = () => {
               {tipTrack === 0 ? "Generate Tip" : "Generate Next Tip"}
             </motion.button>
             <motion.button
-              className="tip-container-button"
+              className="mood-submit"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={store_category_tip}

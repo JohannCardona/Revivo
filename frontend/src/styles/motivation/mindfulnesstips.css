@@ -1,9 +1,6 @@
 .tips-container {
     padding: 20px 20px 40px 20px;
     text-align: center;
-    background: linear-gradient(-45deg, rgb(249, 118, 118, 0.4), rgb(252, 209, 127, 0.4), rgb(251, 251, 128, 0.4), rgb(123, 251, 123, 0.4), rgba(61, 81, 190, 0.4));
-    background-size:  400% 400%;
-    animation: background-gradient 15s ease infinite;
 }
 
 .inner-container {
@@ -77,9 +74,6 @@
 
 .category-tips-container {
     height: 91.8vh;
-    background: linear-gradient(90deg,rgba(255, 215, 0, 0.5),rgba(255, 165, 0, 0.5),rgba(255, 127, 80, 0.5),rgba(135, 206, 235, 0.5),rgba(152, 251, 152, 0.5),rgba(230, 230, 250, 0.5),rgba(255, 218, 185, 0.5));
-    background-size: 400% 400%;
-    animation: background-gradient 15s ease infinite;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -120,20 +114,14 @@
     margin-bottom: 30px;
 }
 
-.tip-container-button {
-    font-size: 1.75rem;
-    cursor: pointer;
-    color: white;
-    border-radius: 8px;
-    padding: 10px 20px;
-    border: none;
-    background-color: #5c85d6;
+.tips-container-buttons .mood-submit {
+    font-size: 0.9rem;
 }
 
 .favourite-tips-container {
     width: 100%;
     max-width: 1000px;
-    max-height: 350px;
+    max-height: 300px;
     margin-top: 20px;
     padding: 20px;
     border: 3px solid #ddd;
@@ -183,7 +171,8 @@
     font-size: 1.2rem;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    background-color: #f0f2f3;
 }
 
 .remove-favourite-tip-button {
