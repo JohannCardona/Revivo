@@ -91,7 +91,7 @@ const AudioPlayer = () => {
                   <>
                     <input
                       type="button"
-                      className="listen-button-controls"
+                      className="mood-submit"
                       onClick={() => handleToggleAudioPlayer(audio_item.id)}
                       value="Listen Now"
                     />
@@ -104,7 +104,7 @@ const AudioPlayer = () => {
                         color: "white",
                         position: "absolute",
                         marginTop: "7px",
-                        marginLeft: "28px",
+                        marginLeft: "19px",
                         cursor: "pointer",
                       }}
                       onClick={() => handleToggleAudioPlayer(audio_item.id)}

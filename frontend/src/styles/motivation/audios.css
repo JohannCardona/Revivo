@@ -16,15 +16,7 @@
 }
 
 .audios-container h2 {
-  background: linear-gradient(45deg, #50a081, #587bda);
-  color: #ffffff;
-  background-color: #50a081;
-  width: 30%;
-  padding: 10px;
-  text-align: center;
-  margin-bottom: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
 }
 
 .audios-section-item {
@@ -58,13 +50,7 @@
   border-radius: 8px;
   font-weight: 600;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  background: linear-gradient(90deg, #50a081, #587bda);
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.listen-button input[type="button"]:hover,
-.listen-button-controls:hover {
-  background: linear-gradient(90deg, #587bda, #50a081);
+  background-color: var(--bg-navbar);
 }
 
 .audios-section-item-progress {
@@ -115,7 +101,7 @@
 }
 
 .isClose {
-  width: 80px;
+  width: 62px;
 }
 
 .play-button {
