@@ -90,7 +90,7 @@ function ExistingUser() {
             <input
               value="Sign in"
               type="submit"
-              className="registerlogin-btn"
+              className="mood-submit"
               onClick={handleUserSignIn}
             />
           </form>
@@ -102,11 +102,13 @@ function ExistingUser() {
           <div className="new-panel-content">
             <h3>Good to see you again!</h3>
             <p>Enter your username to connect with your chatbot.</p>
-            <p style={{ fontWeight: "bold", fontStyle: "italic", fontSize: 16 }}>
-              New user?{" "}
+            <p
+              style={{ fontWeight: "bold", fontStyle: "italic", fontSize: 16 }}
+            >
+              Click here if you are a new user?{" "}
               <button
                 style={{ marginLeft: 20 }}
-                className="registerlogin-btn transparent"
+                className="image-button"
                 id="sign-up-btn"
                 onClick={goBackToRegister}
               >

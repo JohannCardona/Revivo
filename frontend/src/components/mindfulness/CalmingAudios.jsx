@@ -103,7 +103,7 @@ const AudioPlayer = () => {
                         fontSize: 35,
                         color: "white",
                         position: "absolute",
-                        marginTop: "7px",
+                        marginTop: "9px",
                         marginLeft: "19px",
                         cursor: "pointer",
                       }}

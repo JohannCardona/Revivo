@@ -83,7 +83,7 @@ function NewUser() {
             <input
               value="Sign up"
               type="submit"
-              className="registerlogin-btn"
+              className="mood-submit"
               onClick={handleUserRegister}
             />
           </form>
@@ -99,10 +99,10 @@ function NewUser() {
               journey.
             </p>
             <p style={{ fontWeight: "bold", fontStyle: "italic", fontSize: 16 }}>
-              Existing user?{" "}
+              Click here if you are existing user?{" "}
               <button
                 style={{ marginLeft: 20 }}
-                className="registerlogin-btn transparent"
+                className="image-button"
                 id="sign-in-btn"
                 onClick={navigateToLogin}
               >
