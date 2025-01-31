@@ -10,7 +10,7 @@ function MoodMain() {
 
   return (
     <div>
-      <h2 style={{ borderBottom: "2px solid black", width: 160, marginTop: 35 }}>
+      <h2 style={{ borderBottom: "2px solid black", width: "10.5rem", marginTop: 35 }}>
         Mood Tracker
       </h2>
       <MoodTracker addUserMood={storeUserMoods} />
