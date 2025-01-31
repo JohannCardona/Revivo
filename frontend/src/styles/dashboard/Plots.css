@@ -12,7 +12,7 @@
     color: var(--bg-navbar);
     margin-bottom: 20px;
     border-bottom: 2px solid #000;
-    width: 16.75%;
+    width: 14rem;
 }
 
 .stats-container h2 {

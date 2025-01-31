@@ -15,7 +15,7 @@
     font-weight: bold;
     border-bottom: 2px solid black;
     display: inline-block;
-    width: 43.5%;
+    width: 32.5rem;
 }
 
 .tips-container h3 {
@@ -103,7 +103,8 @@
 .category-tips-container-heading {
     margin-bottom: 20px;
     font-size: 3.5rem;
-    color: #333;
+    color: var(--bg-navbar);
+    border-bottom: 2px solid #000;
 }
 
 .current-tip-container {
