@@ -16,22 +16,6 @@
     overflow-x: hidden;
 }
 
-/* For Chrome, Edge, and Safari */
-.sidemenu.open::-webkit-scrollbar {
-  width: 10px;
-}
-
-.sidemenu.open::-webkit-scrollbar-track {
-  background: #f0f8ff;
-  /* border-radius: 5px; */
-}
-
-.sidemenu.open::-webkit-scrollbar-thumb {
-  background-color: var(--bg-navbar);
-  /* border-radius: 5px; */
-  border: 2px solid #f0f8ff;
-}
-
 .sidemenu.close {
     width: 50px;
 }
@@ -103,7 +87,7 @@
     line-height: 1.3;
     margin-bottom: 10px;
     font-weight: 600;
-    color: black;
+    color: #1a1a1a;
     border: 1.5px solid transparent;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -145,23 +129,6 @@
     overflow-y: auto;
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--bg-navbar) #e3e3e3;
-}
-
-.item-1::-webkit-scrollbar {
-    width: 6px;
-}
-
-.item-1::-webkit-scrollbar-track {
-    background: #e3e3e3;
-    border-radius: 8px;
-}
-
-.item-1::-webkit-scrollbar-thumb {
-    background-color: #e3e3e3;
-    border-radius: 8px;
-    border: 2px solid #e3e3e3;
 }
 
 .item-1 img{
