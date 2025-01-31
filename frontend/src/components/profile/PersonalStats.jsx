@@ -214,7 +214,7 @@ function PersonalStats() {
     <div className="stats-container">
       <h1>Dashboard</h1>
       <MoodMain />
-      <h2 style={{ borderBottom: "2px solid black", width: 170 }}>
+      <h2 style={{ borderBottom: "2px solid black", width: "10.5rem" }}>
         User Statistics
       </h2>
       <p>
