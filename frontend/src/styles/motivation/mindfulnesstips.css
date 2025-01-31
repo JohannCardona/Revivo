@@ -1,6 +1,5 @@
 .tips-container {
     padding: 20px 20px 40px 20px;
-    text-align: center;
 }
 
 .inner-container {
@@ -12,15 +11,23 @@
     margin-top: 20px;
     margin-bottom: 20px;
     color: var(--bg-navbar);
-    font-size: 2.5rem;
+    font-size: 36px;
+    font-weight: bold;
+    border-bottom: 2px solid black;
+    display: inline-block;
+    width: 43.5%;
 }
 
 .tips-container h3 {
     margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
 }
 
 .tips-container p {
     margin-bottom: 20px;
+    font-size: 16px;
+    color: #333;
 }
 
 .category-grid {
@@ -96,6 +103,7 @@
 .category-tips-container-heading {
     margin-bottom: 20px;
     font-size: 3.5rem;
+    color: #333;
 }
 
 .current-tip-container {
@@ -106,6 +114,10 @@
     font-style: italic;
     min-height: 100px;
     margin-bottom: 20px;
+}
+
+.current-tip-container p {
+    color: #444;
 }
 
 .tips-container-buttons {
@@ -131,32 +143,12 @@
     background-color: white;
 }
 
-.favourite-tips-container {
-  scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: var(--bg-navbar) #f0f8ff; /* Thumb and track colours for Firefox */
-}
-
-/* For Chrome, Edge, and Safari */
-.favourite-tips-container::-webkit-scrollbar {
-  width: 8px;
-}
-
-.favourite-tips-container::-webkit-scrollbar-track {
-  background: #f0f8ff;
-  border-radius: 5px;
-}
-
-.favourite-tips-container::-webkit-scrollbar-thumb {
-  background-color: var(--bg-navbar);
-  border-radius: 5px;
-  border: 2px solid #f0f8ff;
-}
-
 .favourite-tips-container-heading {
     font-size: 1.75rem;
     border-bottom: 2px solid #000;
     margin-bottom: 20px;
     width: 28%;
+    color: #333;
 }
 
 .favourite-tips-list {
@@ -165,31 +157,29 @@
 }
 
 .favourite-tip-item {
-    border-radius: 8px;
-    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 8px;
     display: flex;
-    font-size: 1.2rem;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
-    background-color: #f0f2f3;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 12px;
+    color: #333;
 }
 
 .remove-favourite-tip-button {
     color: white;
-    margin-left: 20px;
-    background-color: #d04242;
-    border-radius: 8px;
-    font-size: 1.25rem;
-    padding: 10px 20px;
+    padding: 8px 12px;
+    font-size: 14px;
+    background: #e74c3c;
+    border-radius: 5px;
     border: none;
     cursor: pointer;
 }
 
 .remove-favourite-tip-button:hover {
-    background-color: #b03939;
-    box-shadow: 1px 3px 3px #ccc;
-    transform: scale(1.02);
+    background-color: #c0392b;
 }
 
 @media only screen and (min-width: 1710px) {
@@ -273,4 +263,16 @@
     .tips-container {
       height: 95vh;
     }
+}
+
+.mood-submit {
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.mood-submit:hover {
+  background: #59b290;
+  transform: scale(1.05);
 }
