@@ -89,7 +89,7 @@ const MindfulnessTips = () => {
               }}
               onClick={() => handleTipCategorySelect(tipCategory.toLowerCase())}
             >
-              <h2>{tipCategory}</h2>
+              <h2 style={{ color: "white" }}>{tipCategory}</h2>
             </div>
           ))}
         </div>
