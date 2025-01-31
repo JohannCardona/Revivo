@@ -11,6 +11,27 @@
     background: var(--background);
 }
 
+p, h2, h3, span {
+  color: #333;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background: var(--bg-navbar);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-navbar);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #41846a;
+}
+
 :root {
     --light: #f6f6f9;
     --primary: #1976D2;
@@ -43,6 +64,8 @@
 
     --bg-navbar-light: #FF6F00;
     --bg-navbar-dark: rgb(29, 29, 58);
+
+    --image-button: #326f53;
 }
 
 .light-theme {
