@@ -9,7 +9,7 @@ function NoteModal({ selectUserNote, setOpenModal }) {
           <h2>Mood Note</h2>
           <p>{selectUserNote}</p>
           <button
-            className="registerlogin-btn"
+            className="mood-submit"
             onClick={() => setOpenModal(false)}
           >
             Close
