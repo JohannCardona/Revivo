@@ -75,11 +75,9 @@ const MindfulnessTips = () => {
           Awaits
         </h3>
         <p>
-          Discover a variety of tips aimed at inspiring and enlightening you on
-          how life advice, motivational hacks, and mindfulness practices will
-          work for you. Click on one of the boxes below to uncover actionable
-          tips for making your way toward becoming the better version of
-          yourself!
+          Explore insightful tips on motivation and mindfulness to help you
+          grow. Click on a box below for actionable steps toward
+          self-improvement, with even more to explore beyond these core areas.
         </p>
         <div className="category-grid">
           {tipsData.category.map((tipCategory) => (
