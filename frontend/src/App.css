@@ -19,12 +19,8 @@ p, h2, h3, span {
   width: 8px;
 }
 
-::-webkit-scrollbar-track-piece {
-  background: var(--bg-navbar);
-}
-
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-navbar);
+  background: #50a081;
   border-radius: 10px;
 }
 
