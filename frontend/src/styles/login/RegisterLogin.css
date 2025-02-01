@@ -297,7 +297,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 @media only screen and (min-width: 1700px) {
     .registerlogin-container {
-      min-height: 94.5vh;
+      min-height: 91.8vh;
     }
 
     .input {

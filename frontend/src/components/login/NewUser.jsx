@@ -98,7 +98,7 @@ function NewUser() {
               No passwords, no hassle. Just enter a username to start your
               journey.
             </p>
-            <p style={{ fontWeight: "bold", fontStyle: "italic", fontSize: 16 }}>
+            <p style={{ fontWeight: "bold", fontStyle: "italic", fontSize: 16, color: "white" }}>
               Click here if you are existing user?{" "}
               <button
                 style={{ marginLeft: 20 }}

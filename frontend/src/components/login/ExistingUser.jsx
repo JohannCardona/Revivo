@@ -103,7 +103,7 @@ function ExistingUser() {
             <h3>Good to see you again!</h3>
             <p>Enter your username to connect with your chatbot.</p>
             <p
-              style={{ fontWeight: "bold", fontStyle: "italic", fontSize: 16 }}
+              style={{ fontWeight: "bold", fontStyle: "italic", fontSize: 16, color: "white" }}
             >
               Click here if you are a new user?{" "}
               <button
