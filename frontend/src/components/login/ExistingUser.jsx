@@ -117,7 +117,7 @@ function ExistingUser() {
             </p>
           </div>
           <img
-            style={{ width: "100%", marginTop: 20 }}
+            style={{ width: "100%", marginTop: 10 }}
             src={login}
             className="image"
             alt="sign in logo"
