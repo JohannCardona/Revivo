@@ -102,9 +102,20 @@ function MoodGraph() {
 
   return (
     <div>
+      {userMoodData.length > 0 ? (
+        <p>
+          Tap on any point on the graph to view your mood entry and notes for a
+          specific date.
+        </p>
+      ) : (
+        ""
+      )}
       <Line data={moodData} options={chartOptions} />
       {openModal && (
-        <NoteModal selectUserNote={selectUserNote} setOpenModal={setOpenModal} />
+        <NoteModal
+          selectUserNote={selectUserNote}
+          setOpenModal={setOpenModal}
+        />
       )}
     </div>
   );
