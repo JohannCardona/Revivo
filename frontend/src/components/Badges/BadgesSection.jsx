@@ -203,7 +203,6 @@ function BadgesSection() {
           {progress === 100
             ? "All Badges Completed: "
             : "Progress to Completing All Badges: "}
-          {Math.min(progress, 100).toFixed(0)}%
         </p>
         <Progress
           percent={Math.min(progress, 100).toFixed(0)}

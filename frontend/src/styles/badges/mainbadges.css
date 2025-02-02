@@ -12,20 +12,21 @@
   color: var(--bg-navbar);
   margin-bottom: 20px;
   border-bottom: 2px solid #000;
-  width: 32.5%;
+  width: 26.75rem;
 }
 
 .achievement-badge-container{
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(250px, 1fr));
   justify-content: center;
-  max-width: 1000px;
+  max-width: 1160px;
   margin: 40px auto;
   gap: 60px;
 }
 
 .badge-box {
-  padding: 50px;
+  width: 350px;
+  height: 250px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -64,16 +65,10 @@
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   font-size: 1.2rem;
-  color: #00796b;
 }
 
 .completion-progress {
-  text-align: center;
   margin: 20px 0 30px 0;
-  background: #ededed;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   font-size: 1.2rem;
 }
 
