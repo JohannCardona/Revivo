@@ -6,11 +6,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Managing Anxiety",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Breathing Exercises for Anxiety",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -19,11 +19,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Understanding Depression",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Overcoming Negative Thoughts",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -32,11 +32,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -45,11 +45,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Managing Anxiety",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Breathing Exercises for Anxiety",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -58,11 +58,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Understanding Depression",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Overcoming Negative Thoughts",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -71,11 +71,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -84,11 +84,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Managing Anxiety",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Breathing Exercises for Anxiety",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -97,11 +97,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Understanding Depression",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Overcoming Negative Thoughts",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -110,11 +110,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -123,11 +123,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Managing Anxiety",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Breathing Exercises for Anxiety",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -136,11 +136,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Understanding Depression",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Overcoming Negative Thoughts",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -149,11 +149,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -162,11 +162,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Managing Anxiety",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Breathing Exercises for Anxiety",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -175,11 +175,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Understanding Depression",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Overcoming Negative Thoughts",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -188,11 +188,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -201,11 +201,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -214,11 +214,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -227,11 +227,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -240,11 +240,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -253,11 +253,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -266,11 +266,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -279,11 +279,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -292,11 +292,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -305,11 +305,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
@@ -318,11 +318,11 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
                 "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/IOaelrDLNo4",
+                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
