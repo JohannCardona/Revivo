@@ -373,27 +373,28 @@ function ChatbotInterface() {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (prompt.includes("song")) {
-      recommend_songs();
-      handleConversationSubmit(prompt);
-    } else if (
-      prompt.includes("create") ||
-      prompt.includes("generate") ||
-      prompt.includes("image")
-    ) {
-      generate_image(prompt);
-    } else {
-      // fetch_emotion_from_text();
-      // fetch_conversation_title();
-      handleConversationSubmit(prompt);
-      // if (conversations.length === 2) {
-      //   fetch_conversation_title(conversations[0].response);
-      // }
-      // store_user_conversations();
+  useEffect(() => {
+    if (conversations.length === 10) {
+      const fetch_conversation_title = async () => {
+        const response = await fetch(
+          "http://localhost:5000/fetch_conversation_title/",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            body: JSON.stringify({
+              prompt: localStorage.getItem("user_message"),
+            }),
+          }
+        );
+        if (response.status === 200) {
+        }
+      };
+      fetch_conversation_title();
     }
-  };
+  }, [conversations.length]);
 
   const downloadDALLEImage = (imgURL) => {
     if (!imgURL) return;
@@ -428,6 +429,26 @@ function ChatbotInterface() {
     };
     fetch_conversation_titles();
   }, []);
+
+  useEffect(() => {
+    const store_user_conversations = async () => {
+      if (conversations.length !== 0) {
+        const exit_conversation = conversations.some((obj) =>
+          obj.response.toLowerCase().includes("exit")
+        );
+        if (exit_conversation === true) {
+          await axios
+            .post("http://localhost:5000/conversations", conversations)
+            .then((response) => {
+              if (response.status === 200) {
+              }
+            });
+        } else {
+        }
+      }
+    };
+    store_user_conversations();
+  }, [conversations]);
 
   const newChat = () => {
     setIsNewChat(true);
@@ -570,7 +591,7 @@ function ChatbotInterface() {
                         loading="lazy"
                       ></iframe>
                     </>
-                  ) : conversation.response && chatModelResponse === true ? (
+                  ) : conversation.chatbot && chatModelResponse === true ? (
                     ""
                   ) : (
                     conversation.response
