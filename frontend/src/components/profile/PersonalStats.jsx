@@ -15,6 +15,8 @@ import { Bar } from "react-chartjs-2";
 import axios from "axios";
 import { Audio } from "react-loader-spinner";
 import MoodMain from "./MoodMain";
+import Sidebar from "./Sidebar";
+import ScrollToSection from "../ScrollToSection";
 
 ChartJS.register(
   ArcElement,
@@ -195,8 +197,14 @@ function PersonalStats() {
   }, []);
 
   if (periodStatsData) {
-    total_day_count = periodStatsData.datasets[0].data.reduce((a, b) => a + b, 0);
-    total_night_count = periodStatsData.datasets[1].data.reduce((a,b) => a+b, 0);
+    total_day_count = periodStatsData.datasets[0].data.reduce(
+      (a, b) => a + b,
+      0
+    );
+    total_night_count = periodStatsData.datasets[1].data.reduce(
+      (a, b) => a + b,
+      0
+    );
   }
 
   const user = localStorage.getItem("user");
@@ -211,76 +219,84 @@ function PersonalStats() {
     ", you seem to be a 'cathemeral'. It is a fancy word used in biology for people who are equally active during the day and night. 😊";
 
   return (
-    <div className="stats-container">
-      <h1>Dashboard</h1>
-      <MoodMain />
-      <h2 style={{ borderBottom: "2px solid black", width: "10.5rem" }}>
-        User Statistics
-      </h2>
-      <p>
-        {total_day_count - total_night_count > 0
-          ? morning
-          : total_day_count - total_night_count === 0
-          ? balance
-          : night}
-      </p>
-      {loading ? (
-        <>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              margin: "100px auto",
-            }}
-          >
-            <Audio
-              height="100"
-              width="100"
-              color="#4fa94d"
-              ariaLabel="audio-loading"
-              wrapperStyle={{}}
-              wrapperClass="wrapper-class"
-              visible={true}
-            />
-          </div>
-        </>
-      ) : (
-        <>
-          <div style={{ marginTop: 10 }}>
-            <Bar options={options1} data={periodStatsData} />
-          </div>
-        </>
-      )}
-      {dayStatsData ? (
-        <>
-          <div style={{ marginTop: 40 }}>
-            <Bar options={options} data={dayStatsData} />
-          </div>
-        </>
-      ) : (
-        <>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              margin: "100px auto",
-            }}
-          >
-            <Audio
-              height="100"
-              width="100"
-              color="#4fa94d"
-              ariaLabel="audio-loading"
-              wrapperStyle={{}}
-              wrapperClass="wrapper-class"
-              visible={true}
-            />
-          </div>
-        </>
-      )}
-      {/* {loading ? (
+    <div className="main-container">
+      <ScrollToSection />
+      <div>
+        <Sidebar />
+      </div>
+      <div className="stats-container">
+        <h1>Dashboard</h1>
+        <MoodMain />
+        <h2
+          id="statistics"
+          style={{ borderBottom: "2px solid black", width: "10.5rem" }}
+        >
+          User Statistics
+        </h2>
+        <p>
+          {total_day_count - total_night_count > 0
+            ? morning
+            : total_day_count - total_night_count === 0
+            ? balance
+            : night}
+        </p>
+        {loading ? (
+          <>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "100px auto",
+              }}
+            >
+              <Audio
+                height="100"
+                width="100"
+                color="#4fa94d"
+                ariaLabel="audio-loading"
+                wrapperStyle={{}}
+                wrapperClass="wrapper-class"
+                visible={true}
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <div style={{ marginTop: 10 }}>
+              <Bar options={options1} data={periodStatsData} />
+            </div>
+          </>
+        )}
+        {dayStatsData ? (
+          <>
+            <div style={{ marginTop: 40 }}>
+              <Bar options={options} data={dayStatsData} />
+            </div>
+          </>
+        ) : (
+          <>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "100px auto",
+              }}
+            >
+              <Audio
+                height="100"
+                width="100"
+                color="#4fa94d"
+                ariaLabel="audio-loading"
+                wrapperStyle={{}}
+                wrapperClass="wrapper-class"
+                visible={true}
+              />
+            </div>
+          </>
+        )}
+        {/* {loading ? (
         <Audio
           height="100"
           width="100"
@@ -293,6 +309,7 @@ function PersonalStats() {
       ) : (
         <Bar options={options2} data={data} />
       )} */}
+      </div>
     </div>
   );
 }
