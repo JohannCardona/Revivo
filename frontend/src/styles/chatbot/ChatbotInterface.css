@@ -1,12 +1,12 @@
 .chatbot-container {
-    background-color: rgb(44, 104, 81);
+    background-color: rgb(23, 73, 54);
     height: 91.8vh;
     display: flex;
     flex-direction: row;
 }
 
 .sidemenu.open {
-    background-color: rgb(37, 102, 77);
+    background-color: var(--bg-navbar);
     width: 250px;
     padding: 10px;
     border-right: 2px solid #fff;
@@ -87,7 +87,7 @@
     line-height: 1.3;
     margin-bottom: 10px;
     font-weight: 600;
-    color: #1a1a1a;
+    color: var(--text);
     border: 1.5px solid transparent;
     white-space: nowrap;
     text-overflow: ellipsis;
