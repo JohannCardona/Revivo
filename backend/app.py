@@ -1,6 +1,6 @@
-from flask import Flask
+# import logs
 from flask_cors import CORS
-
+from flask import Flask
 
 def main():
     app = Flask(__name__)
