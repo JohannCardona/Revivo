@@ -17,7 +17,7 @@ function Navbar() {
   const buttons = [
     { text: "Chatbot", to: "/chat" },
     { text: "Dashboard", to: "/dashboard" },
-    {text: "Badges", to: "/badges"},
+    { text: "Badges", to: "/badges" },
     { text: "Thrive Tips", to: "/tips" },
     { text: "Soothing Sounds", to: "/audios" },
     { text: "Library", to: "/library" },
@@ -42,9 +42,9 @@ function Navbar() {
   return (
     <div className="navigation-bar">
       <AppBar position="static">
-        <Toolbar style={{ backgroundColor: "var(--bg-navbar)" }}>
+        <Toolbar style={{ backgroundColor: "var(--navbar)" }}>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <NavLink  to={user ? "/chat" : "/"}>
+            <NavLink to={user ? "/chat" : "/"}>
               <img
                 style={{
                   width: 105,

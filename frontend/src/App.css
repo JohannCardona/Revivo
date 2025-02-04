@@ -8,7 +8,7 @@
 .App {
     min-height: 100vh;
     font-family: "Roboto", sans-serif;
-    background: #e2e1e1;
+    background: var(--bg-color);
 }
 
 p, h2, h3, span {
@@ -66,14 +66,19 @@ p, h2, h3, span {
 
 .light-theme {
     --background: linear-gradient(to bottom, #b2e8ee, #ade7bd);
+    --bg-color: #e2e1e1;
     --text: black;
     --bg-navbar: #50a081;
     --favourites: #bdecdc;
+    --navbar: #356f5a;
 }
 
 .dark-theme {
     --background: linear-gradient(to bottom, #628286, #72937a);
+    --opacity: 1;
+    --bg-color: rgb(12 16 22 / var(--opacity));
     --text: rgb(255, 255, 255);
     --bg-navbar: #397061;
     --favourites: #567b6d;
+    --navbar: rgb(12 16 22 / var(--opacity));
 }

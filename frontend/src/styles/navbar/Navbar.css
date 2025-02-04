@@ -1,6 +1,6 @@
 .navigation-bar nav{
     height: 56px;
-    background: var(--bg-navbar);
+    background: var(--navbar);
     padding: 0 15px 0 15px;
     display: flex;
     align-items: center;
