@@ -29,6 +29,10 @@ ChartJS.register(
 );
 
 function PersonalStats() {
+  const sidebar_links = [
+    { text: "Mood Tracker", to: "/dashboard#mood_tracker" },
+    { text: "User Statistics", to: "/dashboard#statistics" },
+  ];
   let total_day_count = 0;
   let total_night_count = 0;
   const options = {
@@ -222,7 +226,7 @@ function PersonalStats() {
     <div className="main-container">
       <ScrollToSection />
       <div>
-        <Sidebar />
+        <Sidebar sidebar_links={sidebar_links} />
       </div>
       <div className="stats-container">
         <h1>Dashboard</h1>
