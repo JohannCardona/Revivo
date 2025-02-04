@@ -99,7 +99,7 @@ function NewUser() {
               journey.
             </p>
             <p style={{ fontWeight: "bold", fontStyle: "italic", fontSize: 16, color: "white" }}>
-              Click here if you are existing user?{" "}
+              Click here if you are an existing user?{" "}
               <button
                 style={{ marginLeft: 20 }}
                 className="image-button"
