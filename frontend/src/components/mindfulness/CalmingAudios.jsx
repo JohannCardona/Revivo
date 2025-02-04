@@ -4,9 +4,19 @@ import audio from "../../audio/rainSounds.flac";
 import { FaPlay } from "react-icons/fa";
 import { FaPause } from "react-icons/fa6";
 import CloseIcon from "@mui/icons-material/Close";
+import ScrollToSection from "../ScrollToSection";
+import Sidebar from "../profile/Sidebar";
+
+const sidebar_links = [
+  { text: "Emotional regulation", to: "/audios#emotional_regulation" },
+  { text: "Copying mechanisms", to: "/audios#copying_mechanisms" },
+  { text: "Mindfulness and meditation", to: "/audios#mindfulness_meditation" },
+  { text: "Resilience building", to: "/audios#resilience_building" },
+];
 
 const audios1 = [
   {
+    id: "emotional_regulation",
     category: "Emotional regulation",
     audios: [
       { id: 1, title: "Guidance Meditation", src: audio },
@@ -15,6 +25,7 @@ const audios1 = [
     ],
   },
   {
+    id: "copying_mechanisms",
     category: "Coping mechanisms",
     audios: [
       { id: 4, title: "Guidance Meditation", src: audio },
@@ -23,6 +34,7 @@ const audios1 = [
     ],
   },
   {
+    id: "mindfulness_meditation",
     category: "Mindfulness and meditation",
     audios: [
       { id: 7, title: "Guidance Meditation", src: audio },
@@ -31,6 +43,7 @@ const audios1 = [
     ],
   },
   {
+    id: "resilience_building",
     category: "Resilience building",
     audios: [
       { id: 10, title: "Guidance Meditation", src: audio },
@@ -43,7 +56,7 @@ const audios1 = [
 const AudioPlayer = () => {
   const [playAudio, setPlayAudio] = useState({});
   const [audioProgress, setAudioProgress] = useState({});
-  const[audioPlaying, setAudioPlaying] = useState(false);
+  const [audioPlaying, setAudioPlaying] = useState(false);
   const audioRef = useRef({});
 
   const handleAudioDurationFormat = (sec) => {
@@ -79,112 +92,118 @@ const AudioPlayer = () => {
   };
 
   return (
-    <div className="audios-container">
-      <h1>Audios for Relaxation</h1>
-      {audios1.map((au) => (
-        <div>
-          <h2>{au.category}</h2>
-          {au.audios.map((audio_item) => (
-            <>
-              <div className="audios-section-item">
-                {!playAudio[audio_item.id] ? (
-                  <>
-                    <input
-                      type="button"
-                      className="mood-submit"
-                      onClick={() => handleToggleAudioPlayer(audio_item.id)}
-                      value="Listen Now"
-                    />
-                  </>
-                ) : (
-                  <div className="close-button-container">
-                    <CloseIcon
-                      sx={{
-                        fontSize: 35,
-                        color: "white",
-                        position: "absolute",
-                        marginTop: "9px",
-                        marginLeft: "19px",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => handleToggleAudioPlayer(audio_item.id)}
-                    />
-                    <input
-                      type="button"
-                      className="listen-button-controls isClose"
-                      onClick={() => handleToggleAudioPlayer(audio_item.id)}
-                    />
-                  </div>
-                )}
-                <h3>{audio_item.title}</h3>
-                {playAudio[audio_item.id] && (
-                  <>
-                    <audio
-                      ref={(id) => (audioRef.current[audio_item.id] = id)}
-                      src={audio_item.src}
-                      onTimeUpdate={(e) => {
-                        const audioFile = e.target;
-                        setAudioProgress((prev) => ({
-                          ...prev,
-                          [audio_item.id]: audioFile.currentTime,
-                        }));
-                        document.getElementById(
-                          `duration-${audio_item.id}`
-                        ).textContent = `${handleAudioDurationFormat(
-                          audioFile.currentTime
-                        )} / ${handleAudioDurationFormat(
-                          audioFile.duration || 0
-                        )}`;
-                      }}
-                    />
-                    <div className="listen-button">
-                      <div className="audios-section-item-progress">
-                        <div className="play-button">
-                          {audioPlaying ? (
-                            <FaPause
-                            className="stop"
+    <div className="main-container">
+      <ScrollToSection />
+      <div>
+        <Sidebar sidebar_links={sidebar_links} />
+      </div>
+      <div className="audios-container">
+        <h1>Audios for Relaxation</h1>
+        {audios1.map((au, key) => (
+          <div key={key}>
+            <h2 id={au.id}>{au.category}</h2>
+            {au.audios.map((audio_item) => (
+              <>
+                <div className="audios-section-item">
+                  {!playAudio[audio_item.id] ? (
+                    <>
+                      <input
+                        type="button"
+                        className="mood-submit"
+                        onClick={() => handleToggleAudioPlayer(audio_item.id)}
+                        value="Listen Now"
+                      />
+                    </>
+                  ) : (
+                    <div className="close-button-container">
+                      <CloseIcon
+                        sx={{
+                          fontSize: 35,
+                          color: "white",
+                          position: "absolute",
+                          marginTop: "9px",
+                          marginLeft: "19px",
+                          cursor: "pointer",
+                        }}
+                        onClick={() => handleToggleAudioPlayer(audio_item.id)}
+                      />
+                      <input
+                        type="button"
+                        className="listen-button-controls isClose"
+                        onClick={() => handleToggleAudioPlayer(audio_item.id)}
+                      />
+                    </div>
+                  )}
+                  <h3>{audio_item.title}</h3>
+                  {playAudio[audio_item.id] && (
+                    <>
+                      <audio
+                        ref={(id) => (audioRef.current[audio_item.id] = id)}
+                        src={audio_item.src}
+                        onTimeUpdate={(e) => {
+                          const audioFile = e.target;
+                          setAudioProgress((prev) => ({
+                            ...prev,
+                            [audio_item.id]: audioFile.currentTime,
+                          }));
+                          document.getElementById(
+                            `duration-${audio_item.id}`
+                          ).textContent = `${handleAudioDurationFormat(
+                            audioFile.currentTime
+                          )} / ${handleAudioDurationFormat(
+                            audioFile.duration || 0
+                          )}`;
+                        }}
+                      />
+                      <div className="listen-button">
+                        <div className="audios-section-item-progress">
+                          <div className="play-button">
+                            {audioPlaying ? (
+                              <FaPause
+                                className="stop"
+                                onClick={() => handleToggleAudio(audio_item.id)}
+                              />
+                            ) : (
+                              <FaPlay
+                                onClick={() => handleToggleAudio(audio_item.id)}
+                              />
+                            )}
+                            <input
+                              style={{ width: 60 }}
+                              type="button"
                               onClick={() => handleToggleAudio(audio_item.id)}
                             />
-                          ) : (
-                            <FaPlay
-                              onClick={() => handleToggleAudio(audio_item.id)}
-                            />
-                          )}
+                          </div>
                           <input
-                            style={{ width: 60 }}
-                            type="button"
-                            onClick={() => handleToggleAudio(audio_item.id)}
+                            type="range"
+                            name=""
+                            id=""
+                            min="0"
+                            max={audioRef.current[audio_item.id]?.duration || 0}
+                            value={audioProgress[audio_item.id] || 0}
+                            onChange={(e) =>
+                              handleAudioProgressBar(
+                                audio_item.id,
+                                parseFloat(e.target.value)
+                              )
+                            }
                           />
-                        </div>
-                        <input
-                          type="range"
-                          name=""
-                          id=""
-                          min="0"
-                          max={audioRef.current[audio_item.id]?.duration || 0}
-                          value={audioProgress[audio_item.id] || 0}
-                          onChange={(e) =>
-                            handleAudioProgressBar(
-                              audio_item.id,
-                              parseFloat(e.target.value)
-                            )
-                          }
-                        />
-                        <div
-                          id={`duration-${audio_item.id}`}
-                          className="audios-section-item-duration"
-                        >
-                          00:00 / 00:00
+                          <div
+                            id={`duration-${audio_item.id}`}
+                            className="audios-section-item-duration"
+                          >
+                            00:00 / 00:00
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </>
-          ))}
-        </div>
-      ))}
+                    </>
+                  )}
+                </div>
+              </>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
