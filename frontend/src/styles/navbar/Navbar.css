@@ -20,6 +20,7 @@
     background: var(--grey);
     cursor: pointer;
     position: relative;
+    left: 25%;
     border-radius: 25px;
 }
 
