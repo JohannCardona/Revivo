@@ -13,8 +13,8 @@ def main():
     app.config["MONGO_URI"] = config["PROD"]["DB_URI"]
     app.secret_key = config["PROD"]["SECRET_KEY"]
 
-    from videos.storeVideoCollection import store_videos
-    store_videos()
+    # from videos.storeVideoCollection import store_videos
+    # store_videos()
     from account.account import accounts
     from art_generation.DALLE3_img import generation
     from musicRecommender.spotifyMusicRecommender import spotify_recommender

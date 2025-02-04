@@ -1,15 +1,34 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "../../styles/dashboard/sidebar.css";
 
 function Sidebar() {
   return (
     <div style={{ height: "100%", borderRight: "2px solid white", width: 200 }}>
-      <div className="side-menu">
-        <li className="active">
-          <Link to="/dashboard#mood_tracker">Mood Tracker</Link>
+      <div style={{ padding: "60px 20px" }} className="side-menu">
+        <li>
+          <Link
+            style={{
+              textDecoration: "none",
+              color: "white",
+              fontSize: 18,
+            }}
+            to="/dashboard#mood_tracker"
+          >
+            Mood Tracker
+          </Link>
         </li>
         <li>
-          <Link to="/dashboard#statistics">User Statistics</Link>
+          <Link
+            style={{
+              textDecoration: "none",
+              color: "white",
+              fontSize: 18,
+            }}
+            to="/dashboard#statistics"
+          >
+            User Statistics
+          </Link>
         </li>
       </div>
     </div>
