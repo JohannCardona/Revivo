@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { AppBar, Toolbar, Button, Typography } from "@mui/material";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import revivo from "../images/Logo1.png";
+import revivo from "../images/revivo_logo.png";
 import { ThemeContext } from "./Theme/Theme";
 import "../styles/navbar/Navbar.css";
 
@@ -47,9 +47,9 @@ function Navbar() {
             <NavLink  to={user ? "/chat" : "/"}>
               <img
                 style={{
-                  width: 80,
-                  height: 64,
-                  margin: "0 0 0 -23px",
+                  width: 105,
+                  height: 75,
+                  margin: "-3px 0 0 -20px",
                   display: "flex",
                   cursor: "pointer",
                 }}
