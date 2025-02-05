@@ -1,16 +1,16 @@
-# import logs
 import transformers
 import numpy as np
 import keras
 from flask import Blueprint, jsonify
 from http import HTTPStatus
 from time import time
+from transformers.optimization_tf import WarmUp
 
 emotion_classifier = Blueprint("emotion_classifier", __name__)
 
-MODEL_NAME = "bert-base-uncased"
+MODEL_NAME = "huawei-noah/TinyBERT_General_4L_312D"
 MAX_LENGTH = 128
-classes = {1: "fear", 2: "joy", 3: "love", 4: "sadness"}
+classes = {0: "sadness", 1: "fear", 2: "joy", 3: "love", 4: "surprise"}
 
 
 @emotion_classifier.route("/emotion_classifier/<prompt>", methods=['GET'])
@@ -25,9 +25,10 @@ def fetch_emotion_from_text(prompt: str):
         str: emotion tag
     """
     start = time()
-    sentence_tokenizer = transformers.BertTokenizer.from_pretrained(MODEL_NAME)
+    sentence_tokenizer = transformers.AutoTokenizer.from_pretrained(MODEL_NAME)
     text_tokens = sentence_tokenizer(prompt, add_special_tokens=True, padding="max_length", truncation=True, max_length=MAX_LENGTH, return_tensors="tf")
-    emotionClassifier = keras.models.load_model("/checkpoint/distil_connect_drop2.h5", custom_objects={"TFBertModel": transformers.TFBertModel})
+    emotionClassifier = keras.models.load_model(r"\checkpoint\tiny_bert_connect_drop2.h5", custom_objects={
+                                                "TFBertModel": transformers.TFBertModel, "WarmUp": WarmUp})
     user_input = [np.array(text_tokens["input_ids"]), np.array(text_tokens["attention_mask"])]
     preds = emotionClassifier.predict(user_input)
     predicted_labels = np.argmax(preds.tolist(), axis=1)
