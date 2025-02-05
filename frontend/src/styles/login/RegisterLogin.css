@@ -1,9 +1,8 @@
 .registerlogin-container {
   position: relative;
   width: 100%;
-  min-height: 91.8vh;
+  min-height: 90.8vh;
   overflow: hidden;
-  margin-bottom: 70px;
 }
 
 
@@ -241,17 +240,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .registerlogin-container.sign-up-mode .right-panel {
   pointer-events: all;
-}
-
-
-.reset_password {
-  font-size: 15px;
-  color: #333;
-}
-
-.reset_password:hover {
-  color: #666;
-  font-weight: 500;
 }
 
 
