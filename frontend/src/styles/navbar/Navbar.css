@@ -31,7 +31,7 @@
     left: 2px;
     bottom: 2px;
     width: calc(25px - 4px);
-    background: var(--bg-navbar);
+    background: var(--navbar);
     border-radius: 50%;
     transition: all 0.3s ease;
 }
