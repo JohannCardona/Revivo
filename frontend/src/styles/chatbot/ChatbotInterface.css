@@ -125,7 +125,7 @@
 
 .item-1{
     height: 90%;
-    background-color: #e2e1e1;
+    background-color: var(--bg-color);
     overflow-y: auto;
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
@@ -231,6 +231,10 @@
     font-style: italic;
 }
 
+.no-conversations p {
+    color: var(--text);
+}
+
 .wrapper{
     display: flex;
     margin: 15px;
@@ -242,8 +246,8 @@
 }
 
 .chatbot .conversations{
-    background: white;
-    color: black;
+    background: var(--bot-bubble);
+    color: var(--text);
     box-shadow: 2px 3px 5px #ccc;
     border-radius: 8px 8px 8px 0;
     white-space: pre-wrap;
@@ -254,7 +258,7 @@
 }
 
 .user .conversations{
-    background: #50a081;
+    background: var(--user-bubble);
     color: white;
     box-shadow: 2px 3px 5px #ccc;
     border-radius: 8px 8px 8px 0;
@@ -285,7 +289,7 @@
 }
 
 .text-box{
-    background-color: #d5d5d5;
+    background-color: #cbcbcb;
     width: 100%;
     margin: 5px 8px 5px 0;
     border-radius: 8px;
