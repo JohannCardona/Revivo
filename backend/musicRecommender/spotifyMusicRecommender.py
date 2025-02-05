@@ -4,6 +4,7 @@ import base64
 import requests
 import os
 from dotenv import load_dotenv
+from random import randint
 
 load_dotenv()
 spotify_recommender = Blueprint("spotify_recommender", __name__)
@@ -40,7 +41,8 @@ def music_recommendations(genre):
         return jsonify({"error": "Failed to authenticate with Spotify"}), HTTPStatus.INTERNAL_SERVER_ERROR
 
     headers = {"Authorization": f"Bearer {token[0]}"}
-    params = {"q": f"genre:{genre}", "type": "track", "limit": 5, "offset": 5}
+    offset = randint(0, 500)
+    params = {"q": f"genre:{genre}", "type": "track", "limit": 5, "offset": offset}
     res = requests.get(SEARCH_URL, headers=headers, params=params)
 
     if res.status_code != 200:
