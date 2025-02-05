@@ -1,4 +1,3 @@
-import logs
 from flask import Blueprint, request, jsonify
 from http import HTTPStatus
 from db.db import mongo_db

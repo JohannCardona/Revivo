@@ -1,7 +1,5 @@
-# import logs
 from flask import Blueprint, request, jsonify
 from http import HTTPStatus
-# from chat.model import chat_model
 from chat.mental_health_fine_tuned_model import chat_model
 import time
 
