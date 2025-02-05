@@ -76,7 +76,9 @@ function ExistingUser() {
         <div className="new">
           {/* Form that contains new password and confirm password fields */}
           <form className="login" noValidate>
-            <h2 className="form-title">Sign in</h2>
+            <h2 style={{ color: "var(--text)" }} className="form-title">
+              Sign in
+            </h2>
             <div className="input">
               <input
                 type="text"
@@ -103,7 +105,12 @@ function ExistingUser() {
             <h3>Good to see you again!</h3>
             <p>Enter your username to connect with your chatbot.</p>
             <p
-              style={{ fontWeight: "bold", fontStyle: "italic", fontSize: 16, color: "white" }}
+              style={{
+                fontWeight: "bold",
+                fontStyle: "italic",
+                fontSize: 16,
+                color: "white",
+              }}
             >
               Click here if you are a new user?{" "}
               <button
@@ -117,7 +124,7 @@ function ExistingUser() {
             </p>
           </div>
           <img
-            style={{ width: "100%", marginTop: 10 }}
+            style={{ width: "100%", marginTop: 1 }}
             src={login}
             className="image"
             alt="sign in logo"

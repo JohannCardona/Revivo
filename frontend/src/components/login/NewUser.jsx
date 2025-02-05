@@ -69,7 +69,7 @@ function NewUser() {
         <div className="new">
           {/* Form that contains new password and confirm password fields */}
           <form className="login" noValidate>
-            <h2 className="form-title">Sign up</h2>
+            <h2 style={{color: "var(--text)"}} className="form-title">Sign up</h2>
             <div className="input">
               <input
                 type="text"
@@ -112,7 +112,7 @@ function NewUser() {
           </div>
           <img
             src={login}
-            style={{ width: "60%", marginTop: 20 }}
+            style={{ width: "60%", marginTop: 1 }}
             className="image"
             alt="register logo"
           />
