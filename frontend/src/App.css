@@ -6,9 +6,9 @@
     font-family: 'Poppins', sans-serif;
 }
 .App {
-    min-height: 100vh;
     font-family: "Roboto", sans-serif;
     background: var(--bg-color);
+    margin-top: 70px;
 }
 
 p, h2, h3, span {
@@ -67,22 +67,34 @@ p, h2, h3, span {
 .light-theme {
     --background: linear-gradient(to bottom, #b2e8ee, #ade7bd);
     --bg-color: #e2e1e1;
+    --bg-inner-color: white;
     --text: #333;
+    --sidebar-text: black;
     --bot-bubble: white;
     --user-bubble: #50a081;
     --bg-navbar: #50a081;
     --favourites: #bdecdc;
     --navbar: #275b48;
+    --inner-background: #e2e1e1;
+    --chatbot-sidebar: #e2e1e1;
+    --badges-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    --badges-locked-bg: rgba(0, 0, 0, 0.1);
 }
 
 .dark-theme {
     --background: linear-gradient(to bottom, #628286, #72937a);
     --opacity: 1;
     --bg-color: rgb(12 16 22 / var(--opacity));
+    --bg-inner-color: rgb(12 16 22 / var(--opacity));
     --text: rgb(255, 255, 255);
+    --sidebar-text: white;
     --bot-bubble: #212121;
     --user-bubble: rgb(80, 79, 79);
     --bg-navbar: #397061;
     --favourites: #567b6d;
     --navbar: rgb(12 16 22 / var(--opacity));
+    --inner-background: rgb(12 16 22 / var(--opacity));
+    --chatbot-sidebar: rgb(12 16 22 / var(--opacity));
+    --badges-shadow: 0px 4px 6px rgba(0, 0, 0, 0.9);
+    --badges-locked-bg: rgb(243 235 235 / 10%);
 }
