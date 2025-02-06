@@ -14,9 +14,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Bar } from "react-chartjs-2";
 import axios from "axios";
 import { Audio } from "react-loader-spinner";
-import MoodMain from "./MoodMain";
-import Sidebar from "./Sidebar";
-import ScrollToSection from "../ScrollToSection";
+// import MoodMain from "./MoodMain";
+// import Sidebar from "./Sidebar";
+// import ScrollToSection from "../ScrollToSection";
 
 ChartJS.register(
   ArcElement,
@@ -224,13 +224,13 @@ function PersonalStats() {
 
   return (
     <div className="main-container">
-      <ScrollToSection />
+      {/* <ScrollToSection />
       <div>
         <Sidebar sidebar_links={sidebar_links} />
-      </div>
+      </div> */}
       <div className="stats-container">
         <h1>Dashboard</h1>
-        <MoodMain />
+        {/* <MoodMain /> */}
         <h2
           id="statistics"
           style={{ color: "var(--text)", borderBottom: "2px solid var(--sidebar-text)", width: "10.5rem" }}

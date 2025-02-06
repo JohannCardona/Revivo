@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../../styles/dashboard/sidebar.css";
+import "../../styles/motivation/sidebar.css";
 
 function Sidebar({ sidebar_links }) {
   return (
