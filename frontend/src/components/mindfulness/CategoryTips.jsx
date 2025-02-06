@@ -117,9 +117,21 @@ const CategoryTips = () => {
               </h1>
               <div className="current-tip-container">
                 {!currentTip ? (
-                  <p>Click the button to generate a tip!</p>
+                  <p
+                    style={{
+                      color: "var(--text)",
+                    }}
+                  >
+                    Click the button to generate a tip!
+                  </p>
                 ) : (
-                  <p>{currentTip}</p>
+                  <p
+                    style={{
+                      color: "var(--text)",
+                    }}
+                  >
+                    {currentTip}
+                  </p>
                 )}
               </div>
               <div className="tips-container-buttons">
@@ -146,14 +158,29 @@ const CategoryTips = () => {
         </>
       ) : (
         <>
-          <h1 className="category-tips-container-heading">
+          <h1
+            style={{ marginTop: 40 }}
+            className="category-tips-container-heading"
+          >
             {tipCategory.toUpperCase()} Tips
           </h1>
           <div className="current-tip-container">
             {!currentTip ? (
-              <p>Click the button to generate a tip!</p>
+              <p
+                style={{
+                  color: "var(--text)",
+                }}
+              >
+                Click the button to generate a tip!
+              </p>
             ) : (
-              <p>{currentTip}</p>
+              <p
+                style={{
+                  color: "var(--text)",
+                }}
+              >
+                {currentTip}
+              </p>
             )}
           </div>
           <div className="tips-container-buttons">

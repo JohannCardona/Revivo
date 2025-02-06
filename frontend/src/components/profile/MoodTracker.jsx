@@ -44,7 +44,7 @@ const MoodTracker = ({ addUserMood }) => {
   return (
     <div className="emotion-container">
       <div>
-        <h3>How are you feeling?</h3>
+        <h3 style={{color: "var(--text)"}}>How are you feeling?</h3>
         <div className="emotion-buttons-section">
           {moodEmojis.map((emoji) => (
             <input

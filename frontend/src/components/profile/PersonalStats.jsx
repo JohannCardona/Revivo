@@ -233,7 +233,7 @@ function PersonalStats() {
         <MoodMain />
         <h2
           id="statistics"
-          style={{ borderBottom: "2px solid black", width: "10.5rem" }}
+          style={{ color: "var(--text)", borderBottom: "2px solid var(--sidebar-text)", width: "10.5rem" }}
         >
           User Statistics
         </h2>

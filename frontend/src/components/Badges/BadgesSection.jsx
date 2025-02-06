@@ -177,7 +177,13 @@ function BadgesSection() {
 
   return (
     <div className="badges-container">
-      <h1>Achievement Badges</h1>
+      <h1
+        style={{
+          borderBottom: "2px solid var(--sidebar-text)",
+        }}
+      >
+        Achievement Badges
+      </h1>
       <div className="achievement-badge-container">
         {badgesInfo.map((achievementBadge) => (
           <div
@@ -199,14 +205,17 @@ function BadgesSection() {
         </p>
       </div>
       <div>
-        <p className="completion-progress">
+        <p
+          style={{
+            color: "var(--text)",
+          }}
+          className="completion-progress"
+        >
           {progress === 100
             ? "All Badges Completed: "
             : "Progress to Completing All Badges: "}
         </p>
-        <Progress
-          percent={Math.min(progress, 100).toFixed(0)}
-        />
+        <Progress percent={Math.min(progress, 100).toFixed(0)} />
       </div>
     </div>
   );

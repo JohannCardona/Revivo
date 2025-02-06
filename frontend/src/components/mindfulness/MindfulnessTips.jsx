@@ -69,12 +69,26 @@ const MindfulnessTips = () => {
   return (
     <div className="tips-container">
       <div className="inner-container">
-        <h1>Discover Tips for a Better You</h1>
-        <h3>
+        <h1
+          style={{
+            borderBottom: "2px solid var(--sidebar-text)",
+          }}
+        >
+          Discover Tips for a Better You
+        </h1>
+        <h3
+          style={{
+            color: "var(--text)",
+          }}
+        >
           Life, Motivation, Mindfulness, Acceptance, and More - Your Guide
           Awaits
         </h3>
-        <p>
+        <p
+          style={{
+            color: "var(--text)",
+          }}
+        >
           Explore insightful tips on motivation and mindfulness to help you
           grow. Click on a box below for actionable steps toward
           self-improvement, with even more to explore beyond these core areas.
