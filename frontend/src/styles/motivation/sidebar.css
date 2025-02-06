@@ -5,7 +5,7 @@
     margin-bottom: 10px;
     list-style-type: none;
     text-align: center;
-    background-color: #50a081;
+    background-color: var(--bg-navbar);
     transition: transform 0.3s ease-in-out;
     cursor: pointer;
 }
