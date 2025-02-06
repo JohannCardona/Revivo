@@ -2,6 +2,7 @@ import React from "react";
 import MoodGraph from "../profile/MoodGraph";
 import MoodTracker from "./MoodTracker";
 import axios from "axios";
+import "../../styles/mood/mood.css";
 
 function MoodMain() {
   const storeUserMoods = async (userMoods) => {
@@ -9,18 +10,10 @@ function MoodMain() {
   };
 
   return (
-    <div>
-      <h2
-        id="mood_tracker"
-        style={{
-          color: "var(--text)",
-          borderBottom: "2px solid var(--sidebar-text)",
-          width: "10.5rem",
-          marginTop: 35,
-        }}
-      >
-        Mood Tracker
-      </h2>
+    <div
+      className="mood-container"
+    >
+      <h1 id="mood_tracker">Mood Tracker</h1>
       <MoodTracker addUserMood={storeUserMoods} />
       <MoodGraph />
     </div>

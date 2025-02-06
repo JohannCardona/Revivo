@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../styles/dashboard/tracker.css";
+import "../../styles/mood/tracker.css";
 import Swal from "sweetalert2";
 
 const MoodTracker = ({ addUserMood }) => {

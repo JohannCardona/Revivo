@@ -103,7 +103,7 @@ function MoodGraph() {
   return (
     <div>
       {userMoodData.length > 0 ? (
-        <p>
+        <p className="mood-info">
           Tap on any point on the graph to view your mood entry and notes for a
           specific date.
         </p>

@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/dashboard/noteModal.css";
+import "../../styles/mood/noteModal.css";
 
 function NoteModal({ selectUserNote, setOpenModal }) {
   return (
