@@ -1,3 +1,11 @@
+.navigation-bar {
+    position: fixed;
+    width: 100%;
+    z-index: 1001;
+    height: 60px;
+    top: 0;
+}
+
 .navigation-bar nav{
     height: 56px;
     background: var(--navbar);
