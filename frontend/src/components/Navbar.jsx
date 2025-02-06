@@ -17,6 +17,7 @@ function Navbar() {
   const buttons = [
     { text: "Chatbot", to: "/chat" },
     { text: "Dashboard", to: "/dashboard" },
+    { text: "Mood Tracker", to: "/mood" },
     { text: "Badges", to: "/badges" },
     { text: "Thrive Tips", to: "/tips" },
     { text: "Soothing Sounds", to: "/audios" },
