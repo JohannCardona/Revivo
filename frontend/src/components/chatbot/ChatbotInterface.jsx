@@ -362,15 +362,40 @@ function ChatbotInterface() {
 
   const handleChatbotResponseType = async (prompt) => {
     if (
+    } else if (
       prompt.includes("song") ||
       prompt.includes("songs") ||
-      prompt.includes("music")
+      prompt.includes("music") ||
+      prompt.includes("another song") ||
+      prompt.includes("other songs")
     ) {
       console.log("recommend songs");
-      const songRecommendations = await recommend_songs();
-      setRecommendedSongs(songRecommendations);
-      setSongSelection(true);
-      return songRecommendations;
+      const random_song_genres = fetching_songs_array();
+      setSelectedSongGenre(true);
+      return random_song_genres;
+    } else if (selectedSongGenre === true && !isNaN(prompt)) {
+      console.log("Choose number...");
+      const selectedGenreNumber = parseInt(prompt) - 1;
+      console.log(selectedGenreNumber);
+      const randomFiveArray = JSON.parse(localStorage.getItem("randomFive"));
+      console.log(randomFiveArray);
+      if (
+        selectedGenreNumber >= 0 &&
+        selectedGenreNumber < randomFiveArray.length
+      ) {
+        const chosenRecommendedGenre = randomFiveArray[selectedGenreNumber];
+        localStorage.setItem("chosenGenre", chosenRecommendedGenre);
+        setSelectedSongGenre(false);
+        console.log(chosenRecommendedGenre);
+        const songRecommendations = await recommend_songs(
+          chosenRecommendedGenre
+        );
+        setRecommendedSongs(songRecommendations);
+        setSongSelection(true);
+        return songRecommendations;
+      } else {
+        return "💡Please choose a number from the list.";
+      }
     } else if (songSelection && !isNaN(prompt)) {
       const selectedSongNumber = parseInt(prompt) - 1;
       if (
@@ -382,7 +407,7 @@ function ChatbotInterface() {
         localStorage.setItem("songID", chosenRecommendedSong.songId);
         return chosenRecommendedSong;
       } else {
-        return "Please choose a number from the list.";
+        return "💡Please choose a number from the list.";
       }
     } else if (
       prompt.includes("create") ||
