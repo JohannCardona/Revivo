@@ -45,14 +45,12 @@ def preprocess_datasets(path, new_folder, columns_to_keep):
     datasets = []
     os.makedirs(new_folder, exist_ok=True)
     for path, _, filenames in os.walk(path):
-        print(filenames)
         for filename in filenames:
             if filename.endswith(".csv"):
                 datasets.append(filename)
 
     for file, columns in zip(datasets, columns_to_keep):
         df = load_data(os.path.join(path, file))
-        print(df)
         df["text"] = df["text"].progress_apply(
             sentence_preprocessing)
         df = df.dropna(axis=0)

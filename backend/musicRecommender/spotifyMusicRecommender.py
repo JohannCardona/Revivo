@@ -53,5 +53,4 @@ def music_recommendations(genre):
         songs_info = {"name": song["name"], "artist": ", ".join(
             [artist["name"] for artist in song["artists"]]), "album": song["album"]["name"], "albumDate": song["album"]["release_date"], "spotifyURL": song["external_urls"]["spotify"], "songId": song["id"]}
         recommended_songs.append(songs_info)
-    print(recommended_songs)
     return jsonify(recommended_songs), HTTPStatus.OK
