@@ -259,7 +259,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border: none;
   outline: none;
   height: 49px;
-  border-radius: 49px;
+  border-radius: 8px;
   color: #fff;
   text-transform: uppercase;
   font-weight: 600;
