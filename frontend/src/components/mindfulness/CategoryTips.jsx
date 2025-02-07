@@ -46,7 +46,6 @@ const CategoryTips = () => {
           },
         })
         .then((response) => {
-          console.log(response.data.result);
           setFavouriteTips(response.data.result);
         });
     };
@@ -61,7 +60,6 @@ const CategoryTips = () => {
           currentTip,
         })
         .then((response) => {
-          console.log(response.data.result);
           fireAlert(response.data.result, "success", "green");
         });
     } else if (!currentTip) {
