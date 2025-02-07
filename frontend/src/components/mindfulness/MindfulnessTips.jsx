@@ -51,7 +51,6 @@ const MindfulnessTips = () => {
   const user = localStorage.getItem("user");
   const handleTipCategorySelect = (tipCategory) => {
     if (visitedCategories.includes(tipCategory)) {
-      alert(`${tipCategory} already visited!`);
       navigate(`/tips/${tipCategory}`);
     } else {
       axios
