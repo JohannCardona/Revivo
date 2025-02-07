@@ -83,22 +83,21 @@ const CategoryTips = () => {
       icon: "info",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
-          .delete(`http://localhost:5000/remove_favourite_tip/${tipCategory}`, {
+        const response = fetch(
+          `http://localhost:5000/remove_favourite_tip/${tipCategory}`,
+          {
+            method: "DELETE",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-            body: JSON.stringify(categoryTip),
-          })
-          .then((response) => {
-            if (response.status === 200) {
-              fireAlert(response.data.result, "success", "green");
-              setFavouriteTips(
-                favouriteTips.filter((tip) => tip !== categoryTip)
-              );
-            }
-          });
+            body: JSON.stringify({ categoryTip: categoryTip }),
+          }
+        );
+        if (response.status === 200) {
+          fireAlert(response.data.result, "success", "green");
+          setFavouriteTips(favouriteTips.filter((tip) => tip !== categoryTip));
+        }
       } else if (result.isDismissed) {
       }
     });
