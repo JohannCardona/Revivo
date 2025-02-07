@@ -351,14 +351,10 @@ function ChatbotInterface() {
     return res;
   };
 
-  const handleChatbotResponse = async () => {
-    const response = await fetch_chatbot_response();
+  const handleChatbotResponse = async (prompt) => {
+    const response = await fetch_chatbot_response(prompt);
     return response.data.result;
   };
-
-  useEffect(() => {
-    localStorage.setItem("mood", mood);
-  }, [mood]);
 
   const handleChatbotResponseType = async (prompt) => {
     if (
