@@ -18,8 +18,7 @@ function ChatbotInterface() {
     window.SpeechRecognition || window.webkitSpeechRecognition;
   const recognition = SpeechRecognition ? new SpeechRecognition() : null;
 
-  const [prompt, setPrompt] = useState("");
-  const [chatModelResponse, setChatModelResponse] = useState(false);
+  let [prompt, setPrompt] = useState("");
   const [listening, setListening] = useState(false);
   const [close, setClose] = useState(false);
   const [conversations, setConversations] = useState([]);
@@ -32,6 +31,30 @@ function ChatbotInterface() {
   const [songSelection, setSongSelection] = useState(false);
   const [songGenres, setSongGenres] = useState([]);
   const [selectedSongGenre, setSelectedSongGenre] = useState(false);
+  const [dynamicMusic, setDynamicChoice] = useState(false);
+  const songGenreArray = [
+    "dance",
+    "latino",
+    "rock",
+    "pop",
+    "edm",
+    "rap",
+    "r&b",
+    "classical",
+    "acoustic",
+    "indie",
+    "ambient",
+    "rain",
+    "sleep",
+    "waves",
+    "soul",
+    "romantic",
+    "jazz",
+    "indie",
+    "ambient",
+    "chill",
+    "calm",
+  ];
   const genreEmotions = {
     joy: ["dance", "latino", "rock", "pop", "edm", "rap", "r&b"],
     sadness: [
@@ -209,13 +232,14 @@ function ChatbotInterface() {
         )
         .join("\n\n");
       const promptEnd =
-        "\n\nPlease let me know which one you would like to play by picking a number.";
+        "\n\n💡Please let me know which one you would like to play by picking a number.";
       song_list = promptStart + songs + promptEnd;
     }
     return song_list;
   };
 
   const handleConversationSubmit = async () => {
+    prompt = prompt.toLowerCase();
     if (prompt.trim() === "") {
       fireAlert("Input a question before asking the chatbot.", "error", "red");
       setPrompt("");
@@ -230,6 +254,7 @@ function ChatbotInterface() {
     setPrompt("");
 
     const chatbotResponseId = generateChatbotResponseId();
+    console.log(chatbotResponseId);
     const chatbotResponse = conversationList(true, "", chatbotResponseId);
     setConversations((prevConversations) => [
       ...prevConversations,
@@ -467,14 +492,16 @@ function ChatbotInterface() {
             <div className="new-chatbot-container">
               <div className="sidemenu-button" onClick={newChat}>
                 <span>
-                  <AddIcon style={{ fontSize: "1.1rem" }} />
+                  <AddIcon
+                    style={{ fontSize: "1.1rem", color: "var(--sidebar-text)" }}
+                  />
                 </span>
                 New chat
               </div>
               <span className="close-button">
                 <Tooltip title="Close sidebar">
                   <MenuIcon
-                    style={{ fontSize: "1.5rem" }}
+                    style={{ fontSize: "1.5rem", color: "var(--sidebar-text)" }}
                     onClick={() => setClose(true)}
                   />
                 </Tooltip>
@@ -497,7 +524,7 @@ function ChatbotInterface() {
           <span className="open-button">
             <Tooltip title="Open sidebar">
               <MenuIcon
-                style={{ fontSize: "1.5rem" }}
+                style={{ fontSize: "1.5rem", color: "var(--sidebar-text)" }}
                 onClick={() => setClose(false)}
               />
             </Tooltip>
@@ -591,7 +618,10 @@ function ChatbotInterface() {
                         loading="lazy"
                       ></iframe>
                     </>
-                  ) : conversation.chatbot && chatModelResponse === true ? (
+                  ) : conversation.chatbot &&
+                    selectedSong !== true &&
+                    !conversation.response.includes("recommendations") &&
+                    !conversation.response.includes("data:image") ? (
                     ""
                   ) : (
                     conversation.response
@@ -601,7 +631,7 @@ function ChatbotInterface() {
             ))
           )}
         </div>
-        <div className="chat item-2">
+        <div className="item-2">
           <div className="user-item user-text-container">
             <textarea
               rows="1"
@@ -613,32 +643,40 @@ function ChatbotInterface() {
                 if (e.key === "Enter") handleConversationSubmit(e);
               }}
             />
-            <div className="mic">
-              <Tooltip title="Record your voice">
-                <Button
-                  style={{
-                    backgroundColor: "var(--bg-navbar)",
-                    marginRight: 6,
-                    marginLeft: -4,
-                    paddingRight: 3,
-                  }}
-                  variant="contained"
-                  startIcon={<MicRoundedIcon />}
-                  onClick={handleAudioScript}
-                  disabled={listening}
-                ></Button>
-              </Tooltip>
-            </div>
+          </div>
+          <div className="user-item mic">
+            <Tooltip title="Record your voice">
+              <Button
+                style={{
+                  backgroundColor: "var(--bg-navbar)",
+                  marginRight: 7,
+                  marginLeft: -3,
+                  paddingRight: 3,
+                  height: 44,
+                  borderRadius: 8,
+                }}
+                variant="contained"
+                startIcon={<MicRoundedIcon style={{ color: "var(--text)" }} />}
+                onClick={handleAudioScript}
+                disabled={listening}
+              ></Button>
+            </Tooltip>
           </div>
           <div className="user-item">
-            <Button
-              style={{ backgroundColor: "var(--bg-navbar)" }}
-              variant="contained"
-              endIcon={<SendRoundedIcon />}
-              onClick={handleConversationSubmit}
-            >
-              Send
-            </Button>
+            <Tooltip title="Send">
+              <Button
+                style={{
+                  backgroundColor: "var(--bg-navbar)",
+                  padding: "12px 10px",
+                  borderRadius: 8,
+                  paddingLeft: 3,
+                  marginRight: 8,
+                }}
+                variant="contained"
+                endIcon={<SendRoundedIcon style={{ color: "var(--text)" }} />}
+                onClick={handleConversationSubmit}
+              ></Button>
+            </Tooltip>
           </div>
         </div>
       </div>
