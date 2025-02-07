@@ -118,44 +118,8 @@ function ChatbotInterface() {
     }
   };
 
-  const fetch_conversation_title = async (prompt) => {
-    const response = await fetch(
-      "http://localhost:5000/fetch_conversation_title/",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          prompt: prompt,
-        }),
-      }
-    );
-    if (response.status === 200) {
-    }
-  };
-
-  const store_user_conversations = async () => {
-    if (conversations.length !== 0) {
-      const exit_conversation = conversations.some((obj) =>
-        obj.response.toLowerCase().includes("exit")
-      );
-      if (exit_conversation) {
-        await axios
-          .post("http://localhost:5000/conversations", conversations)
-          .then((response) => {
-            if (response.status === 200) {
-            }
-          });
-      } else {
-      }
-    }
-  };
-
-  const recommend_songs = async () => {
     const response = await axios.get(
-      `http://localhost:5000/music_recommendations/${song_genre}`
+      `http://localhost:5000/music_recommendations/${genre}`
     );
     return response.data;
   };
