@@ -216,12 +216,27 @@ function ChatbotInterface() {
     };
   };
 
+  const fetching_songs_array = () => {
+    let genre_list = "";
+    const promptStart = "🎵 Here are some music genres you might enjoy:\n\n";
+    const randomFive = getRandomElements(songGenreArray, 5);
+    console.log(randomFive, typeof randomFive);
+    localStorage.setItem("randomFive", JSON.stringify(randomFive));
+    const songs = randomFive
+      .map((item, key) => `${key + 1}. ${item}`)
+      .join("\n\n");
+    const promptEnd = "\n\n💡Simply reply with a number of your choice.";
+    genre_list = promptStart + songs + promptEnd;
+    console.log(genre_list);
+    return genre_list;
+  };
+
   const fetching_recommending_songs_response = (response) => {
     let song_list = "";
     if (response.length !== 0) {
       const promptStart =
-        "Here are some song recommendations for you for " +
-        song_genre +
+        "🎵 Here are some song recommendations for you for " +
+        localStorage.getItem("chosenGenre") +
         " genre:\n\n";
       const songs = response
         .map(
