@@ -118,6 +118,7 @@ function ChatbotInterface() {
     }
   };
 
+  const recommend_songs = async (genre) => {
     const response = await axios.get(
       `http://localhost:5000/music_recommendations/${genre}`
     );
