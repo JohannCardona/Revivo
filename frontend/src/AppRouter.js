@@ -10,7 +10,7 @@ import NewUser from "./components/login/NewUser";
 import ExistingUser from "./components/login/ExistingUser";
 import CategoryTips from "./components/mindfulness/CategoryTips";
 import BadgesSection from "./components/Badges/BadgesSection";
-import MoodMain from "./components/profile/MoodMain";
+import MoodMain from "./components/MoodTracker/MoodMain";
 
 function AppRouter() {
   return (
