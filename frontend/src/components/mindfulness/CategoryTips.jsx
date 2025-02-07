@@ -16,7 +16,6 @@ const CategoryTips = () => {
       icon: type,
     });
   };
-  const fireAlertConfirm = (response, type, color) => {};
   const user = localStorage.getItem("user");
   const [currentTip, setCurrentTip] = useState("");
   const [favouriteTips, setFavouriteTips] = useState([]);
