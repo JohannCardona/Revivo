@@ -37,17 +37,17 @@ def fetch_favourite_tips():
     user = decoded_token["user"]
     tips = list(mongo_db.user_favourite_tips.find(
         {"user": user}, {"_id": 0}))
-    print(len(tips))
     total_favourite_tips = len(tips)
     return jsonify({"result": total_favourite_tips}), HTTPStatus.OK
 
 @tips.route("/remove_favourite_tip/<category>", methods=["DELETE"])
 def remove_category_tip(category):
+    data = request.get_json()
     jwt_token = request.authorization
     token = jwt_token.token
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
     user = decoded_token["user"]
-    mongo_db.user_favourite_tips.delete_one({"user": user, "category": category, "tip": "tip"})
+    mongo_db.user_favourite_tips.delete_one({"user": user, "category": category, "tip": data["categoryTip"]})
     return jsonify({"result": f"Tip removed successfully for category: {category}"}), HTTPStatus.OK
 
 @tips.route("/category_click_count", methods=["POST"])
