@@ -339,11 +339,11 @@ function ChatbotInterface() {
   };
 
   const fetch_emotion_from_text = async (prompt) => {
-    await axios
-      .get(`http://localhost:5000/emotion_classifier/${prompt}`)
-      .then((response) => {
-        setMood(response.data);
-      });
+    const emotion = await axios.get(
+      `http://localhost:5000/emotion_classifier/${prompt}`
+    );
+    localStorage.setItem("mood", emotion.data[0]);
+    return emotion.data[0];
   };
 
   const fetch_chatbot_response = async (prompt) => {
