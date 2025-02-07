@@ -5,7 +5,7 @@ import { FaPlay } from "react-icons/fa";
 import { FaPause } from "react-icons/fa6";
 import CloseIcon from "@mui/icons-material/Close";
 import ScrollToSection from "../ScrollToSection";
-import Sidebar from "../profile/Sidebar";
+import Sidebar from "../Sidebar";
 
 const sidebar_links = [
   { text: "Emotional regulation", to: "/audios#emotional_regulation" },
