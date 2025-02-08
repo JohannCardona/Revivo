@@ -390,7 +390,7 @@ function ChatbotInterface() {
           const extractedEmotion = await fetch_emotion_from_text(message);
           const randomiser = Math.random();
           console.log(randomiser);
-          if (genreEmotions[extractedEmotion]) {
+          if (randomiser > 0.7 && genreEmotions[extractedEmotion]) {
             console.log("DYNAMIC...");
             const dynamicChoiceMessage =
               `Would you like some music suggestions or an artistic image to help you relax? \n` +
