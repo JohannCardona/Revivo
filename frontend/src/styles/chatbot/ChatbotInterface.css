@@ -13,6 +13,9 @@
     font-weight: 500;
     display: flex;
     flex-direction: column;
+}
+
+.chat-history {
     overflow-x: hidden;
 }
 
