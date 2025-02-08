@@ -31,6 +31,8 @@ function ChatbotInterface() {
   const [songSelection, setSongSelection] = useState(false);
   const [selectedSongGenre, setSelectedSongGenre] = useState(false);
   const [dynamicChoice, setDynamicChoice] = useState(false);
+  const [selectedDynamicSongChoice, setSelectedDynamicSongChoice] =
+    useState(false);
   const songGenreArray = [
     "dance",
     "latino",
@@ -72,6 +74,12 @@ function ChatbotInterface() {
   };
   const [conversationTitle, setConversationTitle] = useState([]);
   const songID = localStorage.getItem("songID");
+
+  useEffect(() => {
+    if (conversationRef.current) {
+      conversationRef.current.scrollTop = conversationRef.current.scrollHeight;
+    }
+  }, [conversations]);
 
   useEffect(() => {
     if (recognition) {
@@ -251,33 +259,12 @@ function ChatbotInterface() {
       ...prevConversations,
       chatbotResponse,
     ]);
+
     setLoadingChatbotResponse(true);
     const botMessageIndex = conversations.length + 1;
     const message = localStorage.getItem("user_message");
     try {
       console.log(message);
-      // if (selectedSongGenre && storedEmotion) {
-      //   console.log("TEST...");
-      //   const selectedGenre = message;
-      //   if (songGenres.includes(selectedGenre)) {
-      //     console.log(storedEmotion);
-      //     const recommendations = await recommend_songs(selectedGenre);
-      //     console.log(recommendations);
-      //     const songData =
-      //       fetching_recommending_songs_response(recommendations);
-      //     console.log(songData);
-      //     const conversationDiv = document.getElementById(chatbotResponseId);
-      //     console.log(conversationDiv);
-      //     chatbotTypingResponse(conversationDiv, songData);
-      //     setConversations((prev) => {
-      //       const currentMessage = [...prev];
-      //       currentMessage[botMessageIndex].response = songData;
-      //       return currentMessage;
-      //     });
-      //     setSelectedSong(true);
-      //     setRecommendedSongs(songData);
-      //   }
-      // }
       if (dynamicChoice) {
         const suggestionChoice = message;
         console.log(suggestionChoice);
@@ -288,7 +275,6 @@ function ChatbotInterface() {
           if (genreEmotions[storedEmotion]) {
             const availableGenres = genreEmotions[storedEmotion];
             console.log(availableGenres);
-            // setSongGenres(availableGenres);
             setSelectedSongGenre(true);
             const genreSuggestions =
               `🎵 ${
@@ -299,14 +285,25 @@ function ChatbotInterface() {
               availableGenres.map((g, i) => `${i + 1}. ${g}`).join("\n") +
               "\n\n💡Simply reply with a number of your choice.";
             console.log(genreSuggestions);
-            // chatbotTypingResponse(conversationDiv, genreSuggestions);
+            localStorage.setItem(
+              "availableDynamicGenres",
+              JSON.stringify(availableGenres)
+            );
             setConversations((prev) => {
               const currentMessage = [...prev];
               currentMessage[botMessageIndex].response = genreSuggestions;
               return currentMessage;
             });
+            setTimeout(() => {
+              const element = document.getElementById(chatbotResponseId);
+              if (element) {
+                chatbotTypingResponse(element, genreSuggestions);
+              } else {
+              }
+            }, 0);
           }
           setDynamicChoice(false);
+          setSelectedDynamicSongChoice(true);
         } else if ("image") {
           const storedEmotion = localStorage.getItem("mood");
           const dallePrompt = `An abstract artistic interpretation of the ${storedEmotion} mood in a creative, modern style.`;
@@ -322,6 +319,7 @@ function ChatbotInterface() {
         const chatbotDummyResponse = await handleChatbotResponseType(message);
         const conversationDiv = document.getElementById(chatbotResponseId);
         console.log(chatbotDummyResponse);
+        console.log(conversationDiv);
         if (chatbotDummyResponse.album) {
           setSelectedSong(true);
           setConversations((prev) => {
@@ -371,22 +369,6 @@ function ChatbotInterface() {
           });
         } else {
           console.log("chatbot responded...");
-          // const extractedEmotion = await fetch_emotion_from_text(prompt);
-          // console.log(extractedEmotion);
-          // if (Math.random() < 0.3 && genreEmotions[extractedEmotion]) {
-          //   console.log("HELLO");
-          //   const dynamicChoiceMessage =
-          //     `Would you like some music suggestions or an artistic image to help you relax? \n` +
-          //     `Please type "music" for music suggestions or "image" for an artistic image`;
-          //   chatbotTypingResponse(conversationDiv, dynamicChoiceMessage);
-          //   setConversations((prev) => {
-          //     const currentMessage = [...prev];
-          //     currentMessage[botMessageIndex].response = dynamicChoiceMessage;
-          //     return currentMessage;
-          //   });
-          //   setDynamicChoice(true);
-          // } else
-          //  {
           const extractedEmotion = await fetch_emotion_from_text(message);
           const randomiser = Math.random();
           console.log(randomiser);
@@ -412,19 +394,6 @@ function ChatbotInterface() {
               return currentMessage;
             });
           }
-          // console.log("CHATBOT YAY...");
-          // const chatbot_response = await handleChatbotResponse(message);
-          // const conversationChatbotDiv =
-          //   document.getElementById(chatbotResponseId);
-          // console.log(conversationChatbotDiv);
-          // chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
-          // setConversations((prev) => {
-          //   const currentMessage = [...prev];
-          //   currentMessage[botMessageIndex].response = chatbotDummyResponse;
-          //   return currentMessage;
-          // });
-          // }
-          // }
         }
       }
     } catch (err) {
@@ -477,6 +446,35 @@ function ChatbotInterface() {
       const random_song_genres = fetching_songs_array();
       setSelectedSongGenre(true);
       return random_song_genres;
+    } else if (
+      selectedSongGenre === true &&
+      selectedDynamicSongChoice === true &&
+      !isNaN(prompt)
+    ) {
+      console.log("Choose number...");
+      const selectedGenreNumber = parseInt(prompt) - 1;
+      console.log(selectedGenreNumber);
+      const dynamicArray = JSON.parse(
+        localStorage.getItem("availableDynamicGenres")
+      );
+      console.log(dynamicArray);
+      if (
+        selectedGenreNumber >= 0 &&
+        selectedGenreNumber < dynamicArray.length
+      ) {
+        const chosenRecommendedGenre = dynamicArray[selectedGenreNumber];
+        localStorage.setItem("chosenGenre", chosenRecommendedGenre);
+        setSelectedSongGenre(false);
+        console.log(chosenRecommendedGenre);
+        const songRecommendations = await recommend_songs(
+          chosenRecommendedGenre
+        );
+        setRecommendedSongs(songRecommendations);
+        setSongSelection(true);
+        return songRecommendations;
+      } else {
+        return "💡Please choose a number from the list.";
+      }
     } else if (selectedSongGenre === true && !isNaN(prompt)) {
       console.log("Choose number...");
       const selectedGenreNumber = parseInt(prompt) - 1;
@@ -561,12 +559,6 @@ function ChatbotInterface() {
     imageLink.click();
     document.body.removeChild(imageLink);
   };
-
-  useEffect(() => {
-    if (conversationRef.current) {
-      conversationRef.current.scrollTop = conversationRef.current.scrollHeight;
-    }
-  }, [conversations]);
 
   useEffect(() => {
     const fetch_conversation_titles = async () => {
@@ -751,10 +743,14 @@ function ChatbotInterface() {
                       ></iframe>
                     </>
                   ) : conversation.chatbot &&
-                    selectedSong !== true &&
+                    conversation.response.includes(
+                      "Here are some genres you might like"
+                    ) ? (
+                    ""
+                  ) : conversation.chatbot && selectedSong !== true &&
                     !conversation.response.includes("recommendations") &&
                     !conversation.response.includes("data:image") ? (
-                    conversation.response
+                    ""
                   ) : (
                     conversation.response
                   )}
