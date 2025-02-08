@@ -733,7 +733,7 @@ function ChatbotInterface() {
                         key={conversation.id}
                         title="recommender"
                         style={{ borderRadius: "12px" }}
-                        src={`https://open.spotify.com/embed/track/${songID}`}
+                        src={`https://open.spotify.com/embed/track/${conversation.response}`}
                         width="100%"
                         height="352"
                         frameBorder="0"
