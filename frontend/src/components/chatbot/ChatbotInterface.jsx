@@ -325,7 +325,7 @@ function ChatbotInterface() {
           setConversations((prev) => {
             const currentMessage = [...prev];
             currentMessage[botMessageIndex].response =
-              chatbotDummyResponse.name;
+              chatbotDummyResponse.songId;
             return currentMessage;
           });
         } else if (chatbotDummyResponse.includes("Simply reply")) {
@@ -506,7 +506,7 @@ function ChatbotInterface() {
       ) {
         const chosenRecommendedSong = recommended_songs[selectedSongNumber];
         setSongSelection(false);
-        localStorage.setItem("songID", chosenRecommendedSong.songId);
+        // localStorage.setItem("songID", chosenRecommendedSong.songId);
         return chosenRecommendedSong;
       } else {
         return "💡Please choose a number from the list.";
