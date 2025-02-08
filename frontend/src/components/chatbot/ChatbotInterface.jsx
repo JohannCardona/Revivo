@@ -372,7 +372,7 @@ function ChatbotInterface() {
           const extractedEmotion = await fetch_emotion_from_text(message);
           const randomiser = Math.random();
           console.log(randomiser);
-          if (randomiser > 0.7 && genreEmotions[extractedEmotion]) {
+          if (randomiser > 0.8 && genreEmotions[extractedEmotion] && conversations.length !== 0) {
             console.log("DYNAMIC...");
             const dynamicChoiceMessage =
               `Would you like some music suggestions or an artistic image to help you relax? \n` +
@@ -506,7 +506,6 @@ function ChatbotInterface() {
       ) {
         const chosenRecommendedSong = recommended_songs[selectedSongNumber];
         setSongSelection(false);
-        // localStorage.setItem("songID", chosenRecommendedSong.songId);
         return chosenRecommendedSong;
       } else {
         return "💡Please choose a number from the list.";
