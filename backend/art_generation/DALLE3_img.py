@@ -1,3 +1,6 @@
+from base64 import b64decode, b64encode
+from PIL import Image
+from io import BytesIO
 import openai
 from flask import Blueprint, request, jsonify
 from http import HTTPStatus
@@ -26,4 +29,17 @@ def get_user_prompt():
         response_format="b64_json"
     )
     img_url = response.data[0].b64_json
-    return jsonify({"result": img_url}, HTTPStatus.OK)
+    url = compress_image_url(img_url)
+    return jsonify({"result": url}, HTTPStatus.OK)
+
+
+def compress_image_url(b64_json, format="JPEG", encoding="utf-8", quality=50):
+    data = b64decode(b64_json)
+    with BytesIO(data) as image_buff:
+        image = Image.open(image_buff)
+        compressed_buff = BytesIO()
+        image.save(compressed_buff, format=format,
+                   quality=quality, optimize=True)
+        compressed_b64 = b64encode(
+            compressed_buff.getvalue()).decode(encoding=encoding)
+    return compressed_b64
