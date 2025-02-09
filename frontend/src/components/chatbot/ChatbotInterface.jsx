@@ -584,6 +584,24 @@ function ChatbotInterface() {
   }, []);
 
   useEffect(() => {
+    const dynamic_mood_tracking = () => {
+      if (conversations.length === 2 && conversations[1].response !== "") {
+        const mood_tracking = {
+          user: localStorage.getItem("user"),
+          mood:
+            localStorage.getItem("mood").charAt(0).toUpperCase() +
+            localStorage.getItem("mood").slice(1),
+          userNote: localStorage.getItem("user_message"),
+          timestamp: new Date().toISOString(),
+        };
+        console.log("MOOD TRACKING: ", mood_tracking);
+        axios.post(`http://localhost:5000/store_user_moods`, mood_tracking);
+      }
+    };
+    dynamic_mood_tracking();
+  }, [conversations]);
+
+  useEffect(() => {
     const store_user_conversations = async () => {
       if (conversations.length !== 0) {
         const exit_conversation = conversations.some((obj) =>
