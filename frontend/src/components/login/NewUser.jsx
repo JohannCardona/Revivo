@@ -67,7 +67,7 @@ function NewUser() {
     <div className="registerlogin-container">
       <div className="account-forms">
         <div className="new">
-          {/* Form that contains new password and confirm password fields */}
+          {/* Form that sign up field */}
           <form className="login" noValidate>
             <h2 style={{color: "var(--text)"}} className="form-title">Sign up</h2>
             <div className="input">
@@ -79,7 +79,7 @@ function NewUser() {
                 placeholder="Enter your username"
               />
             </div>
-            {/* Redirect to login form */}
+            {/* Redirect to signin form */}
             <input
               value="Sign up"
               type="submit"
