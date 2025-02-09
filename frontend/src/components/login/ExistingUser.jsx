@@ -74,7 +74,7 @@ function ExistingUser() {
     <div className="registerlogin-container">
       <div className="account-forms">
         <div className="new">
-          {/* Form that contains new password and confirm password fields */}
+          {/* Form that contains sign in field */}
           <form className="login" noValidate>
             <h2 style={{ color: "var(--text)" }} className="form-title">
               Sign in
