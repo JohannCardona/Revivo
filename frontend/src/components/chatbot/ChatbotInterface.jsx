@@ -436,7 +436,8 @@ function ChatbotInterface() {
 
   const handleChatbotResponseType = async (prompt) => {
     if (
-      prompt.includes("song") ||
+      prompt.includes("recommend songs") ||
+      prompt.includes("recommend a song") ||
       prompt.includes("songs") ||
       prompt.includes("music") ||
       prompt.includes("another song") ||
