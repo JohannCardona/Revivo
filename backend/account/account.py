@@ -53,10 +53,9 @@ def account_login():
     user = mongo_db.users.find_one({"username": data["existingUser"]})
     print(user)
 
-    login_date = mongo_db.user_login_stats.find_one(
-        {"user": user["username"], "login_date": now})
-
     if user is not None:
+        login_date = mongo_db.user_login_stats.find_one(
+            {"user": user["username"], "login_date": now})
         if DAY_TIME <= hour < NIGHT_TIME:
             time = "day_count"
         else:
@@ -117,7 +116,9 @@ def user_login_info():
 
     return jsonify({"result": profile_data, "days": sorted_day})
 
+
 def date_comparison(date_object):
     date_format = "%d-%m-%Y"
-    sorted_dates = sorted(date_object, key=lambda y: datetime.datetime.strptime(y["date"], date_format))
+    sorted_dates = sorted(
+        date_object, key=lambda y: datetime.datetime.strptime(y["date"], date_format))
     return sorted_dates
