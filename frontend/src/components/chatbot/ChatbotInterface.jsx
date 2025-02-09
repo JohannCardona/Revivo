@@ -73,7 +73,6 @@ function ChatbotInterface() {
     fear: ["ambient", "classical", "chill", "calm", "rain", "sleep", "waves"],
   };
   const [conversationTitle, setConversationTitle] = useState([]);
-  const songID = localStorage.getItem("songID");
 
   useEffect(() => {
     if (conversationRef.current) {
@@ -321,13 +320,14 @@ function ChatbotInterface() {
         console.log(chatbotDummyResponse);
         console.log(conversationDiv);
         if (chatbotDummyResponse.album) {
-          setSelectedSong(true);
           setConversations((prev) => {
             const currentMessage = [...prev];
-            currentMessage[botMessageIndex].response =
-              chatbotDummyResponse.songId;
+            currentMessage[
+              botMessageIndex
+            ].response = `https://open.spotify.com/embed/track/${chatbotDummyResponse.songId}`;
             return currentMessage;
           });
+          setSelectedSong(true);
         } else if (chatbotDummyResponse.includes("Simply reply")) {
           chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
           setConversations((prev) => {
@@ -372,7 +372,11 @@ function ChatbotInterface() {
           const extractedEmotion = await fetch_emotion_from_text(message);
           const randomiser = Math.random();
           console.log(randomiser);
-          if (randomiser > 0.8 && genreEmotions[extractedEmotion] && conversations.length !== 0) {
+          if (
+            randomiser > 0.8 &&
+            genreEmotions[extractedEmotion] &&
+            conversations.length !== 0
+          ) {
             console.log("DYNAMIC...");
             const dynamicChoiceMessage =
               `Would you like some music suggestions or an artistic image to help you relax? \n` +
@@ -436,6 +440,7 @@ function ChatbotInterface() {
 
   const handleChatbotResponseType = async (prompt) => {
     if (
+      prompt.includes("recommend song") ||
       prompt.includes("recommend songs") ||
       prompt.includes("recommend a song") ||
       prompt.includes("songs") ||
@@ -692,9 +697,8 @@ function ChatbotInterface() {
                     />
                   ) : conversation.chatbot &&
                     conversation.response.includes("data:image") ? (
-                    <>
+                    <div key={conversation.id}>
                       <img
-                        key={conversation.id}
                         src={conversation.response}
                         onClick={() => handleImageModal(conversation.response)}
                         alt="chat icon"
@@ -723,17 +727,19 @@ function ChatbotInterface() {
                           </div>
                         </div>
                       )}
-                    </>
+                    </div>
                   ) : conversation.chatbot &&
                     conversation.response.includes("recommendations") ? (
                     ""
-                  ) : conversation.chatbot && selectedSong === true ? (
+                  ) : conversation.chatbot &&
+                    conversation.response.includes(
+                      "https://open.spotify.com/embed"
+                    ) ? (
                     <>
                       <iframe
-                        key={conversation.id}
                         title="recommender"
                         style={{ borderRadius: "12px" }}
-                        src={`https://open.spotify.com/embed/track/${conversation.response}`}
+                        src={conversation.response}
                         width="100%"
                         height="352"
                         frameBorder="0"
@@ -747,12 +753,15 @@ function ChatbotInterface() {
                       "Here are some genres you might like"
                     ) ? (
                     ""
-                  ) : conversation.chatbot && selectedSong !== true &&
+                  ) : conversation.chatbot &&
+                    selectedSong !== true &&
                     !conversation.response.includes("recommendations") &&
                     !conversation.response.includes("data:image") ? (
                     ""
-                  ) : (
+                  ) : !conversation.chatbot ? (
                     conversation.response
+                  ) : (
+                    ""
                   )}
                 </div>
               </div>
