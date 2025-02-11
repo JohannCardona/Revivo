@@ -241,16 +241,25 @@ function ChatbotInterface() {
       return;
     }
     const userResponse = conversationList(false, prompt);
+    console.log("CREATE USER OBJECT...");
+    const userResponse = conversationList(false, prompt, null);
+    console.log("ADD USER TO ARRAY...");
     setConversations((prevConversations) => [
       ...prevConversations,
       userResponse,
     ]);
     localStorage.setItem("user_message", prompt);
+    if (prompt === "exit") {
+      setPrompt("");
+      return;
+    }
     setPrompt("");
 
+    console.log("CREATE CHATBOT OBJECT...");
     const chatbotResponseId = generateChatbotResponseId();
     console.log(chatbotResponseId);
     const chatbotResponse = conversationList(true, "", chatbotResponseId);
+    console.log("ADD CHATBOT TO ARRAY...");
     setConversations((prevConversations) => [
       ...prevConversations,
       chatbotResponse,
