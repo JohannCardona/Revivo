@@ -1,5 +1,12 @@
-import React, { useContext } from "react";
-import { AppBar, Toolbar, Button, Typography } from "@mui/material";
+import React, { useContext, useState } from "react";
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  Typography,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import revivo from "../images/revivo_logo.png";
@@ -16,13 +23,39 @@ function Navbar() {
   const navigate = useNavigate();
   const buttons = [
     { text: "Chatbot", to: "/chat" },
-    { text: "Dashboard", to: "/dashboard" },
     { text: "Mood Tracker", to: "/mood" },
-    { text: "Badges", to: "/badges" },
-    { text: "Thrive Tips", to: "/tips" },
-    { text: "Soothing Sounds", to: "/audios" },
-    { text: "Library", to: "/library" },
   ];
+
+  const menus = [
+    {
+      title: "Usage",
+      links: [
+        { text: "Dashboard", to: "/dashboard" },
+        { text: "Badges", to: "/badges" },
+      ],
+    },
+    {
+      title: "Library",
+      links: [
+        { text: "Thrive Tips", to: "/tips" },
+        { text: "Soothing Sounds", to: "/audios" },
+        { text: "Videos", to: "/library" },
+      ],
+    },
+  ];
+
+  const [anchor, setAnchor] = useState(null);
+  const [active, setActive] = useState(null);
+
+  const menuOpen = (e, menu) => {
+    setAnchor(e.currentTarget);
+    setActive(menu);
+  };
+
+  const menuClose = () => {
+    setAnchor(null);
+    setActive(null);
+  };
 
   const logout = (e) => {
     e.preventDefault();
@@ -70,6 +103,41 @@ function Navbar() {
                   >
                     {button.text}
                   </Button>
+                );
+              })
+            : ""}
+          {localStorage.getItem("token")
+            ? menus.map((menu) => {
+                return (
+                  <>
+                    <Button
+                      onClick={(e) => menuOpen(e, menu.title)}
+                      color="inherit"
+                      style={{ cursor: "pointer" }}
+                    >
+                      {menu.title}
+                    </Button>
+                    <Menu
+                      anchorEl={anchor}
+                      open={active === menu.title}
+                      onClick={menuClose}
+                      color="#fff"
+                      style={{ cursor: "pointer" }}
+                    >
+                      {menu.links.map((link) => (
+                        <MenuItem
+                          key={link.text}
+                          component={Link}
+                          to={link.to}
+                          onClick={menuClose}
+                          color="inherit"
+                          style={{ cursor: "pointer" }}
+                        >
+                          {link.text}
+                        </MenuItem>
+                      ))}
+                    </Menu>
+                  </>
                 );
               })
             : ""}
