@@ -7,7 +7,6 @@ from peft import get_peft_model, LoraConfig, TaskType
 df = pd.read_csv("preprocessed_dataset.csv")
 
 df = df.dropna()
-print(df)
 df['input_tokens'] = "User: " + df['Context'] + "\nAssistant:"
 df['target_tokens'] = df['Response']
 

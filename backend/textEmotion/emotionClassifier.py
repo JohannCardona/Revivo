@@ -1,11 +1,9 @@
-# import logs
 import pandas as pd
 import tensorflow as tf
 import keras
 from sklearn import preprocessing, model_selection, metrics
 import numpy as np
 import matplotlib.pyplot as plt
-from nltk.corpus import stopwords
 import transformers
 
 
@@ -16,8 +14,6 @@ def label_encoding(df: pd.DataFrame):
 
 
 def train_val_test_split(df: pd.DataFrame):
-    print(df["text"].head().tolist())
-    print(df["label"].head().tolist())
     X_train, X_temp, y_train, y_temp = model_selection.train_test_split(
         df["text"].to_list(), df["label"].to_list(), train_size=0.7, random_state=42, shuffle=True)
     X_val, X_test, y_val, y_test = model_selection.train_test_split(
@@ -88,13 +84,11 @@ if __name__ == "__main__":
     if training == True:
         modelCheckpoint = keras.callbacks.ModelCheckpoint(
             "backend\textEmotion\checkpoint\model.h5", monitor="val_loss", save_best_only=True, mode="min")
-
         df = pd.read_csv(
             "backend\preprocessing\processed\dair-ai-emotion.csv")
         df = label_encoding(df=df.head(15000))
         train_features, val_features, test_features, train_labels, val_labels, test_labels = train_val_test_split(
             df=df)
-        print(len(train_features), len(val_features), len(test_features))
         train_tokens, val_tokens, test_tokens = tokenize_sentences(
             train_features, val_features, test_features, MODEL_NAME, MAX_LENGTH)
         train_set, val_set = convert_data_to_tensors(
@@ -136,14 +130,10 @@ if __name__ == "__main__":
         test_set = test_set.cache()
 
         loss, acc = emotionClassifier.evaluate(test_set)
-        print(loss)
-        print(acc)
     else:
         df = pd.read_csv(
             "backend\preprocessing\processed\tweet_emotions.csv")
         df = df["text"].head(5)
-        print(df)
-        # exit()
         sentence_tokenizer = transformers.BertTokenizer.from_pretrained(
             MODEL_NAME)
         text_tokens = sentence_tokenizer(
@@ -153,9 +143,6 @@ if __name__ == "__main__":
         test_ds = [np.array(text_tokens["input_ids"]),
                    np.array(text_tokens["attention_mask"])]
         preds = emotionClassifier.predict(test_ds)
-        print(preds)
         predicted_labels = np.argmax(preds.tolist(), axis=1)
-        print(predicted_labels)
         classes = {1: "fear", 2: "joy", 3: "love", 4: "sadness"}
         categorical_value = [classes[label] for label in predicted_labels]
-        print(categorical_value)

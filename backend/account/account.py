@@ -17,31 +17,25 @@ def home():
 @accounts.route("/register", methods=["POST"])
 def account_registration():
     data = request.get_json()
-
-    print("DATA: \n", data)
-
     if len(data["newUser"]) == 0:
         return jsonify({"result": "Username is required"}), HTTPStatus.BAD_REQUEST
     elif len(data["newUser"]) < 3:
         return jsonify({"result": "Username must be at least three characters long"}), HTTPStatus.BAD_REQUEST
     user = mongo_db.users.find_one({"username": data["newUser"]})
-    print(user)
+
     if user:
         return jsonify({"result": "Username is taken"}), HTTPStatus.CONFLICT
-
-    collection = mongo_db.users
+    user_collection = mongo_db.users
     document = {
         "username": data["newUser"],
     }
-    collection.insert_one(document).inserted_id
-
+    user_collection.insert_one(document).inserted_id
     return jsonify({"result": "Registered succesfully"}), HTTPStatus.CREATED
 
 
 @accounts.route("/login", methods=["POST"])
 def account_login():
     data = request.get_json()
-    print(data)
     now = datetime.datetime.now().strftime("%d-%m-%Y")
     hour = datetime.datetime.now().hour
     DAY_TIME = 6
@@ -51,8 +45,6 @@ def account_login():
         return jsonify({"result": "Username is required"}), HTTPStatus.BAD_REQUEST
 
     user = mongo_db.users.find_one({"username": data["existingUser"]})
-    print(user)
-
     if user is not None:
         login_date = mongo_db.user_login_stats.find_one(
             {"user": user["username"], "login_date": now})
@@ -80,7 +72,6 @@ def account_login():
     exp = (datetime.datetime.now() + datetime.timedelta(minutes=60)).timestamp()
     payload = {"user": user["username"], "expiration_date": exp}
     jwt_token = jwt.encode(payload=payload, key="revivo", algorithm="HS256")
-
     return jsonify({"result": "You have been logged in successfully", "token": jwt_token}), HTTPStatus.OK
 
 
@@ -101,19 +92,15 @@ def user_login_info():
 
     day = []
     for data in stats_data:
-        print(data)
         day.append({
             "date": data["login_date"],
             "count": data["count"],
             "day_count": data["day_count"],
             "night_count": data["night_count"]
         })
-
     sorted_day = date_comparison(date_object=day)
-
     if profile_data:
         pass
-
     return jsonify({"result": profile_data, "days": sorted_day})
 
 

@@ -26,7 +26,6 @@ def get_conversation_title() -> str:
     user = decoded_token["user"]
 
     data = request.get_json()
-    print(data)
     system = "You are an assistant that summarises text in 6 words."
     prompt = f"Give the context of this text in 6 words without using punctuation such as `(,!?.;)`:\n{data['prompt']}"
 
@@ -39,7 +38,6 @@ def get_conversation_title() -> str:
         temperature=0.8
     )
     title = LLM_response.choices[0].message.content.strip()
-    print(title)
     document = {"user": user, "title": title}
     mongo_db.conversation_title.insert_one(document).inserted_id
     return jsonify({"result": title}), HTTPStatus.OK

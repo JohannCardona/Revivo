@@ -31,10 +31,8 @@ def fetching_user_conversations(chat_title):
     token = jwt_token.token
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
     user = decoded_token["user"]
-    print(user)
     chats = mongo_db.user_conversations.find_one(
         {"user": user, "conversationTitle": chat_title}, {"_id": 0})
-    print(chats)
     return jsonify({"result": chats}), HTTPStatus.OK
 
 
