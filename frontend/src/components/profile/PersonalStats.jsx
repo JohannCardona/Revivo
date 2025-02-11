@@ -14,9 +14,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Bar } from "react-chartjs-2";
 import axios from "axios";
 import { Audio } from "react-loader-spinner";
-// import MoodMain from "./MoodMain";
-// import Sidebar from "./Sidebar";
-// import ScrollToSection from "../ScrollToSection";
 
 ChartJS.register(
   ArcElement,
