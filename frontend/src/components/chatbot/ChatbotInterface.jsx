@@ -644,7 +644,7 @@ function ChatbotInterface() {
         {!close ? (
           <>
             <div className="new-chatbot-container">
-              <div className="sidemenu-button" onClick={newChat}>
+              <div className="sidemenu-button" onClick={() => newChat()}>
                 <span>
                   <AddIcon
                     style={{ fontSize: "1.1rem", color: "var(--sidebar-text)" }}
@@ -752,9 +752,7 @@ function ChatbotInterface() {
                             className="download-container"
                           >
                             <button
-                              onClick={() =>
-                                downloadDALLEImage(clickedImage)
-                              }
+                              onClick={() => downloadDALLEImage(clickedImage)}
                             >
                               <IoCloudDownloadOutline sx={{ fontSize: 50 }} />
                             </button>
