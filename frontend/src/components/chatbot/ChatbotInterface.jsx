@@ -540,28 +540,23 @@ function ChatbotInterface() {
 
   console.log(selectedSongGenre);
 
-  useEffect(() => {
-    if (conversations.length === 50) {
-      const fetch_conversation_title = async () => {
-        const response = await fetch(
-          "http://localhost:5000/fetch_conversation_title/",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-            body: JSON.stringify({
-              prompt: localStorage.getItem("user_message"),
-            }),
-          }
-        );
-        if (response.status === 200) {
+  const fetch_conversation_title = async (prompt) => {
+    await axios
+      .post(
+        "http://localhost:5000/fetch_conversation_title/",
+        { prompt },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
-      };
-      fetch_conversation_title();
-    }
-  }, [conversations.length]);
+      )
+      .then((response) => {
+        console.log(response.data.result);
+        setConversationTitle(response.data.result);
+      });
+  };
 
   const downloadDALLEImage = (imgURL) => {
     if (!imgURL) return;
