@@ -663,11 +663,15 @@ function ChatbotInterface() {
             </div>
             <div className="divider"></div>
             <div className="chat-history">
-              {conversationTitle.length === 0 ? (
+              {conversationTitles.length === 0 ? (
                 <div className="sidemenu-chat">New conversation</div>
               ) : (
-                conversationTitle.map((item, index) => (
-                  <div key={index} className="sidemenu-chat">
+                conversationTitles.map((item, index) => (
+                  <div
+                    key={index}
+                    className="sidemenu-chat"
+                    onClick={() => fetching_user_conversations(item.title)}
+                  >
                     {item.title}
                   </div>
                 ))
