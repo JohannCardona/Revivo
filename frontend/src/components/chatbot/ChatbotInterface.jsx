@@ -201,14 +201,12 @@ function ChatbotInterface() {
     let genre_list = "";
     const promptStart = "🎵 Here are some music genres you might enjoy:\n\n";
     const randomFive = getRandomSongGenres(songGenreArray, 5);
-    console.log(randomFive, typeof randomFive);
     localStorage.setItem("randomFive", JSON.stringify(randomFive));
     const songs = randomFive
       .map((item, key) => `${key + 1}. ${item}`)
       .join("\n\n");
     const promptEnd = "\n\n💡Simply reply with a number of your choice.";
     genre_list = promptStart + songs + promptEnd;
-    console.log(genre_list);
     return genre_list;
   };
 
@@ -270,7 +268,6 @@ function ChatbotInterface() {
     const botMessageIndex = conversations.length + 1;
     const message = localStorage.getItem("user_message");
     try {
-      console.log(message);
       if (dynamicChoice) {
         const suggestionChoice = message;
         console.log(suggestionChoice);
@@ -280,7 +277,6 @@ function ChatbotInterface() {
           const storedEmotion = localStorage.getItem("mood");
           if (genreEmotions[storedEmotion]) {
             const availableGenres = genreEmotions[storedEmotion];
-            console.log(availableGenres);
             setSelectedSongGenre(true);
             const genreSuggestions =
               `🎵 ${
@@ -290,7 +286,6 @@ function ChatbotInterface() {
               }:\n\n` +
               availableGenres.map((g, i) => `${i + 1}. ${g}`).join("\n") +
               "\n\n💡Simply reply with a number of your choice.";
-            console.log(genreSuggestions);
             localStorage.setItem(
               "availableDynamicGenres",
               JSON.stringify(availableGenres)
@@ -368,7 +363,6 @@ function ChatbotInterface() {
             return currentMessage;
           });
         } else if (chatbotDummyResponse.includes("data:image")) {
-          console.log();
           setConversations((prev) => {
             const currentMessage = [...prev];
             currentMessage[botMessageIndex].response = chatbotDummyResponse;
@@ -457,7 +451,6 @@ function ChatbotInterface() {
       prompt.includes("another song") ||
       prompt.includes("other songs")
     ) {
-      console.log("recommend songs");
       const random_song_genres = fetching_songs_array();
       setSelectedSongGenre(true);
       return random_song_genres;
@@ -466,7 +459,6 @@ function ChatbotInterface() {
       selectedDynamicSongChoice === true &&
       !isNaN(prompt)
     ) {
-      console.log("Choose number...");
       const selectedGenreNumber = parseInt(prompt) - 1;
       console.log(selectedGenreNumber);
       const dynamicArray = JSON.parse(
@@ -480,7 +472,6 @@ function ChatbotInterface() {
         const chosenRecommendedGenre = dynamicArray[selectedGenreNumber];
         localStorage.setItem("chosenGenre", chosenRecommendedGenre);
         setSelectedSongGenre(false);
-        console.log(chosenRecommendedGenre);
         const songRecommendations = await recommend_songs(
           chosenRecommendedGenre
         );
@@ -491,7 +482,6 @@ function ChatbotInterface() {
         return "💡Please choose a number from the list.";
       }
     } else if (selectedSongGenre === true && !isNaN(prompt)) {
-      console.log("Choose number...");
       const selectedGenreNumber = parseInt(prompt) - 1;
       console.log(selectedGenreNumber);
       const randomFiveArray = JSON.parse(localStorage.getItem("randomFive"));
@@ -503,7 +493,6 @@ function ChatbotInterface() {
         const chosenRecommendedGenre = randomFiveArray[selectedGenreNumber];
         localStorage.setItem("chosenGenre", chosenRecommendedGenre);
         setSelectedSongGenre(false);
-        console.log(chosenRecommendedGenre);
         const songRecommendations = await recommend_songs(
           chosenRecommendedGenre
         );
@@ -530,10 +519,8 @@ function ChatbotInterface() {
       prompt.includes("generate") ||
       prompt.includes("image")
     ) {
-      console.log("generate image");
       return await generate_image(prompt);
     } else {
-      console.log("prompt: ", prompt);
       console.log("normal chatbot response");
       return await prompt;
     }
@@ -554,7 +541,6 @@ function ChatbotInterface() {
         }
       )
       .then((response) => {
-        console.log(response.data.result);
         setConversationTitle(response.data.result);
       });
   };
@@ -612,21 +598,15 @@ function ChatbotInterface() {
     }, 1000);
   };
 
-  console.log(isNewChat);
-
   useEffect(() => {
     const store_user_conversations = async () => {
       const user = localStorage.getItem("user");
       if (conversations.length !== 0) {
-        console.log(isNewChat);
         if (
           localStorage.getItem("user_message") === "exit" ||
           isNewChat === true
         ) {
           console.log("store conversations");
-          console.log(user);
-          console.log(conversationTitle);
-          console.log(conversations);
           await axios
             .post("http://localhost:5000/conversations", {
               user,
@@ -647,7 +627,6 @@ function ChatbotInterface() {
   }, [conversations, isNewChat, conversationTitle]);
 
   const fetching_user_conversations = async (chat_title) => {
-    console.log(chat_title);
     await axios
       .get(`http://localhost:5000/fetching_user_conversations/${chat_title}`, {
         method: "GET",
@@ -659,7 +638,6 @@ function ChatbotInterface() {
       .then((response) => {
         if (response.data.result === null) {
         } else {
-          console.log(response?.data?.result?.conversations);
           setConversations(response?.data?.result?.conversations);
         }
       });
@@ -814,20 +792,18 @@ function ChatbotInterface() {
                         loading="lazy"
                       ></iframe>
                     </>
-                  ) : conversation.chatbot &&
-                    conversation.response.includes(
-                      "Here are some genres you might like"
-                    ) ? (
-                    ""
-                  ) : conversation.chatbot &&
-                    conversation.response.includes(
-                      "Here are some genres you might enjoy"
-                    ) ? (
-                    ""
-                  ) : conversation.chatbot &&
-                    conversation.response.includes(
-                      "Here are some song recommendations for you "
-                    ) ? (
+                  ) : (conversation.chatbot &&
+                      conversation.response.includes(
+                        "Here are some genres you might like"
+                      )) ||
+                    (conversation.chatbot &&
+                      conversation.response.includes(
+                        "Here are some genres you might enjoy"
+                      )) ||
+                    (conversation.chatbot &&
+                      conversation.response.includes(
+                        "Here are some song recommendations for you "
+                      )) ? (
                     ""
                   ) : conversation.chatbot &&
                     selectedSong !== true &&
