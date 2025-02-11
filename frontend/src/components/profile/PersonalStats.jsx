@@ -217,16 +217,15 @@ function PersonalStats() {
 
   return (
     <div className="main-container">
-      {/* <ScrollToSection />
-      <div>
-        <Sidebar sidebar_links={sidebar_links} />
-      </div> */}
       <div className="stats-container">
         <h1>Dashboard</h1>
-        {/* <MoodMain /> */}
         <h2
           id="statistics"
-          style={{ color: "var(--text)", borderBottom: "2px solid var(--sidebar-text)", width: "10.5rem" }}
+          style={{
+            color: "var(--text)",
+            borderBottom: "2px solid var(--sidebar-text)",
+            width: "10.5rem",
+          }}
         >
           User Statistics
         </h2>
