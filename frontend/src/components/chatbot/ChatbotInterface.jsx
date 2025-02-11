@@ -609,17 +609,38 @@ function ChatbotInterface() {
     dynamic_mood_tracking();
   }, [conversations]);
 
+  const newChat = () => {
+    setIsNewChat(true);
+    setTimeout(() => {
+      setConversations("");
+    }, 1000);
+  };
+
+  console.log(isNewChat);
+
   useEffect(() => {
     const store_user_conversations = async () => {
+      const user = localStorage.getItem("user");
       if (conversations.length !== 0) {
-        const exit_conversation = conversations.some((obj) =>
-          obj.response.toLowerCase().includes("exit")
-        );
-        if (exit_conversation === true) {
+        console.log(isNewChat);
+        if (
+          localStorage.getItem("user_message") === "exit" ||
+          isNewChat === true
+        ) {
+          console.log("store conversations");
+          console.log(user);
+          console.log(conversationTitle);
+          console.log(conversations);
           await axios
-            .post("http://localhost:5000/conversations", conversations)
+            .post("http://localhost:5000/conversations", {
+              user,
+              conversationTitle,
+              conversations,
+            })
             .then((response) => {
               if (response.status === 200) {
+                localStorage.removeItem("user_message");
+                setConversations("");
               }
             });
         } else {
@@ -627,13 +648,25 @@ function ChatbotInterface() {
       }
     };
     store_user_conversations();
-  }, [conversations]);
+  }, [conversations, isNewChat, conversationTitle]);
 
-  const newChat = () => {
-    setIsNewChat(true);
-    setTimeout(() => {
-      setConversations("");
-    }, 1000);
+  const fetching_user_conversations = async (chat_title) => {
+    console.log(chat_title);
+    await axios
+      .get(`http://localhost:5000/fetching_user_conversations/${chat_title}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.result === null) {
+        } else {
+          console.log(response?.data?.result?.conversations);
+          setConversations(response?.data?.result?.conversations);
+        }
+      });
   };
 
   console.log(conversations);
