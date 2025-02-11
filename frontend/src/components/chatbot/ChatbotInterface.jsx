@@ -584,12 +584,12 @@ function ChatbotInterface() {
         })
         .then((response) => {
           if (response.status === 200) {
-            setConversationTitle(response.data.titles);
+            setConversationTitles(response.data.titles);
           }
         });
     };
     fetch_conversation_titles();
-  }, []);
+  }, [conversationTitles]);
 
   useEffect(() => {
     const dynamic_mood_tracking = () => {
