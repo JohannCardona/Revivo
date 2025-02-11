@@ -820,6 +820,16 @@ function ChatbotInterface() {
                     ) ? (
                     ""
                   ) : conversation.chatbot &&
+                    conversation.response.includes(
+                      "Here are some genres you might enjoy"
+                    ) ? (
+                    ""
+                  ) : conversation.chatbot &&
+                    conversation.response.includes(
+                      "Here are some song recommendations for you "
+                    ) ? (
+                    ""
+                  ) : conversation.chatbot &&
                     selectedSong !== true &&
                     !conversation.response.includes("recommendations") &&
                     !conversation.response.includes("data:image") ? (
