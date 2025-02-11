@@ -26,21 +26,23 @@ def get_conversation_title() -> str:
     user = decoded_token["user"]
 
     data = request.get_json()
+    print(data)
     system = "You are an assistant that summarises text in 6 words."
-    prompt = f"Give the context of this text in 6 words without using punctuation such as `(,!?.;)`:\n{data}"
+    prompt = f"Give the context of this text in 6 words without using punctuation such as `(,!?.;)`:\n{data['prompt']}"
 
     client = initialise_API()
     LLM_response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-4o-mini-2024-07-18",
         messages=[{"role": "system", "content": system},
                   {"role": "user", "content": prompt}],
         max_tokens=15,
         temperature=0.8
     )
     title = LLM_response.choices[0].message.content.strip()
+    print(title)
     document = {"user": user, "title": title}
     mongo_db.conversation_title.insert_one(document).inserted_id
-    return jsonify({"result": "Conversation title stored successfully!!!"}), HTTPStatus.OK
+    return jsonify({"result": title}), HTTPStatus.OK
 
 
 @conversation_title.route("/fetch_conversation_titles/", methods=["GET"])
