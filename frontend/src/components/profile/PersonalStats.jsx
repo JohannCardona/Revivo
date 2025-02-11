@@ -26,10 +26,6 @@ ChartJS.register(
 );
 
 function PersonalStats() {
-  const sidebar_links = [
-    { text: "Mood Tracker", to: "/dashboard#mood_tracker" },
-    { text: "User Statistics", to: "/dashboard#statistics" },
-  ];
   let total_day_count = 0;
   let total_night_count = 0;
   const options = {
