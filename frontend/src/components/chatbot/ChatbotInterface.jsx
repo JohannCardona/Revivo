@@ -72,7 +72,7 @@ function ChatbotInterface() {
     anger: ["rap", "metal", "rock", "heavy metal", "hard rock"],
     fear: ["ambient", "classical", "chill", "calm", "rain", "sleep", "waves"],
   };
-  const [conversationTitle, setConversationTitle] = useState([]);
+  const [conversationTitles, setConversationTitles] = useState([]);
 
   useEffect(() => {
     if (conversationRef.current) {
@@ -141,9 +141,6 @@ function ChatbotInterface() {
   };
 
   const [clickedImage, setClickedImage] = useState(null);
-  const handleImageModal = (image) => {
-    setClickedImage(image);
-  };
   const modalClose = () => {
     setClickedImage(null);
   };
