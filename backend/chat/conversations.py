@@ -17,7 +17,7 @@ more_stopwords = {
     "me", "my", "mine", "your", "yours", "his", "her", "their", "theirs",
     "with", "from", "to", "for", "on", "in", "by", "about", "at",
     "and", "or", "but", "if", "because", "so", "then",
-    "who", "what", "where", "when", "why", "how", "exit"
+    "who", "what", "where", "when", "why", "how", "exit", "is", "are"
 }
 stopwords.update(more_stopwords)
 
