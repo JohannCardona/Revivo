@@ -1,12 +1,25 @@
 from flask import Blueprint, request, jsonify
 from http import HTTPStatus
 from db.db import mongo_db
+from nltk.corpus import stopwords
 import jwt
+import re
+from collections import Counter
 from dotenv import load_dotenv
 
 conversations = Blueprint("conversations", __name__)
 load_dotenv()
-
+stopwords = set(stopwords.words("english"))
+more_stopwords = {
+    "yes", "no", "okay", "hi", "hello", "bye", "thanks", "thank", "please",
+    "really", "very", "just", "so", "well", "like",
+    "i", "you", "he", "she", "we", "they", "it",
+    "me", "my", "mine", "your", "yours", "his", "her", "their", "theirs",
+    "with", "from", "to", "for", "on", "in", "by", "about", "at",
+    "and", "or", "but", "if", "because", "so", "then",
+    "who", "what", "where", "when", "why", "how", "exit"
+}
+stopwords.update(more_stopwords)
 
 @conversations.route("/conversations", methods=["POST"])
 def account_registration():
