@@ -51,7 +51,10 @@ def fetching_user_conversations(chat_title):
 
 @conversations.route("/keyword_frequency", methods=["GET"])
 def fetch_keyword_frequency():
-    objects = mongo_db.user_conversations.find({"chatbot": False})
+    jwt_token = request.authorization
+    token = jwt_token.token
+    decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
+    user = decoded_token["user"]
     keyword_frequency = []
     for i in objects:
         keyword_frequency.append({"response": i["response"]})
