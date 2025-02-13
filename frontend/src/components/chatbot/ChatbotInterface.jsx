@@ -774,52 +774,8 @@ function ChatbotInterface() {
                         </div>
                       )}
                     </div>
-                  ) : conversation.chatbot &&
-                    conversation.response.includes("recommendations") ? (
-                    ""
-                  ) : conversation.chatbot &&
-                    conversation.response.includes(
-                      "https://open.spotify.com/embed"
-                    ) ? (
-                    <>
-                      <iframe
-                        title="recommender"
-                        style={{ borderRadius: "12px" }}
-                        src={conversation.response}
-                        width="100%"
-                        height="352"
-                        frameBorder="0"
-                        allowFullScreen=""
-                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                        loading="lazy"
-                      ></iframe>
-                    </>
-                  ) : (conversation.chatbot &&
-                      conversation.response.includes(
-                        "Here are some genres you might like"
-                      )) ||
-                    (conversation.chatbot &&
-                      conversation.response.includes(
-                        "Here are some genres you might enjoy"
-                      )) ||
-                    (conversation.chatbot &&
-                      conversation.response.includes(
-                        "Here are some song recommendations for you "
-                      )) ? (
-                    ""
-                  ) : conversation.chatbot &&
-                    selectedSong !== true &&
-                    !conversation.response.includes("recommendations") &&
-                    !conversation.response.includes("data:image") ? (
-                    ""
-                  ) : !conversation.chatbot ? (
-                    conversation.response
-                  ) : (
-                    ""
-                  )}
-                </div>
-              </div>
-            ))
+                  ))}
+            </>
           )}
         </div>
         <div className="item-2">
