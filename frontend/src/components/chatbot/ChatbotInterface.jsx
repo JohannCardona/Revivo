@@ -606,6 +606,7 @@ function ChatbotInterface() {
       if (conversations.length !== 0) {
         if (
           localStorage.getItem("user_message") === "exit" ||
+          localStorage.getItem("bye") ||
           isNewChat === true
         ) {
           console.log("store conversations");
@@ -629,6 +630,7 @@ function ChatbotInterface() {
   }, [conversations, isNewChat, conversationTitle]);
 
   const fetching_user_conversations = async (chat_title) => {
+    setFetchedConversation(true);
     await axios
       .get(`http://localhost:5000/fetching_user_conversations/${chat_title}`, {
         method: "GET",
@@ -646,6 +648,8 @@ function ChatbotInterface() {
   };
 
   console.log(conversations);
+  console.log(fetchedConversation);
+  console.log("FETCHED: ", fetchedConversations);
 
   return (
     <div className="chatbot-container">
