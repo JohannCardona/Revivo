@@ -22,6 +22,8 @@ function ChatbotInterface() {
   const [listening, setListening] = useState(false);
   const [close, setClose] = useState(false);
   const [conversations, setConversations] = useState([]);
+  const [fetchedConversations, setFetchedConversations] = useState([]);
+  const [fetchedConversation, setFetchedConversation] = useState(false);
   const [conversationTitle, setConversationTitle] = useState(null);
   const [isNewChat, setIsNewChat] = useState(false);
   const conversationRef = useRef(null);
