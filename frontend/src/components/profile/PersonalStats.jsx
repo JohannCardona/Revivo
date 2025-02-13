@@ -136,7 +136,7 @@ function PersonalStats() {
 
   const getUserData = async () => {
     setLoading(true);
-    await timeout(100);
+    await timeout(50);
     axios
       .get("http://localhost:5000/user_login_info", {
         headers: {
@@ -183,11 +183,24 @@ function PersonalStats() {
         setData(dataset2(keywordFrequency));
         setLoading(false);
       });
+    const res = await axios.get("http://localhost:5000/keyword_frequency", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    console.log(res?.data?.result);
+    const responses = res?.data?.result
+    console.log(responses);
+    setKeywordData(dataset2(responses));
   };
 
   useEffect(() => {
     getUserData();
+    getKeywordFrequencyData();
   }, []);
+
+  console.log(keywordData);
 
   if (periodStatsData) {
     total_day_count = periodStatsData.datasets[0].data.reduce(
