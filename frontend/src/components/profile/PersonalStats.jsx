@@ -115,11 +115,11 @@ function PersonalStats() {
     if (statsData) {
       console.log(statsData);
       return {
-        labels: statsData.keyword,
+        labels: statsData.map((k) => k.keyword),
         datasets: [
           {
             label: "Keyword",
-            data: statsData.frequency,
+            data: statsData.map((f) => f.frequency),
             backgroundColor: color[3],
           },
         ],
@@ -130,11 +130,7 @@ function PersonalStats() {
   const color = ["#77c3a6", "#565656", "#587bda", "#16bec5"];
   const [periodStatsData, setPeriodStatsData] = useState(null);
   const [dayStatsData, setDayStatsData] = useState(null);
-  const [keywordFrequency, setKeywordFrequency] = useState({
-    keyword: [],
-    frequency: [],
-  });
-  const [data, setData] = useState(null);
+  const [keywordData, setKeywordData] = useState(null);
   const [loading, setLoading] = useState(true);
   const timeout = (m) => new Promise((s) => setTimeout(s, m));
 
