@@ -755,20 +755,84 @@ function ChatbotInterface() {
                               onClick={() => modalClose(conversation.response)}
                             />
                           </div>
-                          <div
-                            key={conversation.id}
-                            id={conversation.id}
-                            className="download-container"
-                          >
-                            <button
-                              onClick={() => downloadDALLEImage(clickedImage)}
-                            >
-                              <IoCloudDownloadOutline sx={{ fontSize: 50 }} />
-                            </button>
+                        ) : conversation.chatbot &&
+                          conversation.response.includes("recommendations") ? (
+                          conversation.response
+                        ) : conversation.chatbot &&
+                          conversation.response.includes(
+                            "https://open.spotify.com/embed"
+                          ) ? (
+                          <>
+                            <iframe
+                              title="recommender"
+                              style={{ borderRadius: "12px" }}
+                              src={conversation.response}
+                              width="100%"
+                              height="352"
+                              frameBorder="0"
+                              allowFullScreen=""
+                              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                              loading="lazy"
+                            ></iframe>
+                          </>
+                        ) : (conversation.chatbot &&
+                            conversation.response.includes(
+                              "Here are some genres you might like"
+                            )) ||
+                          (conversation.chatbot &&
+                            conversation.response.includes(
+                              "Here are some music genres you might enjoy"
+                            )) ||
+                          (conversation.chatbot &&
+                            conversation.response.includes(
+                              "Here are some song recommendations for you "
+                            )) ? (
+                          conversation.response
+                        ) : conversation.chatbot &&
+                          selectedSong !== true &&
+                          !conversation.response.includes("recommendations") &&
+                          !conversation.response.includes("data:image") ? (
+                          conversation.response
+                        ) : !conversation.chatbot ? (
+                          conversation.response
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    </div>
+                  ))
+                : conversations.map((conversation, index) => (
+                    <div
+                      key={index}
+                      className={`wrapper ${
+                        conversation.chatbot ? "chatbot" : "user"
+                      }`}
+                    >
+                      <div className="conversations" id={conversation.id}>
+                        {loadingChatbotResponse &&
+                        index === conversations.length - 1 &&
+                        conversation.chatbot &&
+                        conversation.response === "" ? (
+                          <Comment
+                            visible={true}
+                            height="40"
+                            width="40"
+                            ariaLabel="comment-loading"
+                            wrapperStyle={{}}
+                            wrapperClass="comment-wrapper"
+                            color="#fff"
+                            backgroundColor="#50a081"
+                          />
+                        ) : conversation.chatbot &&
+                          conversation.response.includes("data:image") ? (
+                          <div key={conversation.id} id={conversation.id}>
                             <img
                               id={conversation.id}
-                              src={clickedImage}
-                              alt="enlarged"
+                              src={conversation.response}
+                              onClick={() =>
+                                setClickedImage(conversation.response)
+                              }
+                              alt="chat icon"
                             />
                             {clickedImage && (
                               <div
