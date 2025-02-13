@@ -155,34 +155,6 @@ function PersonalStats() {
   const getKeywordFrequencyData = async () => {
     setLoading(true);
     await timeout(200);
-    axios
-      .get("http://localhost:5000/keyword_frequency", {})
-      .then((response) => {
-        console.log(response.data.result);
-        const responses = response.data.result
-          .map((response) => response.response)
-          .join(" ");
-        console.log(responses);
-        const keywords = {};
-        responses
-          .toLowerCase()
-          .replace(/[^\w\s]/g, "")
-          .split(/\s+/)
-          .forEach((keyword) => {
-            keywords[keyword] = (keywords[keyword] || 0) + 1;
-          });
-        const sortedKeywords = Object.entries(keywords)
-          .sort((a, b) => b[1] - a[1])
-          .slice(0, 3);
-        console.log(sortedKeywords);
-        const keyword = sortedKeywords.map(([w]) => w);
-        const frequency = sortedKeywords.map(([, k]) => k);
-        console.log(keyword, frequency);
-        setKeywordFrequency({ keyword, frequency });
-        console.log(keywordFrequency);
-        setData(dataset2(keywordFrequency));
-        setLoading(false);
-      });
     const res = await axios.get("http://localhost:5000/keyword_frequency", {
       headers: {
         "Content-Type": "application/json",
