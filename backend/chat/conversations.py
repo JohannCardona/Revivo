@@ -60,5 +60,16 @@ def fetch_keyword_frequency():
         {"user": user})
     keyword_frequency = []
     for i in objects:
-        keyword_frequency.append({"response": i["response"]})
-    return jsonify({"result": keyword_frequency}), HTTPStatus.OK
+        for j in i["conversations"]:
+            if j["chatbot"] == False:
+                keyword_frequency.append({"response": j["response"]})
+    get_text = " ".join(keyword["response"] for keyword in keyword_frequency)
+    process_text = re.sub(r"[^\w\s]", "", get_text.lower())
+    process_numbers = re.sub(r"\b\d+\b", "", process_text)
+    remove_stopwords = [
+        keyword for keyword in process_numbers.split() if keyword not in stopwords]
+    counter = Counter(remove_stopwords)
+    frequent_words = counter.most_common(5)
+    most_frequent_words = [{"keyword": keyword, "frequency": frequency}
+                           for keyword, frequency in frequent_words]
+    return jsonify({"result": most_frequent_words}), HTTPStatus.OK
