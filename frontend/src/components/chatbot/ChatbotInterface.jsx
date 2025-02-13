@@ -754,6 +754,42 @@ function ChatbotInterface() {
                               sx={{ fontSize: 40 }}
                               onClick={() => modalClose(conversation.response)}
                             />
+                            {clickedImage && (
+                              <div
+                                key={conversation.id}
+                                id={conversation.id}
+                                className="modal-container"
+                              >
+                                <div className="modal-image">
+                                  <CloseIcon
+                                    sx={{ fontSize: 40 }}
+                                    onClick={() =>
+                                      modalClose(conversation.response)
+                                    }
+                                  />
+                                </div>
+                                <div
+                                  key={conversation.id}
+                                  id={conversation.id}
+                                  className="download-container"
+                                >
+                                  <button
+                                    onClick={() =>
+                                      downloadDALLEImage(clickedImage)
+                                    }
+                                  >
+                                    <IoCloudDownloadOutline
+                                      sx={{ fontSize: 50 }}
+                                    />
+                                  </button>
+                                  <img
+                                    id={conversation.id}
+                                    src={clickedImage}
+                                    alt="enlarged"
+                                  />
+                                </div>
+                              </div>
+                            )}
                           </div>
                         ) : conversation.chatbot &&
                           conversation.response.includes("recommendations") ? (
