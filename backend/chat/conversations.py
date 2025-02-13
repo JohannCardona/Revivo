@@ -21,6 +21,7 @@ more_stopwords = {
 }
 stopwords.update(more_stopwords)
 
+
 @conversations.route("/conversations", methods=["POST"])
 def account_registration():
     data = request.get_json()
@@ -55,6 +56,8 @@ def fetch_keyword_frequency():
     token = jwt_token.token
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
     user = decoded_token["user"]
+    objects = mongo_db.user_conversations.find(
+        {"user": user})
     keyword_frequency = []
     for i in objects:
         keyword_frequency.append({"response": i["response"]})
