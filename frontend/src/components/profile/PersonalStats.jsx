@@ -278,19 +278,34 @@ function PersonalStats() {
             </div>
           </>
         )}
-        {/* {loading ? (
-        <Audio
-          height="100"
-          width="100"
-          color="#4fa94d"
-          ariaLabel="audio-loading"
-          wrapperStyle={{}}
-          wrapperClass="wrapper-class"
-          visible={true}
-        />
-      ) : (
-        <Bar options={options2} data={data} />
-      )} */}
+        {keywordData ? (
+          <>
+            <div style={{ marginTop: 40 }}>
+              <Bar options={options2} data={keywordData} />
+            </div>
+          </>
+        ) : (
+          <>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "100px auto",
+              }}
+            >
+              <Audio
+                height="100"
+                width="100"
+                color="#4fa94d"
+                ariaLabel="audio-loading"
+                wrapperStyle={{}}
+                wrapperClass="wrapper-class"
+                visible={true}
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
