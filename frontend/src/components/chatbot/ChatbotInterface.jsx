@@ -712,47 +712,40 @@ function ChatbotInterface() {
               </div>
             </>
           ) : (
-            conversations.map((conversation, index) => (
-              <div
-                key={index}
-                className={`wrapper ${
-                  conversation.chatbot ? "chatbot" : "user"
-                }`}
-              >
-                <div className="conversations" id={conversation.id}>
-                  {loadingChatbotResponse &&
-                  index === conversations.length - 1 &&
-                  conversation.chatbot &&
-                  conversation.response === "" ? (
-                    <Comment
-                      visible={true}
-                      height="40"
-                      width="40"
-                      ariaLabel="comment-loading"
-                      wrapperStyle={{}}
-                      wrapperClass="comment-wrapper"
-                      color="#fff"
-                      backgroundColor="#50a081"
-                    />
-                  ) : conversation.chatbot &&
-                    conversation.response.includes("data:image") ? (
-                    <div key={conversation.id} id={conversation.id}>
-                      <img
-                        id={conversation.id}
-                        src={conversation.response}
-                        onClick={() => setClickedImage(conversation.response)}
-                        alt="chat icon"
-                      />
-                      {clickedImage && (
-                        <div
-                          key={conversation.id}
-                          id={conversation.id}
-                          className="modal-container"
-                        >
-                          <div className="modal-image">
-                            <CloseIcon
-                              sx={{ fontSize: 40 }}
-                              onClick={() => modalClose(conversation.response)}
+            <>
+              {fetchedConversation === true
+                ? conversations.map((conversation, index) => (
+                    <div
+                      key={index}
+                      className={`wrapper ${
+                        conversation.chatbot ? "chatbot" : "user"
+                      }`}
+                    >
+                      <div className="conversations" id={conversation.id}>
+                        {loadingChatbotResponse &&
+                        index === fetchedConversations.length - 1 &&
+                        conversation.chatbot &&
+                        conversation.response === "" ? (
+                          <Comment
+                            visible={true}
+                            height="40"
+                            width="40"
+                            ariaLabel="comment-loading"
+                            wrapperStyle={{}}
+                            wrapperClass="comment-wrapper"
+                            color="#fff"
+                            backgroundColor="#50a081"
+                          />
+                        ) : conversation.chatbot &&
+                          conversation.response.includes("data:image") ? (
+                          <div key={conversation.id} id={conversation.id}>
+                            <img
+                              id={conversation.id}
+                              src={conversation.response}
+                              onClick={() =>
+                                setClickedImage(conversation.response)
+                              }
+                              alt="chat icon"
                             />
                             {clickedImage && (
                               <div
