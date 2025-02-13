@@ -238,13 +238,18 @@ function PersonalStats() {
         >
           User Statistics
         </h2>
-        <p>
-          {total_day_count - total_night_count > 0
-            ? morning
-            : total_day_count - total_night_count === 0
-            ? balance
-            : night}
-        </p>
+        {periodStatsData ? (
+          <p>
+            {total_day_count - total_night_count > 0
+              ? morning
+              : total_day_count - total_night_count === 0
+              ? balance
+              : night}
+          </p>
+        ) : (
+          ""
+        )}
+
         {loading ? (
           <>
             <div
