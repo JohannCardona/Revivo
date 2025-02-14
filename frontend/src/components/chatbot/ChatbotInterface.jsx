@@ -762,7 +762,7 @@ function ChatbotInterface() {
       <div className="chatbot-ui-container">
         <Banner />
         <div ref={conversationRef} className="chat item-1">
-          {conversations.length === 0 ? (
+          {fetchedConversations.length === 0 && conversations.length === 0 ? (
             <>
               <div className="no-conversations">
                 <p>
@@ -775,7 +775,7 @@ function ChatbotInterface() {
           ) : (
             <>
               {fetchedConversation === true
-                ? conversations.map((conversation, index) => (
+                ? fetchedConversations.map((conversation, index) => (
                     <div
                       key={index}
                       className={`wrapper ${
