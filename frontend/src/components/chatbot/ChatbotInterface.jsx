@@ -320,8 +320,9 @@ function ChatbotInterface() {
         }
       } else {
         const chatbotDummyResponse = await handleChatbotResponseType(message);
-        const conversationDiv = document.getElementById(chatbotResponseId);
         console.log(chatbotDummyResponse);
+
+        const conversationDiv = document.getElementById(chatbotResponseId);
         console.log(conversationDiv);
         if (chatbotDummyResponse.album) {
           setConversations((prev) => {
@@ -333,21 +334,52 @@ function ChatbotInterface() {
           });
           setSelectedSong(true);
         } else if (chatbotDummyResponse.includes("Simply reply")) {
-          chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
           setConversations((prev) => {
             const currentMessage = [...prev];
             currentMessage[botMessageIndex].response = chatbotDummyResponse;
             return currentMessage;
           });
+          setTimeout(() => {
+            const element = document.getElementById(chatbotResponseId);
+            if (element) {
+              chatbotTypingResponse(element, chatbotDummyResponse);
+            } else {
+            }
+          }, 0);
         } else if (chatbotDummyResponse > 0 && chatbotDummyResponse < 6) {
-          chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
           setConversations((prev) => {
             const currentMessage = [...prev];
             currentMessage[botMessageIndex].response = chatbotDummyResponse;
             return currentMessage;
           });
+          setTimeout(() => {
+            const element = document.getElementById(chatbotResponseId);
+            if (element) {
+              chatbotTypingResponse(element, chatbotDummyResponse);
+            } else {
+            }
+          }, 0);
         } else if (
-          chatbotDummyResponse.includes("Please choose a number from the list")
+          chatbotDummyResponse.includes(
+            "Please choose a number from the song list"
+          )
+        ) {
+          setConversations((prev) => {
+            const currentMessage = [...prev];
+            currentMessage[botMessageIndex].response = chatbotDummyResponse;
+            return currentMessage;
+          });
+          setTimeout(() => {
+            const element = document.getElementById(chatbotResponseId);
+            if (element) {
+              chatbotTypingResponse(element, chatbotDummyResponse);
+            } else {
+            }
+          }, 0);
+        } else if (
+          chatbotDummyResponse.includes(
+            "Please choose a number from the genre list"
+          )
         ) {
           chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
           setConversations((prev) => {
@@ -355,15 +387,28 @@ function ChatbotInterface() {
             currentMessage[botMessageIndex].response = chatbotDummyResponse;
             return currentMessage;
           });
+          setTimeout(() => {
+            const element = document.getElementById(chatbotResponseId);
+            if (element) {
+              chatbotTypingResponse(element, chatbotDummyResponse);
+            } else {
+            }
+          }, 0);
         } else if (Array.isArray(chatbotDummyResponse)) {
           const songData =
             fetching_recommending_songs_response(chatbotDummyResponse);
-          chatbotTypingResponse(conversationDiv, songData);
           setConversations((prev) => {
             const currentMessage = [...prev];
             currentMessage[botMessageIndex].response = songData;
             return currentMessage;
           });
+          setTimeout(() => {
+            const element = document.getElementById(chatbotResponseId);
+            if (element) {
+              chatbotTypingResponse(element, songData);
+            } else {
+            }
+          }, 0);
         } else if (chatbotDummyResponse.includes("data:image")) {
           setConversations((prev) => {
             const currentMessage = [...prev];
@@ -384,22 +429,34 @@ function ChatbotInterface() {
             const dynamicChoiceMessage =
               `Would you like some music suggestions or an artistic image to help you relax? \n` +
               `Please type "music" for music suggestions or "image" for an artistic image.`;
-            chatbotTypingResponse(conversationDiv, dynamicChoiceMessage);
             setConversations((prev) => {
               const currentMessage = [...prev];
               currentMessage[botMessageIndex].response = dynamicChoiceMessage;
               return currentMessage;
             });
+            setTimeout(() => {
+              const element = document.getElementById(chatbotResponseId);
+              if (element) {
+                chatbotTypingResponse(element, dynamicChoiceMessage);
+              } else {
+              }
+            }, 0);
             setDynamicChoice(true);
           } else {
             console.log("YAY...");
             const chatbot_response = await handleChatbotResponse(message);
-            chatbotTypingResponse(conversationDiv, chatbot_response);
             setConversations((prev) => {
               const currentMessage = [...prev];
               currentMessage[botMessageIndex].response = chatbot_response;
               return currentMessage;
             });
+            setTimeout(() => {
+              const element = document.getElementById(chatbotResponseId);
+              if (element) {
+                chatbotTypingResponse(element, chatbot_response);
+              } else {
+              }
+            }, 0);
           }
         }
       }
