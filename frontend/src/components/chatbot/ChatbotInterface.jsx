@@ -643,12 +643,13 @@ function ChatbotInterface() {
         if (response.data.result === null) {
         } else {
           setConversations(response?.data?.result?.conversations);
+          setFetchedConversation(true);
+          setFetchedConversations(response?.data?.result?.conversations);
         }
       });
   };
 
-  console.log(conversations);
-  console.log(fetchedConversation);
+  console.log("CONVERSATIONS: ", conversations);
   console.log("FETCHED: ", fetchedConversations);
 
   return (
