@@ -538,7 +538,8 @@ function ChatbotInterface() {
         setSongSelection(true);
         return songRecommendations;
       } else {
-        return "💡Please choose a number from the list.";
+        setSelectedSongGenre(true);
+        return "💡Please choose a number from the song list.";
       }
     } else if (selectedSongGenre === true && !isNaN(prompt)) {
       const selectedGenreNumber = parseInt(prompt) - 1;
@@ -559,7 +560,8 @@ function ChatbotInterface() {
         setSongSelection(true);
         return songRecommendations;
       } else {
-        return "💡Please choose a number from the list.";
+        setSelectedSongGenre(true);
+        return "💡Please choose a number from the genre list.";
       }
     } else if (songSelection && !isNaN(prompt)) {
       const selectedSongNumber = parseInt(prompt) - 1;
@@ -571,7 +573,8 @@ function ChatbotInterface() {
         setSongSelection(false);
         return chosenRecommendedSong;
       } else {
-        return "💡Please choose a number from the list.";
+        setSongSelection(true);
+        return "💡Please choose a number from the song list.";
       }
     } else if (
       prompt.includes("create") ||
@@ -584,8 +587,6 @@ function ChatbotInterface() {
       return await prompt;
     }
   };
-
-  console.log(selectedSongGenre);
 
   const fetch_conversation_title = async (prompt) => {
     await axios
@@ -687,7 +688,6 @@ function ChatbotInterface() {
   }, [conversations, isNewChat, conversationTitle]);
 
   const fetching_user_conversations = async (chat_title) => {
-    setFetchedConversation(true);
     await axios
       .get(`http://localhost:5000/fetching_user_conversations/${chat_title}`, {
         method: "GET",
@@ -699,7 +699,6 @@ function ChatbotInterface() {
       .then((response) => {
         if (response.data.result === null) {
         } else {
-          setConversations(response?.data?.result?.conversations);
           setFetchedConversation(true);
           setFetchedConversations(response?.data?.result?.conversations);
         }
