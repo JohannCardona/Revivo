@@ -512,7 +512,14 @@ function ChatbotInterface() {
   };
 
   const handleChatbotResponseType = async (prompt) => {
-    if (prompt === "exit") {
+    if (
+      prompt.includes("bye") ||
+      prompt.includes("exit") ||
+      prompt.includes("bye bye") ||
+      prompt.includes("goodbye") ||
+      prompt.includes("see you") ||
+      prompt.includes("see ya")
+    ) {
       return;
     } else if (
       prompt.includes("recommend song") ||
