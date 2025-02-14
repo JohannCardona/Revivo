@@ -241,7 +241,13 @@ function ChatbotInterface() {
       setPrompt("");
       return;
     }
-    const userResponse = conversationList(false, prompt);
+    if (!conversationTitle) {
+      try {
+        await fetch_conversation_title(prompt);
+      } catch (error) {
+        console.error("Error generating conversation title:", error);
+      }
+    }
     console.log("CREATE USER OBJECT...");
     const userResponse = conversationList(false, prompt, null);
     console.log("ADD USER TO ARRAY...");
