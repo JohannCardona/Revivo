@@ -675,8 +675,12 @@ function ChatbotInterface() {
       const user = localStorage.getItem("user");
       if (conversations.length !== 0) {
         if (
-          localStorage.getItem("user_message") === "exit" ||
-          localStorage.getItem("bye") ||
+          localStorage.getItem("user_message").includes("bye") ||
+          localStorage.getItem("user_message").includes("exit") ||
+          localStorage.getItem("user_message").includes("bye bye") ||
+          localStorage.getItem("user_message").includes("goodbye") ||
+          localStorage.getItem("user_message").includes("see you") ||
+          localStorage.getItem("user_message").includes("see ya") ||
           isNewChat === true
         ) {
           console.log("store conversations");
