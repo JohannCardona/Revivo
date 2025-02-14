@@ -394,7 +394,6 @@ function ChatbotInterface() {
             "Please choose a number from the genre list"
           )
         ) {
-          chatbotTypingResponse(conversationDiv, chatbotDummyResponse);
           setConversations((prev) => {
             const currentMessage = [...prev];
             currentMessage[botMessageIndex].response = chatbotDummyResponse;
@@ -671,13 +670,6 @@ function ChatbotInterface() {
     dynamic_mood_tracking();
   }, [conversations]);
 
-  const newChat = () => {
-    setIsNewChat(true);
-    setTimeout(() => {
-      setConversations("");
-    }, 1000);
-  };
-
   useEffect(() => {
     const store_user_conversations = async () => {
       const user = localStorage.getItem("user");
@@ -727,6 +719,19 @@ function ChatbotInterface() {
 
   console.log("CONVERSATIONS: ", conversations);
   console.log("FETCHED: ", fetchedConversations);
+
+  const newChat = () => {
+    setIsNewChat(true);
+    if (!fetchedConversation) {
+      setTimeout(() => {
+        setConversations("");
+      }, 500);
+    } else {
+      setFetchedConversation(false);
+      setFetchedConversations("");
+    }
+    setIsNewChat(false);
+  };
 
   return (
     <div className="chatbot-container">
