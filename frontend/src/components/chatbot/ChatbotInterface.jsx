@@ -256,7 +256,14 @@ function ChatbotInterface() {
       userResponse,
     ]);
     localStorage.setItem("user_message", prompt);
-    if (prompt === "exit") {
+    if (
+      prompt.includes("bye") ||
+      prompt.includes("exit") ||
+      prompt.includes("bye bye") ||
+      prompt.includes("goodbye") ||
+      prompt.includes("see you") ||
+      prompt.includes("see ya")
+    ) {
       setPrompt("");
       return;
     }
