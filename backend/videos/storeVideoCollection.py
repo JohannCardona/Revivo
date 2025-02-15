@@ -135,12 +135,12 @@ mentalHealthVideos = [
         "category": "Nutrition and mental health",
         "videos": [
             {
-                "video_title": "Understanding Depression",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "how Food Heals",
+                "video_url": "https://www.youtube.com/embed/7sTJIH1Maxs",
             },
             {
-                "video_title": "Overcoming Negative Thoughts",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "Feed Your Mental Health",
+                "video_url": "https://www.youtube.com/embed/BbLFsQubdtw",
             },
         ],
     },
