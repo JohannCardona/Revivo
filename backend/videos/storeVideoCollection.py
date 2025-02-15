@@ -236,15 +236,15 @@ mentalHealthVideos = [
         ],
     },
     {
-        "category": "Spiritual and mental health",
+        "category": "Spirituality",
         "videos": [
             {
-                "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "Spirituality and Mental Health",
+                "video_url": "https://www.youtube.com/embed/7JYkRe1sFsY",
             },
             {
-                "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "How to Pair It with Mental Health",
+                "video_url": "https://www.youtube.com/embed/QdXxfXtscgg",
             },
         ],
     },
@@ -252,12 +252,11 @@ mentalHealthVideos = [
         "category": "Depression",
         "videos": [
             {
-                "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "Self-Help for Low Mood and Depression",
+                "video_url": "https://www.youtube.com/embed/qKcRUOWYQ9w",
             },
             {
                 "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
         ],
     },
