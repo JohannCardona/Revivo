@@ -148,12 +148,12 @@ mentalHealthVideos = [
         "category": "Exercise and mental well-being",
         "videos": [
             {
-                "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "Brain-Changing Benefits of Exercise",
+                "video_url": "https://www.youtube.com/embed/BHY0FxzoKZE",
             },
             {
-                "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "The importance of Exercise of Mental Health",
+                "video_url": "https://www.youtube.com/embed/2lDheJzSYeo",
             },
         ],
     },
@@ -161,12 +161,12 @@ mentalHealthVideos = [
         "category": "Procrastination and problem solving",
         "videos": [
             {
-                "video_title": "Managing Anxiety",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "Why You Procrastinate Even When It Feels Bad",
+                "video_url": "https://www.youtube.com/embed/FWTNMzK9vG4",
             },
             {
-                "video_title": "Breathing Exercises for Anxiety",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "How to Stop Procrastination",
+                "video_url": "https://www.youtube.com/embed/48jlHaxZnig",
             },
         ],
     },
