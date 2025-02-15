@@ -256,7 +256,8 @@ mentalHealthVideos = [
                 "video_url": "https://www.youtube.com/embed/qKcRUOWYQ9w",
             },
             {
-                "video_title": "Mindful Stress Management",
+                "video_title": "Minor vs Major Depression: How to Tell the Difference",
+                "video_url": "https://www.youtube.com/embed/VfvFE4rKn3c",
             },
         ],
     },
@@ -264,12 +265,12 @@ mentalHealthVideos = [
         "category": "Stress management",
         "videos": [
             {
-                "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "How to Make Stress Your Friend",
+                "video_url": "https://www.youtube.com/embed/RcGyVTAoXEU",
             },
             {
-                "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "How to Manage and Better Understand Stress",
+                "video_url": "https://www.youtube.com/embed/ZUoT89ceuCs",
             },
         ],
     },
@@ -277,12 +278,12 @@ mentalHealthVideos = [
         "category": "Sleep improvement",
         "videos": [
             {
-                "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "Proven Sleep Tips",
+                "video_url": "https://www.youtube.com/embed/m2SVFx2mOEg",
             },
             {
-                "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "Secrets to Getting Better Sleep",
+                "video_url": "https://www.youtube.com/embed/WeJrU-VJGfg",
             },
         ],
     },
@@ -290,12 +291,12 @@ mentalHealthVideos = [
         "category": "Self-esteem and confidence",
         "videos": [
             {
-                "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "Become Mentally Stronger",
+                "video_url": "https://www.youtube.com/embed/hUA_k76x2uE",
             },
             {
-                "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "8 Steps to Build Self-Esteem",
+                "video_url": "https://www.youtube.com/embed/EdgnSNxs7V0",
             },
         ],
     },
