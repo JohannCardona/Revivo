@@ -304,8 +304,8 @@ mentalHealthVideos = [
         "category": "Motivation",
         "videos": [
             {
-                "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "Never Lose Motivation Again",
+                "video_url": "https://www.youtube.com/embed/i1fXAmApPrA",
             },
             {
                 "video_title": "Ignite Your Inner Drive",
@@ -330,8 +330,34 @@ mentalHealthVideos = [
         "category": "Love",
         "videos": [
             {
-                "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "How To Practice Self-love",
+                "video_url": "https://www.youtube.com/embed/ZsTKyYOuK84",
+            },
+            {
+                "video_title": "What True Love Really Is",
+                "video_url": "https://www.youtube.com/embed/bw-_iPIcGIU",
+            },
+        ],
+    },
+    {
+        "category": "Acceptance",
+        "videos": [
+            {
+                "video_title": "Acceptance and Mental Health",
+                "video_url": "https://www.youtube.com/embed/dm2rdO7hAfI",
+            },
+            {
+                "video_title": "Radical Acceptance and Tolerance",
+                "video_url": "https://www.youtube.com/embed/81sCMCC5SOI",
+            },
+        ],
+    },
+    {
+        "category": "Life",
+        "videos": [
+            {
+                "video_title": "How to Live Life Wisely",
+                "video_url": "https://www.youtube.com/embed/Xtxscxi83XA",
             },
             {
                 "video_title": "Mindful Stress Management",
