@@ -62,6 +62,7 @@ p, h2, h3, span {
     --bg-navbar-dark: rgb(29, 29, 58);
 
     --image-button: #326f53;
+    --other-background: #f9fafb;
 }
 
 .light-theme {
