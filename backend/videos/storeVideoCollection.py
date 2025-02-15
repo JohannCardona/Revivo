@@ -200,12 +200,12 @@ mentalHealthVideos = [
         "category": "Mind-body connection",
         "videos": [
             {
-                "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "How to Process Emotions",
+                "video_url": "https://www.youtube.com/embed/c3kznC9m3Nc",
             },
             {
-                "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "What Powers the Mind-Body Connection",
+                "video_url": "https://www.youtube.com/embed/idJo0hpLhyI",
             },
         ],
     },
@@ -213,12 +213,12 @@ mentalHealthVideos = [
         "category": "Art and music therapy",
         "videos": [
             {
-                "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "How Does Art Therapy Heal the Soul",
+                "video_url": "https://www.youtube.com/embed/BN2rTaFUlxs",
             },
             {
-                "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "Music Therapy and Mental Health",
+                "video_url": "https://www.youtube.com/embed/-io-uld2JFU",
             },
         ],
     },
