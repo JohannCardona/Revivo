@@ -574,6 +574,7 @@ function ChatbotInterface() {
         selectedGenreNumber < dynamicArray.length
       ) {
         const chosenRecommendedGenre = dynamicArray[selectedGenreNumber];
+        await fetch_song_genre_selection(chosenRecommendedGenre);
         localStorage.setItem("chosenGenre", chosenRecommendedGenre);
         setSelectedSongGenre(false);
         const songRecommendations = await recommend_songs(
@@ -597,6 +598,7 @@ function ChatbotInterface() {
       ) {
         const chosenRecommendedGenre = randomFiveArray[selectedGenreNumber];
         localStorage.setItem("chosenGenre", chosenRecommendedGenre);
+        await fetch_song_genre_selection(chosenRecommendedGenre);
         setSelectedSongGenre(false);
         const songRecommendations = await recommend_songs(
           chosenRecommendedGenre
