@@ -210,6 +210,7 @@ function PersonalStats() {
   useEffect(() => {
     getUserData();
     getKeywordFrequencyData();
+    getSongGenreCount();
   }, []);
 
   if (periodStatsData) {
@@ -288,13 +289,35 @@ function PersonalStats() {
             </div>
           </>
         )}
-        {dayStatsData ? (
+        {loading ? (
+          <>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "100px auto",
+              }}
+            >
+              <Audio
+                height="100"
+                width="100"
+                color="#4fa94d"
+                ariaLabel="audio-loading"
+                wrapperStyle={{}}
+                wrapperClass="wrapper-class"
+                visible={true}
+              />
+            </div>
+          </>
+        ) : (
           <>
             <div style={{ marginTop: 40 }}>
               <Bar options={options} data={dayStatsData} />
             </div>
           </>
-        ) : (
+        )}
+        {loading ? (
           <>
             <div
               style={{
@@ -342,7 +365,12 @@ function PersonalStats() {
               />
             </div>
           </>
-        )}
+        ) : Array.isArray(songGenreCount.labels) &&
+          songGenreCount.labels.length > 0 ? (
+          <div style={{ marginTop: 40 }}>
+            <Bar options={options} data={songGenreCount} />
+          </div>
+        ) : null}
       </div>
     </div>
   );
