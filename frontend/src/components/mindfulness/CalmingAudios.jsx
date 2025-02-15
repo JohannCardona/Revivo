@@ -9,7 +9,7 @@ import Sidebar from "../Sidebar";
 
 const sidebar_links = [
   { text: "Emotional regulation", to: "/audios#emotional_regulation" },
-  { text: "Copying mechanisms", to: "/audios#copying_mechanisms" },
+  { text: "Coping mechanisms", to: "/audios#coping_mechanisms" },
   { text: "Mindfulness and meditation", to: "/audios#mindfulness_meditation" },
   { text: "Resilience building", to: "/audios#resilience_building" },
 ];
@@ -25,7 +25,7 @@ const audios1 = [
     ],
   },
   {
-    id: "copying_mechanisms",
+    id: "coping_mechanisms",
     category: "Coping mechanisms",
     audios: [
       { id: 4, title: "Guidance Meditation", src: audio },
