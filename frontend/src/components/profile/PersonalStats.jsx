@@ -128,7 +128,14 @@ function PersonalStats() {
   const color = ["#77c3a6", "#565656", "#587bda", "#16bec5"];
   const [periodStatsData, setPeriodStatsData] = useState(null);
   const [dayStatsData, setDayStatsData] = useState(null);
-  const [keywordData, setKeywordData] = useState(null);
+  const [keywordData, setKeywordData] = useState({
+    frequency: [],
+    keyword: [],
+  });
+  const [songGenreCount, setSonGenreCount] = useState({
+    labels: [],
+    datasets: [],
+  });
   const [loading, setLoading] = useState(true);
   const timeout = (m) => new Promise((s) => setTimeout(s, m));
 
@@ -152,16 +159,52 @@ function PersonalStats() {
   const getKeywordFrequencyData = async () => {
     setLoading(true);
     await timeout(200);
-    const res = await axios.get("http://localhost:5000/keyword_frequency", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    console.log(res?.data?.result);
-    const responses = res?.data?.result
-    console.log(responses);
-    setKeywordData(dataset2(responses));
+    axios
+      .get("http://localhost:5000/keyword_frequency", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          const responses = response?.data?.result;
+          setKeywordData(dataset2(responses, "Keywords", "keyword", "frequency"));
+          setLoading(false);
+        } else if (response.status === 204) {
+          setKeywordData(dataset2([], "Keywords"));
+        }
+      });
+  };
+
+  const getSongGenreCount = async () => {
+    setLoading(true);
+    await timeout(200);
+    axios
+      .get("http://localhost:5000/get_song_genre_count", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          const responses = response?.data?.result;
+          setSonGenreCount(
+            dataset2(
+              responses,
+              "Song Genres",
+              "songGenre",
+              "count"
+            )
+          );
+          setLoading(false);
+        } else if (response.status === 204) {
+          setSonGenreCount(
+            dataset2([], "Song Genres", "songGenre", "count")
+          );
+        }
+      });
   };
 
   useEffect(() => {
@@ -272,14 +315,13 @@ function PersonalStats() {
               />
             </div>
           </>
-        )}
-        {keywordData ? (
-          <>
-            <div style={{ marginTop: 40 }}>
-              <Bar options={options2} data={keywordData} />
-            </div>
-          </>
-        ) : (
+        ) : Array.isArray(keywordData.labels) &&
+          keywordData.labels.length > 0 ? (
+          <div style={{ marginTop: 40 }}>
+            <Bar options={options} data={keywordData} />
+          </div>
+        ) : null}
+        {loading ? (
           <>
             <div
               style={{
