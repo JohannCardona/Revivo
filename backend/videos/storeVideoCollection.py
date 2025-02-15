@@ -174,12 +174,12 @@ mentalHealthVideos = [
         "category": "Brain health",
         "videos": [
             {
-                "video_title": "Understanding Depression",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "Atomic Habits for Mental Health",
+                "video_url": "https://www.youtube.com/embed/AOHT-YiOeQA",
             },
             {
-                "video_title": "Overcoming Negative Thoughts",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "Best Diet for Brain Health & Memory",
+                "video_url": "https://www.youtube.com/embed/-e-4Kx5px_I",
             },
         ],
     },
@@ -187,12 +187,12 @@ mentalHealthVideos = [
         "category": "Burnout",
         "videos": [
             {
-                "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "7 Signs You're Dealing With Burnout",
+                "video_url": "https://www.youtube.com/embed/GieO8uI58tM",
             },
             {
-                "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "How to Deal with Burnout",
+                "video_url": "https://www.youtube.com/embed/YyjBKqsJqAo",
             },
         ],
     },
