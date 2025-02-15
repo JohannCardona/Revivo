@@ -308,8 +308,21 @@ mentalHealthVideos = [
                 "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
             },
             {
-                "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "Ignite Your Inner Drive",
+                "video_url": "https://www.youtube.com/embed/II5h6uJPvvs",
+            },
+        ],
+    },
+    {
+        "category": "Healing",
+        "videos": [
+            {
+                "video_title": "Emotional Healing",
+                "video_url": "https://www.youtube.com/embed/ZsTKyYOuK84",
+            },
+            {
+                "video_title": "Heal Body and Mind",
+                "video_url": "https://www.youtube.com/embed/xYBPPMLH2No",
             },
         ],
     },
