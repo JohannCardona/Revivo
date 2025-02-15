@@ -60,6 +60,8 @@ def fetch_keyword_frequency():
         {"user": user})
     keyword_frequency = []
     for i in objects:
+        if "conversations" not in i:
+            return jsonify({"result": "No conversations found"}), HTTPStatus.NO_CONTENT
         for j in i["conversations"]:
             if j["chatbot"] == False:
                 keyword_frequency.append({"response": j["response"]})
