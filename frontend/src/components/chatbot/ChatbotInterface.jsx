@@ -496,9 +496,16 @@ function ChatbotInterface() {
       setLoadingChatbotResponse(false);
       setConversations((prev) => {
         const currentMessage = [...prev];
-        currentMessage[botMessageIndex].response = "Error";
+        currentMessage[botMessageIndex].response = "Failed processing response";
         return currentMessage;
       });
+      setTimeout(() => {
+        const element = document.getElementById(chatbotResponseId);
+        if (element) {
+          chatbotTypingResponse(element, "Failed processing response");
+        } else {
+        }
+      }, 0);
     }
   };
 
