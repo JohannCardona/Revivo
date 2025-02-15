@@ -234,6 +234,25 @@ function ChatbotInterface() {
     return song_list;
   };
 
+  const fetch_song_genre_selection = async (song_genre) => {
+    await axios
+      .post(
+        `http://localhost:5000/post_song_genre_selection`,
+        { song_genre },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data.result);
+        }
+      });
+  };
+
   const handleConversationSubmit = async () => {
     prompt = prompt.toLowerCase();
     if (prompt.trim() === "") {
