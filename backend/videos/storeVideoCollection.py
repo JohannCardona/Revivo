@@ -226,12 +226,12 @@ mentalHealthVideos = [
         "category": "Digital detox and screen time effects",
         "videos": [
             {
-                "video_title": "Stress Relief Techniques",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "Social Media's Hidden Costs",
+                "video_url": "https://www.youtube.com/embed/4TMPXK9tw5U",
             },
             {
-                "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "Techniques for Reducing Screen Time",
+                "video_url": "https://www.youtube.com/embed/KPhS4smkjHA",
             },
         ],
     },
@@ -360,8 +360,8 @@ mentalHealthVideos = [
                 "video_url": "https://www.youtube.com/embed/Xtxscxi83XA",
             },
             {
-                "video_title": "Mindful Stress Management",
-                "video_url": "https://www.youtube.com/embed/DZqkeMoQA38",
+                "video_title": "What Really Matters at The End of Life",
+                "video_url": "https://www.youtube.com/embed/apbSsILLh28",
             },
         ],
     },
