@@ -46,7 +46,7 @@
 .badge-box.badgeUnlocked {
   color: #50a081;
   background: white;
-  border: 1px solid #50a081;
+  border: 3px solid #ddd;
 }
 
 .badge-box:hover {
