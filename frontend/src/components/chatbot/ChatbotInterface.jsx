@@ -740,8 +740,8 @@ function ChatbotInterface() {
       });
   };
 
-  console.log("CONVERSATIONS: ", conversations);
-  console.log("FETCHED: ", fetchedConversations);
+  // console.log("CONVERSATIONS: ", conversations);
+  // console.log("FETCHED: ", fetchedConversations);
 
   const newChat = () => {
     setIsNewChat(true);
