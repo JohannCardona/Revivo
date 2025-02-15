@@ -97,7 +97,6 @@ function PersonalStats() {
 
   const dataset1 = (statsData) => {
     if (statsData) {
-      console.log(statsData);
       return {
         labels: statsData.days.map((d) => d.date),
         datasets: [
@@ -111,15 +110,14 @@ function PersonalStats() {
     }
   };
 
-  const dataset2 = (statsData) => {
+  const dataset2 = (statsData, title, label, data) => {
     if (statsData) {
-      console.log(statsData);
       return {
-        labels: statsData.map((k) => k.keyword),
+        labels: statsData.map((k) => k[label]),
         datasets: [
           {
-            label: "Keyword",
-            data: statsData.map((f) => f.frequency),
+            label: title,
+            data: statsData.map((f) => f[data]),
             backgroundColor: color[3],
           },
         ],
@@ -145,7 +143,6 @@ function PersonalStats() {
         },
       })
       .then((response) => {
-        console.log(response);
         setPeriodStatsData(dataset(response.data));
         setDayStatsData(dataset1(response.data));
         setLoading(false);
@@ -171,8 +168,6 @@ function PersonalStats() {
     getUserData();
     getKeywordFrequencyData();
   }, []);
-
-  console.log(keywordData);
 
   if (periodStatsData) {
     total_day_count = periodStatsData.datasets[0].data.reduce(
