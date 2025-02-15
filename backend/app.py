@@ -19,7 +19,6 @@ def main():
     from musicRecommender.spotifyMusicRecommender import spotify_recommender
     from summariseHistoryName.historyName import conversation_title
     from chat.conversations import conversations
-    # from chat.chatgpt_api import chatgpt
     from textEmotion.textEmotion import emotion_classifier
     from chat.chat_model import chat
     from videos.video_library import video_library
