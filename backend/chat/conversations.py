@@ -75,3 +75,32 @@ def fetch_keyword_frequency():
     most_frequent_words = [{"keyword": keyword, "frequency": frequency}
                            for keyword, frequency in frequent_words]
     return jsonify({"result": most_frequent_words}), HTTPStatus.OK
+
+
+@conversations.route("/post_song_genre_selection", methods=["POST"])
+def post_song_genre_selection():
+    jwt_token = request.authorization
+    token = jwt_token.token
+    decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
+    user = decoded_token["user"]
+    data = request.get_json()
+    print(data)
+
+    mongo_db.song_genres_count.update_one(
+        {"user": user, "songGenre": data["song_genre"]}, {
+            "$inc": {"count": 1}},
+        upsert=True)
+
+    return jsonify({"result": "Song genre count stored successfully!!!"}), HTTPStatus.OK
+
+@conversations.route("/get_song_genre_count", methods=["GET"])
+def get_song_genre_count():
+    jwt_token = request.authorization
+    token = jwt_token.token
+    decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
+    user = decoded_token["user"]
+
+    genre_count = mongo_db.song_genres_count.find({"user": user}, {"_id": 0})
+    genre_count = list(genre_count.sort("count", -1).limit(5))
+    print(genre_count)
+    return jsonify({"result": genre_count}), HTTPStatus.OK
