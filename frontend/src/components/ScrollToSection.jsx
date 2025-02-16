@@ -24,7 +24,6 @@ const ScrollToSection = () => {
     if (hashElement) {
       hashElement.scrollIntoView({
         behavior: "smooth",
-        inline: "nearest",
       });
     }
   }, [hashElement]);
