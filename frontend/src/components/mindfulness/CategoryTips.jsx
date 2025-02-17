@@ -6,8 +6,10 @@ import "../../styles/motivation/motivation.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import logo from "../../images/meditation.svg";
+import logo1 from "../../images/mindfulness.svg";
 
 const CategoryTips = () => {
+  const theme = localStorage.getItem("theme");
   const fireAlert = (response, type, color) => {
     Swal.fire({
       title: response,
@@ -149,7 +151,7 @@ const CategoryTips = () => {
                 </motion.button>
               </div>
             </div>
-            <img className="no-favourites" src={logo} alt="Tips Logo" />
+            <img className="no-favourites" src={theme === "light-theme" ? logo1 : logo} alt="Tips Logo" />
           </div>
         </>
       ) : (
