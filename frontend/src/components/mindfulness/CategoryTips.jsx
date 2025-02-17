@@ -204,13 +204,24 @@ const CategoryTips = () => {
               initial={{ opacity: 0, y: -20 }}
               className="favourite-tips-container"
             >
-              <h2 className="favourite-tips-container-heading">
+              <h2
+                style={{ borderBottom: "2px solid var(--text)" }}
+                className="favourite-tips-container-heading"
+              >
                 Your Favourite Tips
               </h2>
               <ul className="favourite-tips-list">
                 {favouriteTips.map((favouriteTip, i) => (
                   <>
-                    <li key={i} className="favourite-tip-item">
+                    <li
+                      key={i}
+                      style={{
+                        borderBottom: "2px solid var(--text)",
+                        borderWidth: "50%",
+                        borderRadius: 0,
+                      }}
+                      className="favourite-tip-item"
+                    >
                       {favouriteTip}
                       <motion.button
                         whileHover={{ scale: 1.1 }}
