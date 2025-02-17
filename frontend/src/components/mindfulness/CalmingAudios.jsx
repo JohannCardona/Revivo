@@ -88,12 +88,121 @@ const audios1 = [
     ],
   },
   {
-    id: "resilience_building",
-    category: "Resilience building",
+    id: "anxiety-relief",
+    category: "Anxiety Relief",
     audios: [
-      { id: 10, title: "Guidance Meditation", src: audio },
-      { id: 11, title: "Breathing Exercises", src: audio },
-      { id: 12, title: "Rainfall", src: audio },
+      {
+        id: 12,
+        title: "Anxiety Soothing Session",
+        src: anxiety_letting_go_audio,
+      },
+      { id: 13, title: "Grounding Exercises", src: grounding_audio },
+      { id: 14, title: "Calm and Centered Meditation", src: calm_audio },
+    ],
+  },
+  {
+    id: "stress-management",
+    category: "Stress Management",
+    audios: [
+      { id: 15, title: "Stress Relief Meditation", src: stress_audio },
+      {
+        id: 16,
+        title: "Progressive Muscle Relaxation",
+        src: progressing_audio,
+      },
+      { id: 17, title: "Calming Music", src: calm_audio },
+    ],
+  },
+  {
+    id: "self-care-affirmations",
+    category: "Self-Care & Affirmations",
+    audios: [
+      { id: 18, title: "Positive Affirmations", src: positive_audio },
+      { id: 19, title: "Self-Love Meditation", src: self_love },
+      { id: 20, title: "Self-Care Meditation", src: selfcare_audio },
+    ],
+  },
+  {
+    id: "resilience-empowerment",
+    category: "Resilience & Empowerment",
+    audios: [
+      { id: 21, title: "Building Inner Strength", src: strength_audio },
+      { id: 22, title: "Empowerment Affirmations", src: positive_audio },
+      { id: 23, title: "Overcoming Challenges", src: challenge_audio },
+    ],
+  },
+  {
+    id: "emotional-healing",
+    category: "Emotional Healing",
+    audios: [
+      { id: 24, title: "Healing Meditation", src: healing_audio },
+      { id: 25, title: "Letting Go of Pain", src: emotions_audio },
+      { id: 26, title: "Emotional Recovery Journey", src: emotional_audio },
+    ],
+  },
+  {
+    id: "gratitude-positivity",
+    category: "Gratitude & Positivity",
+    audios: [
+      { id: 27, title: "Gratitude Meditation", src: gratitude_audio },
+      { id: 28, title: "Positive Energy Boost", src: positive_energy_audio },
+      { id: 29, title: "Uplifting Sounds", src: uplifting_audio },
+    ],
+  },
+  {
+    id: "sleep-improvement",
+    category: "Sleep Improvement",
+    audios: [
+      { id: 30, title: "Sleep Meditation", src: sleep_audio },
+      { id: 31, title: "Bedtime Story for Adults", src: bedtime_audio },
+      { id: 32, title: "Sleep Soundscapes", src: sleep_better_audio },
+    ],
+  },
+  {
+    id: "focus-concentration",
+    category: "Focus & Concentration",
+    audios: [
+      { id: 33, title: "Deep Focus Session", src: study_audio },
+      { id: 34, title: "Productivity Booster", src: productivity_audio },
+      { id: 35, title: "Concentration Enhancer", src: intense_focus_audio },
+    ],
+  },
+  {
+    id: "mind-body",
+    category: "Mind-Body Connection",
+    audios: [
+      { id: 36, title: "Mindful Movement", src: gentle_audio },
+      { id: 37, title: "Body-Mind Awareness", src: body_mind_audio },
+      { id: 38, title: "Atmospheric Sounds", src: atmospheric_audio },
+    ],
+  },
+  {
+    id: "nature",
+    category: "Nature",
+    audios: [
+      { id: 39, title: "Rain Sounds", src: rain_audio },
+      { id: 40, title: "Bird Sounds", src: bird_audio },
+      { id: 41, title: "Wave Sounds", src: wave_audio },
+      { id: 42, title: "Wind Sounds", src: wind_audio },
+      { id: 43, title: "Waterfall Sounds", src: waterfall_audio },
+    ],
+  },
+  {
+    id: "noise",
+    category: "White/Brown/Pink Noise",
+    audios: [
+      { id: 44, title: "White Noise", src: white_noise_audio },
+      { id: 45, title: "Brown Noise", src: brown_noise_audio },
+      { id: 46, title: "Pink Noise", src: pink_noise_audio },
+    ],
+  },
+  {
+    id: "meditative_instrumental",
+    category: "Meditative & Instrumental",
+    audios: [
+      { id: 47, title: "Binaural Beats", src: beats_audio },
+      { id: 48, title: "Calm Piano", src: piano_audio },
+      { id: 49, title: "Singing Bowls", src: bowls_audio },
     ],
   },
 ];
