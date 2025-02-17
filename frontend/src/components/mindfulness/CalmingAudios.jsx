@@ -17,7 +17,7 @@ import selfcare_audio from "../../audio/self-care.mp3";
 import progressing_audio from "../../audio/progressive-muscle-relaxation.mp3";
 import challenge_audio from "../../audio/overcome-challenges.mp3";
 import grounding_audio from "../../audio/grounding-meditation.mp3";
-import release_emotions_audio from "../../audio/anxiety-meditation.mp3";
+import release_emotions_audio from "../../audio/release-emotions.mp3";
 import gentle_audio from "../../audio/gentle-movement.mp3";
 import sleep_audio from "../../audio/sleep-meditation.mp3";
 import healing_audio from "../../audio/healing-meditation.mp3";
