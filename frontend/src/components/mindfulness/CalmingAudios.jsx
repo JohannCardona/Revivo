@@ -55,17 +55,18 @@ import AudiosSidebar from "./AudiosSidebar";
 
 const audios1 = [
   {
-    id: "emotional_regulation",
-    category: "Emotional regulation",
+    id: "meditation",
+    category: "Meditation",
     audios: [
-      { id: 1, title: "Guidance Meditation", src: audio },
-      { id: 2, title: "Breathing Exercises", src: audio },
-      { id: 3, title: "Rainfall", src: audio },
+      { id: 1, title: "Guided Mindfulness Meditation", src: guided_audio },
+      { id: 2, title: "Body Scan Meditation", src: body_audio },
+      { id: 3, title: "Loving-Kindness Meditation", src: loving_audio },
+      { id: 4, title: "Zen Meditation", src: zen_audio },
     ],
   },
   {
-    id: "coping_mechanisms",
-    category: "Coping mechanisms",
+    id: "mindfulness",
+    category: "Mindfulness",
     audios: [
       { id: 4, title: "Guidance Meditation", src: audio },
       { id: 5, title: "Breathing Exercises", src: audio },
