@@ -249,7 +249,7 @@ const AudioPlayer = () => {
     <div className="main-container">
       <ScrollToSection />
       <div>
-        <Sidebar sidebar_links={sidebar_links} />
+        <AudiosSidebar />
       </div>
       <div className="audios-container">
         <h1>Audios for Relaxation</h1>
