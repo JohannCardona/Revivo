@@ -200,14 +200,14 @@ function BadgesSection() {
         ))}
       </div>
       <div className="badge-completion-progress">
-        <p>
+        <p style={{color: "var(--video-title)"}}>
           {badgesCompleted} of {badgesInfo.length} Badges Unlocked
         </p>
       </div>
       <div>
         <p
           style={{
-            color: "var(--text)",
+            color: "var(--video-title)",
           }}
           className="completion-progress"
         >
