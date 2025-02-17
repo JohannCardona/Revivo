@@ -80,22 +80,32 @@ p, h2, h3, span {
     --chatbot-sidebar: #e2e1e1;
     --badges-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     --badges-locked-bg: rgba(0, 0, 0, 0.1);
+    --video-title-hover: #007bff;
+    --video-title: #666;
+    --video-section: #f4f7f9;
+    --favourite-section: #f4f7f9;
+    --audio-title-hover: #f4eded;
 }
 
 .dark-theme {
     --background: linear-gradient(to bottom, #628286, #72937a);
-    --opacity: 1;
+    --opacity: 0.9;
     --bg-color: rgb(12 16 22 / var(--opacity));
     --bg-inner-color: rgb(12 16 22 / var(--opacity));
     --text: rgb(255, 255, 255);
     --sidebar-text: white;
     --bot-bubble: #212121;
     --user-bubble: rgb(80, 79, 79);
-    --bg-navbar: #397061;
+    --bg-navbar: #63ab90;
     --favourites: #567b6d;
     --navbar: rgb(12 16 22 / var(--opacity));
     --inner-background: rgb(12 16 22 / var(--opacity));
     --chatbot-sidebar: rgb(12 16 22 / var(--opacity));
     --badges-shadow: 0px 4px 6px rgba(0, 0, 0, 0.9);
     --badges-locked-bg: rgb(243 235 235 / 10%);
+    --video-title-hover: #8cc1f9;
+    --video-title: #fff;
+    --video-section: #5d5d5d;
+    --favourite-section: #7f7e7e;
+    --audio-title-hover: #4b4b4b;
 }
