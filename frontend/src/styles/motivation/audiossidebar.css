@@ -4,7 +4,7 @@
     border-right: 1px solid #ddd;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     width: 280px;
-    background: #f5f5f5;
+    background: var(--video-section);
     padding: 30px 20px;
 }
 
@@ -15,11 +15,13 @@
     font-weight: bold;
     margin: 15px 0 15px;
     font-size: 16px;
+    padding: 5px;
+    color: var(--video-title);
 }
 
 .group-title:hover {
     cursor: pointer;
-    background-color: #f4eded;
+    background-color: var(--audio-title-hover);
 }
 
 .group-category-list {
@@ -37,6 +39,7 @@
 
 .group-category-list-toggle-icon {
     display: inline-block;
+    color: var(--video-title);
     transform: rotate(0deg);
     transition: transform 0.3s ease-in-out;
 }
@@ -48,12 +51,12 @@
 .category-list-item {
     display: flex;
     text-decoration: none;
-    color: #333;
+    color: var(--video-title);
     font-size: 0.9rem;
     margin: 5px 0;
 }
 
 .category-list-item:hover {
     cursor: pointer;
-    color: #007bff;
+    color: #88c1ff;
 }
