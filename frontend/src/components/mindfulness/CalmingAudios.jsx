@@ -51,14 +51,7 @@ import { FaPlay } from "react-icons/fa";
 import { FaPause } from "react-icons/fa6";
 import CloseIcon from "@mui/icons-material/Close";
 import ScrollToSection from "../ScrollToSection";
-import Sidebar from "../Sidebar";
-
-const sidebar_links = [
-  { text: "Emotional regulation", to: "/audios#emotional_regulation" },
-  { text: "Coping mechanisms", to: "/audios#coping_mechanisms" },
-  { text: "Mindfulness and meditation", to: "/audios#mindfulness_meditation" },
-  { text: "Resilience building", to: "/audios#resilience_building" },
-];
+import AudiosSidebar from "./AudiosSidebar";
 
 const audios1 = [
   {
