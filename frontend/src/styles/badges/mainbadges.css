@@ -44,8 +44,8 @@
 }
 
 .badge-box.badgeUnlocked {
-  color: #50a081;
-  background: white;
+  color: var(--video-title);
+  background: var(--video-section);
   border: 3px solid #ddd;
 }
 
@@ -61,7 +61,7 @@
 .badge-completion-progress {
   text-align: center;
   margin: 20px 0 30px 0;
-  background: #ededed;
+  background: var(--video-section);
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -75,8 +75,9 @@
 
 .badge-name {
   font-weight: bold;
+  color: var(--video-title);
 }
 
 .badge-box.badgeLocked .badge-name {
-  color: var(--text);
+  color: var(--video-title);
 }
