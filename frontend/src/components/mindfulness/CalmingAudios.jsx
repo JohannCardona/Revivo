@@ -252,7 +252,7 @@ const AudioPlayer = () => {
         <AudiosSidebar />
       </div>
       <div className="audios-container">
-        <h1>Audios for Relaxation</h1>
+        <h1>Mindful Audio Experience</h1>
         {audios1.map((au, key) => (
           <div key={key}>
             <h2 id={au.id}>{au.category}</h2>
