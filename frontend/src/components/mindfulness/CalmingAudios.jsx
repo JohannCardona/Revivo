@@ -68,18 +68,23 @@ const audios1 = [
     id: "mindfulness",
     category: "Mindfulness",
     audios: [
-      { id: 4, title: "Guidance Meditation", src: audio },
-      { id: 5, title: "Breathing Exercises", src: audio },
-      { id: 6, title: "Rainfall", src: audio },
+      { id: 5, title: "Mindful Breathing Exercise", src: breathing_audio },
+      { id: 6, title: "Present Moment Awareness", src: moment_audio },
+      { id: 7, title: "Mindful Walking Meditation", src: walking_audio },
     ],
   },
   {
-    id: "mindfulness_meditation",
-    category: "Mindfulness and meditation",
+    id: "emotional-regulation",
+    category: "Emotional Regulation",
     audios: [
-      { id: 7, title: "Guidance Meditation", src: audio },
-      { id: 8, title: "Breathing Exercises", src: audio },
-      { id: 9, title: "Rainfall", src: audio },
+      { id: 8, title: "Calm Your Emotions", src: release_emotions_audio },
+      { id: 9, title: "Release and Let Go", src: letting_go_med_audio },
+      { id: 10, title: "Self-Companion Journey", src: selfworth_audio },
+      {
+        id: 11,
+        title: "Emotional Awareness Exercise",
+        src: emotional_aware_audio,
+      },
     ],
   },
   {
