@@ -92,6 +92,14 @@ function Navbar() {
               />
             </NavLink>
           </Typography>
+          <Button
+            component={Link}
+            to={"/about"}
+            color="inherit"
+            style={{ cursor: "pointer" }}
+          >
+            About
+          </Button>
           {localStorage.getItem("token")
             ? buttons.map((button) => {
                 return (
