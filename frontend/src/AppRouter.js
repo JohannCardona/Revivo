@@ -11,6 +11,7 @@ import ExistingUser from "./components/login/ExistingUser";
 import CategoryTips from "./components/mindfulness/CategoryTips";
 import BadgesSection from "./components/Badges/BadgesSection";
 import MoodMain from "./components/MoodTracker/MoodMain";
+import About from "./components/About/About";
 
 function AppRouter() {
   return (
@@ -21,6 +22,7 @@ function AppRouter() {
             <Route index element={<NewUser />} />
             <Route path="/login" element={<ExistingUser />} />
             <Route path="/chat" element={<ChatbotInterface />} />
+            <Route path="/about" element={<About />} />
             <Route path="/dashboard" element={<PersonalStats />} />
             <Route path="/mood" element={<MoodMain />} />
             <Route path="/badges" element={<BadgesSection />} />
