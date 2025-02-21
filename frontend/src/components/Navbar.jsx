@@ -76,13 +76,13 @@ function Navbar() {
   return (
     <div className="navigation-bar">
       <AppBar position="static">
-        <Toolbar style={{ backgroundColor: "var(--navbar)" }}>
+        <Toolbar style={{ backgroundColor: "var(--navbar)", borderBottom: "1.5px solid white", boxShadow: "rgba(0, 0, 0, 0.6)" }}>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <NavLink to={user ? "/chat" : "/"}>
               <img
                 style={{
-                  width: 105,
-                  height: 75,
+                  width: 110,
+                  height: 80,
                   margin: "-3px 0 0 -20px",
                   display: "flex",
                   cursor: "pointer",
