@@ -33,3 +33,21 @@
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+.banner {
+  background-color: #f0f8ff;
+  color: #333;
+  padding: 15px;
+  text-align: center;
+  flex: 1;
+}
+
+.banner h1 {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.banner p {
+  font-size: 15px;
+  line-height: 1.5;
+}
