@@ -89,7 +89,7 @@ p, h2, h3, span {
 
 .dark-theme {
     --background: linear-gradient(to bottom, #628286, #72937a);
-    --opacity: 0.9;
+    --opacity: 0.95;
     --bg-color: rgb(12 16 22 / var(--opacity));
     --bg-inner-color: rgb(12 16 22 / var(--opacity));
     --text: rgb(255, 255, 255);
