@@ -450,7 +450,7 @@ function ChatbotInterface() {
           const randomiser = Math.random();
           console.log(randomiser);
           if (
-            randomiser > 0.8 &&
+            randomiser > 0.7 &&
             genreEmotions[extractedEmotion] &&
             conversations.length !== 0
           ) {
