@@ -54,8 +54,6 @@ function ChatbotInterface() {
     "soul",
     "romantic",
     "jazz",
-    "indie",
-    "ambient",
     "chill",
     "calm",
   ];
@@ -682,7 +680,7 @@ function ChatbotInterface() {
 
   useEffect(() => {
     const dynamic_mood_tracking = () => {
-      if (conversations.length === 2 && conversations[1].response !== "") {
+      if (conversations.length === 2 && conversations[1].response !== "" && localStorage.getItem("mood")) {
         const mood_tracking = {
           user: localStorage.getItem("user"),
           mood:
