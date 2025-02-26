@@ -11,27 +11,30 @@ function AudiosSidebar() {
     setMenuGroups((prev) => ({ ...prev, [group]: !prev[group] }));
   };
   const core_practices = [
-    "Meditation Audios",
-    "Mindfulness Audios",
-    "EMotional Regulation Audios",
+    { name: "Meditation Audios", link: "meditation" },
+    { name: "Mindfulness Audios", link: "mindfulness" },
+    { name: "Emotional Regulation Audios", link: "emotional-regulation" },
   ];
 
   const daily_support = [
-    "Anxiety Relief Audios",
-    "Stress Management Audios",
-    "Sleep Improvement Audios",
-    "Focus & Concentration Audios",
-    "Self-Care & Affirmation Audios",
-    "Resilience & Empowerment Audios",
-    "Emotional Healing Audios",
-    "Gratitude & Positivity Audios",
-    "Mind-Body Connection Audios",
+    { name: "Anxiety Relief Audios", link: "anxiety-relief" },
+    { name: "Stress Management Audios", link: "stress-management" },
+    { name: "Sleep Improvement Audios", link: "sleep-improvement" },
+    { name: "Focus & Concentration Audios", link: "focus-concentration" },
+    { name: "Self-Care & Affirmation Audios", link: "self-care-affirmations" },
+    { name: "Resilience & Empowerment Audios", link: "resilience-empowerment" },
+    { name: "Emotional Healing Audios", link: "emotional-healing" },
+    { name: "Gratitude & Positivity Audios", link: "gratitude-positivity" },
+    { name: "Mind-Body Connection Audios", link: "mind-body" },
   ];
 
   const ambient = [
-    "Nature Sounds",
-    "White/Brown/Pink Noise",
-    "Meditative & Instrumental Sounds",
+    { name: "Nature Sounds", link: "nature" },
+    { name: "White/Brown/Pink Noise", link: "noise" },
+    {
+      name: "Meditative & Instrumental Sounds",
+      link: "meditative_instrumental",
+    },
   ];
 
   return (
@@ -59,11 +62,11 @@ function AudiosSidebar() {
       >
         {core_practices.map((item, key) => (
           <a
-            href={`#${item.toLowerCase()}`}
+            href={`#${item.link.toLowerCase()}`}
             key={key}
             className="category-list-item"
           >
-            {item}
+            {item.name}
           </a>
         ))}
       </ul>
@@ -90,11 +93,11 @@ function AudiosSidebar() {
       >
         {daily_support.map((item, key) => (
           <a
-            href={`#${item.toLowerCase()}`}
+            href={`#${item.link.toLowerCase()}`}
             key={key}
             className="category-list-item"
           >
-            {item}
+            {item.name}
           </a>
         ))}
       </ul>
@@ -123,11 +126,11 @@ function AudiosSidebar() {
       >
         {ambient.map((item, key) => (
           <a
-            href={`#${item.toLowerCase()}`}
+            href={`#${item.link.toLowerCase()}`}
             key={key}
             className="category-list-item"
           >
-            {item}
+            {item.name}
           </a>
         ))}
       </ul>
