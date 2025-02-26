@@ -253,8 +253,8 @@ const AudioPlayer = () => {
       </div>
       <div className="audios-container">
         <h1>Mindful Audio Experience</h1>
-        {audios1.map((au, key) => (
-          <div id={au.id} key={key}>
+        {audios1.map((au) => (
+          <div id={au.id} key={au.id}>
             <h2>{au.category}</h2>
             {au.audios.map((audio_item) => (
               <>
