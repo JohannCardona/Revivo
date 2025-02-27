@@ -1079,7 +1079,7 @@ function ChatbotInterface() {
             <Tooltip title="Record your voice">
               <Button
                 style={{
-                  backgroundColor: "var(--bg-navbar)",
+                  backgroundColor: "var(--image-button)",
                   marginRight: 7,
                   marginLeft: -3,
                   paddingRight: 3,
@@ -1097,7 +1097,7 @@ function ChatbotInterface() {
             <Tooltip title="Send">
               <Button
                 style={{
-                  backgroundColor: "var(--bg-navbar)",
+                  backgroundColor: "var(--image-button)",
                   padding: "12px 10px",
                   borderRadius: 8,
                   paddingLeft: 3,
