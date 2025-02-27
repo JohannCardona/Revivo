@@ -88,7 +88,7 @@ function Navbar() {
             color="inherit"
             style={{ cursor: "pointer" }}
             sx={{
-              backgroundColor: "var(--navbar)",
+              // backgroundColor: "var(--navbar)",
               "&:hover": {
                 backgroundColor: "var(--navbar)",
               },
@@ -105,7 +105,7 @@ function Navbar() {
                     to={button.to}
                     color="inherit"
                     sx={{
-                      backgroundColor: "var(--navbar)",
+                      // backgroundColor: "var(--navbar)",
                       "&:hover": {
                         backgroundColor: "var(--navbar)",
                       },
@@ -177,7 +177,7 @@ function Navbar() {
           {localStorage.getItem("token") ? (
             <Button
               sx={{
-                backgroundColor: "var(--navbar)",
+                // backgroundColor: "var(--navbar)",
                 "&:hover": {
                   backgroundColor: "var(--navbar)",
                 },
