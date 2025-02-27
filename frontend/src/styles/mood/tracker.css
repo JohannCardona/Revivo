@@ -53,21 +53,28 @@
 
 .mood-submit {
   width: 200px;
-  background-color: var(--bg-navbar);
   border: none;
-  outline: none;
-  height: 49px;
-  border-radius: 8px;
-  color: #fff;
-  text-transform: uppercase;
-  font-weight: 600;
-  margin: 10px 0;
-  cursor: pointer;
-  transition: 0.5s;
+    outline: none;
+    height: 49px;
+    border-radius: 8px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: 0.5s;
+    background: var(--image-button);
+    box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease-in-out;
 }
 
 .mood-submit:hover {
-  background-color: #2f624e;
+  background-color: #305e49;
   color: #fff;
   box-shadow: 1px 3px 3px #ccc;
+}
+
+.mood-submit:focus {
+    transform: scale(0.95);
+    background-color: #4c7663;
 }
