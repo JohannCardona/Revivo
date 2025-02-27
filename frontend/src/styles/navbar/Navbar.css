@@ -48,7 +48,7 @@
 }
 
 .button-nav {
-    background-color: var(--navbar);
+    background-color: var(--button-nav);
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
