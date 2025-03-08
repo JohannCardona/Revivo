@@ -1076,7 +1076,7 @@ function ChatbotInterface() {
             />
           </div>
           <div className="user-item mic">
-            <Tooltip title="Record your voice">
+            {/* <Tooltip title="Record your voice">
               <Button
                 style={{
                   backgroundColor: "var(--image-button)",
@@ -1091,7 +1091,7 @@ function ChatbotInterface() {
                 onClick={handleAudioScript}
                 disabled={listening}
               ></Button>
-            </Tooltip>
+            </Tooltip> */}
           </div>
           <div className="user-item">
             <Tooltip title="Send">
