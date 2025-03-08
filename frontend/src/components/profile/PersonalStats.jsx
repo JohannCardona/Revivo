@@ -110,7 +110,7 @@ function PersonalStats() {
     }
   };
 
-  const dataset2 = (statsData, title, label, data) => {
+  const dataset2 = (statsData, title, label, data, color) => {
     if (statsData) {
       return {
         labels: statsData.map((k) => k[label]),
@@ -118,14 +118,14 @@ function PersonalStats() {
           {
             label: title,
             data: statsData.map((f) => f[data]),
-            backgroundColor: color[3],
+            backgroundColor: color,
           },
         ],
       };
     }
   };
 
-  const color = ["#77c3a6", "#565656", "#587bda", "#16bec5"];
+  const color = ["#77c3a6", "#565656", "#587bda", "#16bec5", "orange"];
   const [periodStatsData, setPeriodStatsData] = useState(null);
   const [dayStatsData, setDayStatsData] = useState(null);
   const [keywordData, setKeywordData] = useState({
@@ -169,7 +169,9 @@ function PersonalStats() {
       .then((response) => {
         if (response.status === 200) {
           const responses = response?.data?.result;
-          setKeywordData(dataset2(responses, "Keywords", "keyword", "frequency"));
+          setKeywordData(
+            dataset2(responses, "Keywords", "keyword", "frequency", color[3])
+          );
           setLoading(false);
         } else if (response.status === 204) {
           setKeywordData(dataset2([], "Keywords"));
@@ -191,18 +193,11 @@ function PersonalStats() {
         if (response.status === 200) {
           const responses = response?.data?.result;
           setSonGenreCount(
-            dataset2(
-              responses,
-              "Song Genres",
-              "songGenre",
-              "count"
-            )
+            dataset2(responses, "Song Genres", "songGenre", "count", color[4])
           );
           setLoading(false);
         } else if (response.status === 204) {
-          setSonGenreCount(
-            dataset2([], "Song Genres", "songGenre", "count")
-          );
+          setSonGenreCount(dataset2([], "Song Genres", "songGenre", "count"));
         }
       });
   };
