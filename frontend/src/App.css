@@ -86,6 +86,7 @@ p, h2, h3, span {
     --favourite-section: #f4f7f9;
     --audio-title-hover: #f4eded;
     --button-nav: #275b48;
+    --main-banner: #f0f8ff;
 }
 
 .dark-theme {
@@ -110,4 +111,5 @@ p, h2, h3, span {
     --favourite-section: #7f7e7e;
     --audio-title-hover: #4b4b4b;
     --button-nav: rgb(12 16 22 / 0);
+    --main-banner: #c4c7cb;
 }
