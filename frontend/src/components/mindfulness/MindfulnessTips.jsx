@@ -10,6 +10,7 @@ import Love from "../../images/love.webp";
 import "../../styles/motivation/mindfulnesstips.css";
 import axios from "axios";
 import Swal from "sweetalert2";
+import badge from "../../images/star-medal.png";
 
 // Mindfulness: A serene individual meditating by a calm lake at sunrise.
 // Motivation: A climber triumphantly reaching the summit of a mountain.
@@ -82,6 +83,9 @@ const MindfulnessTips = () => {
 
   const unlockBadge = (title, tipCategory) => {
     Swal.fire({
+      imageUrl: badge,
+      imageHeight: 80,
+      imageWidth: 80,
       title: title,
       confirmButtonText: "OK",
       confirmButtonColor: "green",
