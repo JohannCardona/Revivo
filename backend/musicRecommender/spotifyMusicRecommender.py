@@ -14,7 +14,6 @@ CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 TOKEN_URL = 'https://accounts.spotify.com/api/token'
 SEARCH_URL = 'https://api.spotify.com/v1/search'
 
-@spotify_recommender.route("/spotify_login", methods=['POST'])
 def spotify_login_token():
     auth = f"{CLIENT_ID}:{CLIENT_SECRET}"
     auth_header = base64.b64encode(auth.encode()).decode()
