@@ -62,7 +62,21 @@ const MindfulnessTips = () => {
         .then((response) => {
           console.log(response.data.result);
         });
-      navigate(`/tips/${tipCategory}`);
+      let title = "";
+      if (tipCategory.toLowerCase() === "mindfulness") {
+        title = "Badge Earned: Visit Mindfulness Tips";
+      } else if (tipCategory.toLowerCase() === "motivation") {
+        title = "Badge Earned: Visit Motivation Tips";
+      } else if (tipCategory.toLowerCase() === "love") {
+        title = "Badge Earned: Visit Love Tips";
+      } else if (tipCategory.toLowerCase() === "life") {
+        title = "Badge Earned: Visit Life Tips";
+      } else if (tipCategory.toLowerCase() === "acceptance") {
+        title = "Badge Earned: Visit Acceptance Tips";
+      } else {
+        title = "Bage Earned: Visit Healing Tips";
+      }
+      unlockBadge(title, tipCategory);
     }
   };
 
