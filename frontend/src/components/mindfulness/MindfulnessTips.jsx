@@ -9,6 +9,7 @@ import Healing from "../../images/healing.webp";
 import Love from "../../images/love.webp";
 import "../../styles/motivation/mindfulnesstips.css";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 // Mindfulness: A serene individual meditating by a calm lake at sunrise.
 // Motivation: A climber triumphantly reaching the summit of a mountain.
@@ -63,6 +64,19 @@ const MindfulnessTips = () => {
         });
       navigate(`/tips/${tipCategory}`);
     }
+  };
+
+  const unlockBadge = (title, tipCategory) => {
+    Swal.fire({
+      title: title,
+      confirmButtonText: "OK",
+      confirmButtonColor: "green",
+      icon: "success",
+    }).then((res) => {
+      if (res.isConfirmed) {
+        navigate(`/tips/${tipCategory}`);
+      }
+    });
   };
 
   return (
