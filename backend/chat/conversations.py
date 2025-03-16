@@ -29,16 +29,6 @@ def account_registration():
     return jsonify({"result": "Conversation stored succesfully"}), HTTPStatus.OK
 
 
-@conversations.route("/fetching_conversations", methods=["GET"])
-def fetching_conversations():
-    chats = mongo_db.user_conversations.find()
-    user_chats = []
-    for i in chats:
-        user_chats.append({"id": i["id"], "chatbot": i["chatbot"],
-                          "response": i["response"]})
-    return jsonify({"result": user_chats}), HTTPStatus.OK
-
-
 @conversations.route("/fetching_user_conversations/<chat_title>", methods=["GET"])
 def fetching_user_conversations(chat_title):
     jwt_token = request.authorization
