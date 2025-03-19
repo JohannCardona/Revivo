@@ -10,8 +10,6 @@ df = df.dropna()
 df['input_tokens'] = "User: " + df['Context'] + "\nAssistant:"
 df['target_tokens'] = df['Response']
 
-dataset = df
-
 tokenizer = AutoTokenizer.from_pretrained(
     "sujal011/llama3.2-3b-mental-health-chatbot")
 
@@ -25,7 +23,7 @@ def preprocess_function(examples):
     return inputs
 
 
-tokenized_dataset = dataset.map(preprocess_function, batched=True)
+tokenized_dataset = df.map(preprocess_function, batched=True)
 
 train_test_split = tokenized_dataset.train_test_split(test_size=0.2)
 train_dataset = train_test_split['train']
