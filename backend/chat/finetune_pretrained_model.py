@@ -10,7 +10,7 @@ df = df.dropna()
 df['input_tokens'] = "User: " + df['Context'] + "\nAssistant:"
 df['target_tokens'] = df['Response']
 
-dataset = Dataset.from_pandas(df)
+dataset = df
 
 tokenizer = AutoTokenizer.from_pretrained(
     "sujal011/llama3.2-3b-mental-health-chatbot")
