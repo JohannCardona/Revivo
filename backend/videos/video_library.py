@@ -11,6 +11,8 @@ def fetch_video_library():
     jwt_token = request.authorization
     token = jwt_token.token
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
-    videos = list(mongo_db.video_library.find({}, {"_id": 0}))
+    videos = list()
+    if decoded_token:
+        videos = list(mongo_db.video_library.find({}, {"_id": 0}))
     return jsonify(videos), HTTPStatus.OK
 
