@@ -640,7 +640,11 @@ function ChatbotInterface() {
 
   useEffect(() => {
     const dynamic_mood_tracking = () => {
-      if (conversations.length === 2 && conversations[1].response !== "" && localStorage.getItem("mood")) {
+      if (
+        conversations.length === 2 &&
+        conversations[1].response !== "" &&
+        localStorage.getItem("mood")
+      ) {
         const mood_tracking = {
           user: localStorage.getItem("user"),
           mood:
