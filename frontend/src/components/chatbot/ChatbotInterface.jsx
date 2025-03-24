@@ -1033,6 +1033,7 @@ function ChatbotInterface() {
               placeholder="Message Revivo bot"
               className="text-box"
               value={prompt}
+              style={{resize: "none"}}
               onChange={(e) => setPrompt(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") handleConversationSubmit(e);
