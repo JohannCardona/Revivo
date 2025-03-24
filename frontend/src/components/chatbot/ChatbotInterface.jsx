@@ -1036,22 +1036,6 @@ function ChatbotInterface() {
             />
           </div>
           <div className="user-item mic">
-            {/* <Tooltip title="Record your voice">
-              <Button
-                style={{
-                  backgroundColor: "var(--image-button)",
-                  marginRight: 7,
-                  marginLeft: -3,
-                  paddingRight: 3,
-                  height: 44,
-                  borderRadius: 8,
-                }}
-                variant="contained"
-                startIcon={<MicRoundedIcon style={{ color: "var(--text)" }} />}
-                onClick={handleAudioScript}
-                disabled={listening}
-              ></Button>
-            </Tooltip> */}
           </div>
           <div className="user-item">
             <Tooltip title="Send">
