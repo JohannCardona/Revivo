@@ -58,7 +58,17 @@ function ChatbotInterface() {
     "calm",
   ];
   const genreEmotions = {
-    joy: ["dance", "latino", "rock", "pop", "edm", "rap", "r&b"],
+    joy: [
+      "dance",
+      "latino",
+      "rock",
+      "pop",
+      "edm",
+      "rap",
+      "r&b",
+      "heavy metal",
+      "hard rock",
+    ],
     sadness: [
       "classical",
       "acoustic",
@@ -70,7 +80,7 @@ function ChatbotInterface() {
     ],
     love: ["rap", "soul", "r&b", "romantic", "jazz"],
     surprise: ["rock", "indie", "edm"],
-    anger: ["rap", "metal", "rock", "heavy metal", "hard rock"],
+    anger: ["rap", "metal", "rock", "heavy metal", "hard rock", "classical"],
     fear: ["ambient", "classical", "chill", "calm", "rain", "sleep", "waves"],
   };
   const [conversationTitles, setConversationTitles] = useState([]);
