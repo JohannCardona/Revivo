@@ -85,56 +85,6 @@ function ChatbotInterface() {
   };
   const [conversationTitles, setConversationTitles] = useState([]);
 
-  useEffect(() => {
-    if (conversationRef.current) {
-      conversationRef.current.scrollTop = conversationRef.current.scrollHeight;
-    }
-  }, [conversations]);
-
-  useEffect(() => {
-    if (recognition) {
-      recognition.continues = false;
-      recognition.lang = "en-US";
-      recognition.interimResults = true;
-
-      recognition.onStart = () => {
-        setListening(true);
-      };
-
-      recognition.onEnd = () => {
-        setListening(false);
-      };
-
-      recognition.onresult = (e) => {
-        let completeText = "";
-        let textParts = "";
-        for (let i = 0; i < e.results.length; i++) {
-          const transcript = e.results[i][0].transcript;
-          if (e.results[i].isFinal) {
-            completeText = completeText + transcript;
-          } else {
-            textParts = textParts + transcript;
-          }
-        }
-        setPrompt(completeText || textParts);
-      };
-    }
-  }, []);
-
-  const handleAudioScript = () => {
-    if (recognition) {
-      setPrompt("");
-      recognition.start();
-    } else {
-      Swal.fire({
-        title: "The web browser does support Web Speech API",
-        confirmButtonText: "OK",
-        confirmButtonColor: "#ff0055",
-        icon: "error",
-      }).then(() => {});
-    }
-  };
-
   const recommend_songs = async (genre) => {
     const response = await axios.get(
       `http://localhost:5000/music_recommendations/${genre}`
