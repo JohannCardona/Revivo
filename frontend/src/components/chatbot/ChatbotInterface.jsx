@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { Button, Tooltip } from "@mui/material";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import { Comment } from "react-loader-spinner";
-import MicRoundedIcon from "@mui/icons-material/MicRounded";
 import AddIcon from "@mui/icons-material/Add";
 import chaticon from "../../images/chatbot.svg";
 import CloseIcon from "@mui/icons-material/Close";
@@ -14,12 +13,7 @@ import Banner from "../Banner/Banner";
 import { IoCloudDownloadOutline } from "react-icons/io5";
 
 function ChatbotInterface() {
-  const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
-  const recognition = SpeechRecognition ? new SpeechRecognition() : null;
-
   let [prompt, setPrompt] = useState("");
-  const [listening, setListening] = useState(false);
   const [close, setClose] = useState(false);
   const [conversations, setConversations] = useState([]);
   const [fetchedConversations, setFetchedConversations] = useState([]);
