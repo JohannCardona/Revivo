@@ -1,7 +1,7 @@
 import pandas as pd
 import tensorflow as tf
 import keras
-from sklearn import preprocessing, model_selection, metrics
+from sklearn import preprocessing, model_selection
 import numpy as np
 import matplotlib.pyplot as plt
 import transformers
@@ -56,7 +56,6 @@ def emotion_model(model_name, max_length, optimizer, loss):
     outputs = bert_layer(input_ids=emotion_text_ids,
                          attention_mask=emotion_text_masks)
     output = outputs[1]
-    # connected_layer = keras.layers.Dense(128, activation="relu")(output)
     output_emotion = keras.layers.Dense(
         6, activation="softmax")(output)
     emotion_model = keras.models.Model(
