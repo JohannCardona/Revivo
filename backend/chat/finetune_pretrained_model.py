@@ -1,7 +1,6 @@
 import pandas as pd
 from datasets import Dataset
-from transformers import AutoTokenizer
-from transformers import AutoModelForCausalLM, TrainingArguments, Trainer
+from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments, Trainer
 from peft import get_peft_model, LoraConfig, TaskType
 
 df = pd.read_csv("preprocessed_dataset.csv")
@@ -13,7 +12,7 @@ df['target_tokens'] = df['Response']
 tokenizer = AutoTokenizer.from_pretrained(
     "sujal011/llama3.2-3b-mental-health-chatbot")
 
-
+# Tokenise text
 def preprocess_function(examples):
     inputs = tokenizer(examples["input_tokens"],
                        max_length=512, padding=True, truncation=True)
@@ -22,42 +21,45 @@ def preprocess_function(examples):
     inputs["labels"] = outputs["input_ids"]
     return inputs
 
-
+df = Dataset.from_pandas(df)
 tokenized_dataset = df.map(preprocess_function, batched=True)
 
 train_test_split = tokenized_dataset.train_test_split(test_size=0.2)
 train_dataset = train_test_split['train']
 eval_dataset = train_test_split['test']
 
+# Load pre-trained model
 model = AutoModelForCausalLM.from_pretrained(
     "sujal011/llama3.2-3b-mental-health-chatbot",
     load_in_4bit=True,
     device_map="auto"
 )
 
+# LoRA parameters
 peft_config = LoraConfig(
     task_type=TaskType.CAUSAL_LM,
     inference_mode=False,
-    r=16,
-    lora_alpha=32,
+    r=8,
+    lora_alpha=16,
     lora_dropout=0.1
 )
 
 model = get_peft_model(model, peft_config)
 
+# Defined arguments for fine-tuning
 training_args = TrainingArguments(
     output_dir="./mental_health_chatbot_finetuned",
     evaluation_strategy="epoch",
     save_strategy="epoch",
-    learning_rate=5e-5,
+    learning_rate=3e-5,
     num_train_epochs=3,
-    per_device_train_batch_size=2,
-    per_device_eval_batch_size=2,
+    per_device_train_batch_size=42,
+    per_device_eval_batch_size=42,
     logging_dir='./logs',
     logging_steps=10,
     save_total_limit=2,
-    fp16=True,
-    push_to_hub=False,
+    fp16=True,  # Use mixed precision for faster training
+    push_to_hub=False,  # False as we don't want to upload to HuggingFace
 )
 
 trainer = Trainer(
@@ -69,6 +71,10 @@ trainer = Trainer(
 )
 
 trainer.train()
+
+# Evaluate on fine-tune model
+eval_results = trainer.evaluate()
+print(eval_results)
 
 model.save_pretrained("./mental_health_chatbot_finetuned")
 tokenizer.save_pretrained("./mental_health_chatbot_finetuned")
