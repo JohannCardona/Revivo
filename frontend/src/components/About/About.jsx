@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import "../../styles/about/about.css";
-import chatbot from "../../images/chatbot.jpg";
-import mood from "../../images/mood.jpg";
-import dashboard from "../../images/dashboard.jpg";
+import chatbot from "../../images/chat.jpg";
+import mood from "../../images/emoji.jpg";
+import dashboard from "../../images/stats.jpg";
 import badges from "../../images/badges.jpg";
-import tips from "../../images/tips.jpg";
+import tips from "../../images/tip.jpg";
 import audios from "../../images/audios.jpg";
 import videos from "../../images/videos.jpg";
 
@@ -18,7 +18,10 @@ function About() {
     <div className="about-page">
       <header className="about-header">
         <h1>About Revivo</h1>
-        <p>Your journey to better mental well-being starts here.</p>
+        <p>
+          Your journey to better mental well-being starts here. Click on the
+          preview images to enlarge them and explore the feature in detail.
+        </p>
       </header>
 
       <section className="feature-section">
