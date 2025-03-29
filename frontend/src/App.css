@@ -87,6 +87,11 @@ p, h2, h3, span {
     --audio-title-hover: #f4eded;
     --button-nav: #275b48;
     --main-banner: #f0f8ff;
+    --code: #f1f1f1;
+    --tooltip: #007bff;
+    --tooltip-hover: #0056b3;
+    --color1: #00b894;
+    --color2: #3b86bf;
 }
 
 .dark-theme {
@@ -107,9 +112,14 @@ p, h2, h3, span {
     --badges-locked-bg: rgb(243 235 235 / 10%);
     --video-title-hover: #8cc1f9;
     --video-title: #fff;
-    --video-section: #5d5d5d;
+    --video-section: rgb(48 48 48);
     --favourite-section: #7f7e7e;
     --audio-title-hover: #4b4b4b;
     --button-nav: rgb(12 16 22 / 0);
     --main-banner: #c4c7cb;
+    --code: #333;
+    --tooltip: #222222;
+    --tooltip-hover: #121212;
+    --color1: #00796b;
+    --color2: #2c3e50;
 }
