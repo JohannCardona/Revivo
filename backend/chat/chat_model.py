@@ -16,7 +16,7 @@ def chatbot_conversations():
     bot_response = chat_model(data["prompt"])
     if bot_response.strip()[-1] not in punct_marks:
         print("SENTENCE INCOMPLETE")
-        gpt_response = get_chatgpt_bot_response(prompt=bot_response)
+        gpt_response = get_chatgpt_bot_response(prompt=data["prompt"])
         response = gpt_response
     else:
         print("COMPLETE SENTENCE")
