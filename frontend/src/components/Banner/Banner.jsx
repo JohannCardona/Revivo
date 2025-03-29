@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import tipsContent from "../json/categories.json";
 import "../../styles/banner/banner.css";
+import Info from "../About/Info";
 
 const Banner = () => {
   const [tipText, setTipText] = useState("");
@@ -29,6 +30,9 @@ const Banner = () => {
         Tip of the Day
       </h1>
       <p className="banner-text">{tipText}</p>
+      <div className="info">
+        <Info />
+      </div>
     </div>
   );
 };
