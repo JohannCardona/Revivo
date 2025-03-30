@@ -22,7 +22,7 @@ def get_chatgpt_bot_response(prompt):
         model="gpt-4o-mini-2024-07-18",
         messages=[{"role": "developer", "content": system},
                   {"role": "user", "content": user_prompt}],
-        temperature=0.5,
+        temperature=0.7,
     )
     final_response = LLM_response.choices[0].message.content
     return final_response
