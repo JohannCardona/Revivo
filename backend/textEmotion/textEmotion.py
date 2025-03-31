@@ -10,8 +10,8 @@ emotion_classifier = Blueprint("emotion_classifier", __name__)
 
 MODEL_NAME = "huawei-noah/TinyBERT_General_4L_312D"
 MAX_LENGTH = 128
-classes = {0: "sadness", 1: "fear", 2: "joy",
-           3: "love", 4: "surprise", "anger": 5}
+classes = {0: "sadness", 1: "joy", 2: "love",
+           3: "anger", 4: "fear", 5: "surprise"}
 
 
 @emotion_classifier.route("/emotion_classifier/<prompt>", methods=['GET'])
