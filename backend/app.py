@@ -32,6 +32,5 @@ def main():
     app.register_blueprint(video_library)
     app.register_blueprint(userMoods)
     app.register_blueprint(tips)
-    # app.register_blueprint(chatgpt)
 
     return app
