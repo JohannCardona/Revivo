@@ -127,21 +127,4 @@ if __name__ == "__main__":
             ((test_tokens["input_ids"], test_tokens["attention_mask"]), tf.convert_to_tensor(test_labels))).batch(BATCH)
         test_set = test_set.prefetch(tf.data.AUTOTUNE)
         test_set = test_set.cache()
-
         loss, acc = emotionClassifier.evaluate(test_set)
-    else:
-        df = pd.read_csv(
-            "backend\preprocessing\processed\tweet_emotions.csv")
-        df = df["text"].head(5)
-        sentence_tokenizer = transformers.BertTokenizer.from_pretrained(
-            MODEL_NAME)
-        text_tokens = sentence_tokenizer(
-            df.tolist(), add_special_tokens=True, padding="max_length", truncation=True, max_length=MAX_LENGTH, return_tensors="tf")
-        emotionClassifier = keras.models.load_model(
-            "/checkpoint/model.h5", custom_objects={"TFBertModel": transformers.TFBertModel})
-        test_ds = [np.array(text_tokens["input_ids"]),
-                   np.array(text_tokens["attention_mask"])]
-        preds = emotionClassifier.predict(test_ds)
-        predicted_labels = np.argmax(preds.tolist(), axis=1)
-        classes = {1: "fear", 2: "joy", 3: "love", 4: "sadness"}
-        categorical_value = [classes[label] for label in predicted_labels]
