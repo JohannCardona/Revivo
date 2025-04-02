@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import login from "../../images/signup4.svg";
-import "../../styles/login/ChangePassword.css";
+import "../../styles/login/InputForms.css";
 import "../../styles/login/RegisterLogin.css";
 import Swal from "sweetalert2";
 import axios from "axios";
