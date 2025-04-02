@@ -1,5 +1,4 @@
 import os
-import sys
 import warnings
 import logging
 import absl.logging
@@ -18,6 +17,6 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=FutureWarning)
 absl.logging.set_verbosity(absl.logging.ERROR)
 
-# Redirect stdout and stderr (Extreme Case)
+# Redirect stdout and stderr
 # sys.stdout = open(os.devnull, "w")
 # sys.stderr = open(os.devnull, "w")
