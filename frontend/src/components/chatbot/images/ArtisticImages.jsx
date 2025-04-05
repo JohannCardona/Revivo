@@ -14,3 +14,13 @@ export const generate_image = async (prompt) => {
     const genImage = `data:image/jpeg;base64,${response.data[0].result}`;
     return genImage;
   };
+
+export const downloadDALLEImage = (imgURL) => {
+  if (!imgURL) return;
+  const imageLink = document.createElement("a");
+  imageLink.href = imgURL;
+  imageLink.download = "dalle_image.jpeg";
+  document.body.appendChild(imageLink);
+  imageLink.click();
+  document.body.removeChild(imageLink);
+};
