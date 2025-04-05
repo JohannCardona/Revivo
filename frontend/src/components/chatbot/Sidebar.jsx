@@ -37,7 +37,7 @@ function Sidebar({
     if (!fetchedConversation) {
       setTimeout(() => {
         setConversations("");
-      }, 500);
+      }, 300);
     } else {
       setFetchedConversation(false);
       setFetchedConversations("");
@@ -46,55 +46,57 @@ function Sidebar({
   };
 
   return (
-    <div>
-      {!close ? (
-        <>
-          <div className="new-chatbot-container">
-            <div className="sidemenu-button" onClick={() => newChat()}>
-              <span>
-                <AddIcon
-                  style={{ fontSize: "1.1rem", color: "var(--sidebar-text)" }}
-                />
+    <>
+      <aside className={`sidemenu ${close ? "close" : "open"}`}>
+        {!close ? (
+          <>
+            <div className="new-chatbot-container">
+              <div className="sidemenu-button" onClick={() => newChat()}>
+                <span>
+                  <AddIcon
+                    style={{ fontSize: "1.1rem", color: "var(--sidebar-text)" }}
+                  />
+                </span>
+                New chat
+              </div>
+              <span className="close-button">
+                <Tooltip title="Close sidebar">
+                  <MenuIcon
+                    style={{ fontSize: "1.5rem", color: "var(--sidebar-text)" }}
+                    onClick={() => setClose(true)}
+                  />
+                </Tooltip>
               </span>
-              New chat
             </div>
-            <span className="close-button">
-              <Tooltip title="Close sidebar">
-                <MenuIcon
-                  style={{ fontSize: "1.5rem", color: "var(--sidebar-text)" }}
-                  onClick={() => setClose(true)}
-                />
-              </Tooltip>
-            </span>
-          </div>
-          <div className="divider"></div>
-          <div className="chat-history">
-            {conversationTitles.length === 0 ? (
-              <div className="sidemenu-chat">New conversation</div>
-            ) : (
-              conversationTitles.map((item, index) => (
-                <div
-                  key={index}
-                  className="sidemenu-chat"
-                  onClick={() => fetching_user_conversations(item.title)}
-                >
-                  {item.title}
-                </div>
-              ))
-            )}
-          </div>
-        </>
-      ) : (
-        <span className="open-button">
-          <Tooltip title="Open sidebar">
-            <MenuIcon
-              style={{ fontSize: "1.5rem", color: "var(--sidebar-text)" }}
-              onClick={() => setClose(false)}
-            />
-          </Tooltip>
-        </span>
-      )}
-    </div>
+            <div className="divider"></div>
+            <div className="chat-history">
+              {conversationTitles.length === 0 ? (
+                <div className="sidemenu-chat">New conversation</div>
+              ) : (
+                conversationTitles.map((item, index) => (
+                  <div
+                    key={index}
+                    className="sidemenu-chat"
+                    onClick={() => fetching_user_conversations(item.title)}
+                  >
+                    {item.title}
+                  </div>
+                ))
+              )}
+            </div>
+          </>
+        ) : (
+          <span className="open-button">
+            <Tooltip title="Open sidebar">
+              <MenuIcon
+                style={{ fontSize: "1.5rem", color: "var(--sidebar-text)" }}
+                onClick={() => setClose(false)}
+              />
+            </Tooltip>
+          </span>
+        )}
+      </aside>
+    </>
   );
 }
 
