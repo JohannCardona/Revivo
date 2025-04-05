@@ -52,7 +52,6 @@ function ChatbotInterface() {
   const [selectedDynamicSongChoice, setSelectedDynamicSongChoice] =
     useState(false);
   const [conversationTitles, setConversationTitles] = useState([]);
-
   const [clickedImage, setClickedImage] = useState(null);
   const modalClose = () => {
     setClickedImage(null);
@@ -65,20 +64,21 @@ function ChatbotInterface() {
       setPrompt("");
       return;
     }
+    localStorage.setItem("user_message", prompt);
+    const message = localStorage.getItem("user_message");
     if (!conversationTitle) {
       try {
-        await fetch_conversation_title(prompt, setConversationTitle);
+        await fetch_conversation_title(message, setConversationTitle);
       } catch (error) {
         console.error("Error generating conversation title:", error);
       }
     }
-    const userResponse = conversationList(false, prompt, null);
+    const userResponse = conversationList(false, message, null);
     setConversations((prevConversations) => [
       ...prevConversations,
       userResponse,
     ]);
-    localStorage.setItem("user_message", prompt);
-    if (exit_conversation(prompt)) {
+    if (exit_conversation(message)) {
       setPrompt("");
       return;
     }
@@ -92,7 +92,6 @@ function ChatbotInterface() {
 
     setLoadingChatbotResponse(true);
     const botMessageIndex = conversations.length + 1;
-    const message = localStorage.getItem("user_message");
     try {
       if (dynamicChoice) {
         const suggestionChoice = message;
