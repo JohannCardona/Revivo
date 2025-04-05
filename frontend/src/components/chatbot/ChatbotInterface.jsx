@@ -19,6 +19,9 @@ import {
   generateChatbotResponseId,
   conversationList,
   day_time,
+  exit_conversation,
+  music_prompts,
+  image_prompts,
 } from "./ResponseType";
 import {
   fetch_conversation_title,
@@ -75,14 +78,7 @@ function ChatbotInterface() {
       userResponse,
     ]);
     localStorage.setItem("user_message", prompt);
-    if (
-      prompt.includes("bye") ||
-      prompt.includes("exit") ||
-      prompt.includes("bye bye") ||
-      prompt.includes("goodbye") ||
-      prompt.includes("see you") ||
-      prompt.includes("see ya")
-    ) {
+    if (exit_conversation(prompt)) {
       setPrompt("");
       return;
     }
@@ -303,24 +299,9 @@ function ChatbotInterface() {
   };
 
   const handleChatbotResponseType = async (prompt) => {
-    if (
-      prompt.includes("bye") ||
-      prompt.includes("exit") ||
-      prompt.includes("bye bye") ||
-      prompt.includes("goodbye") ||
-      prompt.includes("see you") ||
-      prompt.includes("see ya")
-    ) {
+    if (exit_conversation(prompt)) {
       return;
-    } else if (
-      prompt.includes("recommend song") ||
-      prompt.includes("recommend songs") ||
-      prompt.includes("recommend a song") ||
-      prompt.includes("songs") ||
-      prompt.includes("music") ||
-      prompt.includes("another song") ||
-      prompt.includes("other songs")
-    ) {
+    } else if (music_prompts(prompt)) {
       const random_song_genres = fetching_songs_array();
       setSelectedSongGenre(true);
       return random_song_genres;
@@ -389,11 +370,7 @@ function ChatbotInterface() {
         setSongSelection(true);
         return "💡Please choose a number from the song list.";
       }
-    } else if (
-      prompt.includes("create") ||
-      prompt.includes("generate") ||
-      prompt.includes("image")
-    ) {
+    } else if (image_prompts(prompt)) {
       return await generate_image(prompt);
     } else {
       console.log("normal chatbot response");
