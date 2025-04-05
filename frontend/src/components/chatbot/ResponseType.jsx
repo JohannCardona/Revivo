@@ -46,3 +46,15 @@ export const conversationList = (chatbot, response, responseId) => {
     response: response,
   };
 };
+
+const time = new Date().getHours();
+export let day_time = "";
+if (time >= 5 && time < 12) {
+  day_time = "morning";
+} else if (time >= 12 && time < 17) {
+  day_time = "afternoon";
+} else if (time >= 17 && time < 21) {
+  day_time = "evening";
+} else {
+  day_time = "night";
+}
