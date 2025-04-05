@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Tooltip } from "@mui/material";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 
-function UserInputs({ setPrompt, handleConversationSubmit }) {
+function UserInputs({ prompt, setPrompt, handleConversationSubmit }) {
   return (
     <div className="item-2">
       <div className="user-item user-text-container">
