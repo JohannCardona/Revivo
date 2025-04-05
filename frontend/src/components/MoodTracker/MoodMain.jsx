@@ -6,7 +6,12 @@ import "../../styles/mood/mood.css";
 
 function MoodMain() {
   const storeUserMoods = async (userMoods) => {
-    axios.post("http://localhost:5000/store_user_moods", userMoods);
+    axios.post("http://localhost:5000/store_user_moods", userMoods, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
   };
 
   return (
