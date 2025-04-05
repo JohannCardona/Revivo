@@ -16,8 +16,10 @@ import {
   recommend_songs,
   fetching_songs_array,
   fetching_recommending_songs_response,
-  fetch_song_genre_selection
+  fetch_song_genre_selection,
 } from "./music/MusicRecommendations";
+import { generate_image } from "./images/ArtisticImages";
+import { fetch_emotion_from_text } from "./emotions/Emotions";
 
 function ChatbotInterface() {
   let [prompt, setPrompt] = useState("");
@@ -38,21 +40,6 @@ function ChatbotInterface() {
   const [selectedDynamicSongChoice, setSelectedDynamicSongChoice] =
     useState(false);
   const [conversationTitles, setConversationTitles] = useState([]);
-
-  const generate_image = async (prompt) => {
-    const response = await axios.post(
-      `http://localhost:5000/image_generation`,
-      { prompt },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    const genImage = `data:image/jpeg;base64,${response.data[0].result}`;
-    return genImage;
-  };
 
   const [clickedImage, setClickedImage] = useState(null);
   const modalClose = () => {
@@ -363,20 +350,6 @@ function ChatbotInterface() {
     });
   };
 
-  const fetch_emotion_from_text = async (prompt) => {
-    const emotion = await axios.get(
-      `http://localhost:5000/emotion_classifier/${prompt}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    localStorage.setItem("mood", emotion.data[0]);
-    return emotion.data[0];
-  };
-
   const fetch_chatbot_response = async (prompt) => {
     const res = await axios.post(
       `http://localhost:5000/chat`,
@@ -578,6 +551,7 @@ function ChatbotInterface() {
           localStorage.getItem("user_message").includes("goodbye") ||
           localStorage.getItem("user_message").includes("see you") ||
           localStorage.getItem("user_message").includes("see ya") ||
+          localStorage.getItem("user_message").includes("end") ||
           isNewChat === true
         ) {
           console.log("store conversations");
