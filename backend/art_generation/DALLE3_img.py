@@ -6,6 +6,7 @@ from flask import Blueprint, request, jsonify
 from http import HTTPStatus
 from dotenv import load_dotenv
 import os
+import jwt
 
 load_dotenv()
 
@@ -19,17 +20,22 @@ client = openai.OpenAI(
 
 @generation.route("/image_generation", methods=["POST"])
 def get_user_prompt():
-    data = request.get_json()
-    response = client.images.generate(
-        model="dall-e-3",
-        prompt=data["prompt"],
-        size="1024x1024",
-        quality="standard",
-        n=1,
-        response_format="b64_json"
-    )
-    img_url = response.data[0].b64_json
-    url = compress_image_url(img_url)
+    jwt_token = request.authorization
+    token = jwt_token.token
+    decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
+    url = ""
+    if decoded_token:
+        data = request.get_json()
+        response = client.images.generate(
+            model="dall-e-3",
+            prompt=data["prompt"],
+            size="1024x1024",
+            quality="standard",
+            n=1,
+            response_format="b64_json"
+        )
+        img_url = response.data[0].b64_json
+        url = compress_image_url(img_url)
     return jsonify({"result": url}, HTTPStatus.OK)
 
 
