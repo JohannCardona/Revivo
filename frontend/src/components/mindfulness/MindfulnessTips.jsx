@@ -56,10 +56,19 @@ const MindfulnessTips = () => {
       navigate(`/tips/${tipCategory}`);
     } else {
       axios
-        .post(`http://localhost:5000/category_click_count`, {
-          user,
-          tipCategory,
-        })
+        .post(
+          `http://localhost:5000/category_click_count`,
+          {
+            user,
+            tipCategory,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
         .then((response) => {
           console.log(response.data.result);
         });
