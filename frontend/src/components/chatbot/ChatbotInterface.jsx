@@ -18,6 +18,7 @@ import {
   chatbotTypingResponse,
   generateChatbotResponseId,
   conversationList,
+  day_time,
 } from "./ResponseType";
 import {
   fetch_conversation_title,
@@ -53,18 +54,6 @@ function ChatbotInterface() {
   const modalClose = () => {
     setClickedImage(null);
   };
-
-  const time = new Date().getHours();
-  let day_time = "";
-  if (time >= 5 && time < 12) {
-    day_time = "morning";
-  } else if (time >= 12 && time < 17) {
-    day_time = "afternoon";
-  } else if (time >= 17 && time < 21) {
-    day_time = "evening";
-  } else {
-    day_time = "night";
-  }
 
   const handleConversationSubmit = async () => {
     prompt = prompt.toLowerCase();
