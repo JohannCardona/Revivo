@@ -2,13 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import { Button, Tooltip } from "@mui/material";
 import SendRoundedIcon from "@mui/icons-material/SendRounded";
 import { Comment } from "react-loader-spinner";
-import AddIcon from "@mui/icons-material/Add";
 import chaticon from "../../images/chatbot.svg";
 import CloseIcon from "@mui/icons-material/Close";
-import MenuIcon from "@mui/icons-material/Menu";
 import "../../styles/chatbot/ChatbotInterface.css";
 import Swal from "sweetalert2";
-import axios from "axios";
 import Banner from "../Banner/Banner";
 import { IoCloudDownloadOutline } from "react-icons/io5";
 import {
@@ -18,8 +15,27 @@ import {
   fetching_recommending_songs_response,
   fetch_song_genre_selection,
 } from "./music/MusicRecommendations";
-import { generate_image } from "./images/ArtisticImages";
+import {
+  generate_image,
+  downloadDALLEImage,
+  displayImages,
+} from "./images/ArtisticImages";
 import { fetch_emotion_from_text } from "./emotions/Emotions";
+import {
+  handleChatbotResponse,
+  chatbotTypingResponse,
+  generateChatbotResponseId,
+  conversationList,
+} from "./ResponseType";
+import {
+  fetch_conversation_title,
+  store_user_conversations,
+  fetch_conversation_titles,
+} from "./chats/UserConversations";
+import { dynamic_mood_tracking } from "./moods/FetchMoods";
+import Sidebar from "./Sidebar";
+import DisplayImages from "./images/DisplayImages";
+import Spotify from "./music/Spotify";
 
 function ChatbotInterface() {
   let [prompt, setPrompt] = useState("");
@@ -30,7 +46,6 @@ function ChatbotInterface() {
   const [conversationTitle, setConversationTitle] = useState(null);
   const [isNewChat, setIsNewChat] = useState(false);
   const conversationRef = useRef(null);
-  const chatbotTypingSpeed = 10;
   const [loadingChatbotResponse, setLoadingChatbotResponse] = useState(false);
   const [recommended_songs, setRecommendedSongs] = useState([]);
   const [selectedSong, setSelectedSong] = useState(false);
@@ -58,33 +73,6 @@ function ChatbotInterface() {
     day_time = "night";
   }
 
-  const chatbotTypingResponse = (word, chatbotRepsonse) => {
-    let index = 0;
-    const chatbotResponseInterval = setInterval(() => {
-      if (index < chatbotRepsonse.length) {
-        word.innerHTML += chatbotRepsonse.charAt(index);
-        index++;
-      } else {
-        clearInterval(chatbotResponseInterval);
-      }
-    }, chatbotTypingSpeed);
-  };
-
-  const generateChatbotResponseId = () => {
-    const time = Date.now();
-    const randNum = Math.random();
-    const responseString = randNum.toString(8);
-    return `id-${time}-${responseString}`;
-  };
-
-  const conversationList = (chatbot, response, responseId) => {
-    return {
-      id: responseId,
-      chatbot: chatbot,
-      response: response,
-    };
-  };
-
   const handleConversationSubmit = async () => {
     prompt = prompt.toLowerCase();
     if (prompt.trim() === "") {
@@ -94,14 +82,12 @@ function ChatbotInterface() {
     }
     if (!conversationTitle) {
       try {
-        await fetch_conversation_title(prompt);
+        await fetch_conversation_title(prompt, setConversationTitle);
       } catch (error) {
         console.error("Error generating conversation title:", error);
       }
     }
-    console.log("CREATE USER OBJECT...");
     const userResponse = conversationList(false, prompt, null);
-    console.log("ADD USER TO ARRAY...");
     setConversations((prevConversations) => [
       ...prevConversations,
       userResponse,
@@ -119,12 +105,8 @@ function ChatbotInterface() {
       return;
     }
     setPrompt("");
-
-    console.log("CREATE CHATBOT OBJECT...");
     const chatbotResponseId = generateChatbotResponseId();
-    console.log(chatbotResponseId);
     const chatbotResponse = conversationList(true, "", chatbotResponseId);
-    console.log("ADD CHATBOT TO ARRAY...");
     setConversations((prevConversations) => [
       ...prevConversations,
       chatbotResponse,
@@ -136,9 +118,6 @@ function ChatbotInterface() {
     try {
       if (dynamicChoice) {
         const suggestionChoice = message;
-        console.log(suggestionChoice);
-        const conversationDiv = document.getElementById(chatbotResponseId);
-        console.log(conversationDiv);
         if (suggestionChoice === "music") {
           const storedEmotion = localStorage.getItem("mood");
           if (genreEmotions[storedEmotion]) {
@@ -184,10 +163,6 @@ function ChatbotInterface() {
         }
       } else {
         const chatbotDummyResponse = await handleChatbotResponseType(message);
-        console.log(chatbotDummyResponse);
-
-        const conversationDiv = document.getElementById(chatbotResponseId);
-        console.log(conversationDiv);
         if (chatbotDummyResponse.album) {
           setConversations((prev) => {
             const currentMessage = [...prev];
@@ -279,16 +254,13 @@ function ChatbotInterface() {
             return currentMessage;
           });
         } else {
-          console.log("chatbot responded...");
           const extractedEmotion = await fetch_emotion_from_text(message);
           const randomiser = Math.random();
-          console.log(randomiser);
           if (
             randomiser > 0.7 &&
             genreEmotions[extractedEmotion] &&
             conversations.length !== 0
           ) {
-            console.log("DYNAMIC...");
             const dynamicChoiceMessage =
               `Would you like some music suggestions or an artistic image to help you relax? \n` +
               `Please type "music" for music suggestions or "image" for an artistic image.`;
@@ -306,7 +278,6 @@ function ChatbotInterface() {
             }, 0);
             setDynamicChoice(true);
           } else {
-            console.log("YAY...");
             const chatbot_response = await handleChatbotResponse(message);
             setConversations((prev) => {
               const currentMessage = [...prev];
@@ -324,7 +295,6 @@ function ChatbotInterface() {
         }
       }
     } catch (err) {
-      console.log(err);
       setLoadingChatbotResponse(false);
       setConversations((prev) => {
         const currentMessage = [...prev];
@@ -348,25 +318,6 @@ function ChatbotInterface() {
       confirmButtonColor: color,
       icon: type,
     });
-  };
-
-  const fetch_chatbot_response = async (prompt) => {
-    const res = await axios.post(
-      `http://localhost:5000/chat`,
-      { prompt },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    return res;
-  };
-
-  const handleChatbotResponse = async (prompt) => {
-    const response = await fetch_chatbot_response(prompt);
-    return response.data.result;
   };
 
   const handleChatbotResponseType = async (prompt) => {
@@ -468,193 +419,36 @@ function ChatbotInterface() {
     }
   };
 
-  const fetch_conversation_title = async (prompt) => {
-    await axios
-      .post(
-        "http://localhost:5000/fetch_conversation_title/",
-        { prompt },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((response) => {
-        setConversationTitle(response.data.result);
-      });
-  };
-
-  const downloadDALLEImage = (imgURL) => {
-    if (!imgURL) return;
-    const imageLink = document.createElement("a");
-    imageLink.href = imgURL;
-    imageLink.download = "dalle_image.jpeg";
-    document.body.appendChild(imageLink);
-    imageLink.click();
-    document.body.removeChild(imageLink);
-  };
-
   useEffect(() => {
-    const fetch_conversation_titles = async () => {
-      await axios
-        .get(`http://localhost:5000/fetch_conversation_titles/`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            setConversationTitles(response.data.titles);
-          }
-        });
-    };
-    fetch_conversation_titles();
+    fetch_conversation_titles(setConversationTitles);
   }, [conversationTitles]);
 
   useEffect(() => {
-    const dynamic_mood_tracking = () => {
-      if (
-        conversations.length === 2 &&
-        conversations[1].response !== "" &&
-        localStorage.getItem("mood")
-      ) {
-        const mood_tracking = {
-          user: localStorage.getItem("user"),
-          mood:
-            localStorage.getItem("mood").charAt(0).toUpperCase() +
-            localStorage.getItem("mood").slice(1),
-          userNote: localStorage.getItem("user_message"),
-          timestamp: new Date().toISOString(),
-        };
-        console.log("MOOD TRACKING: ", mood_tracking);
-        axios.post(`http://localhost:5000/store_user_moods`, mood_tracking, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-      }
-    };
-    dynamic_mood_tracking();
+    dynamic_mood_tracking(conversations);
   }, [conversations]);
 
   useEffect(() => {
-    const store_user_conversations = async () => {
-      const user = localStorage.getItem("user");
-      if (conversations.length !== 0) {
-        if (
-          localStorage.getItem("user_message").includes("bye") ||
-          localStorage.getItem("user_message").includes("exit") ||
-          localStorage.getItem("user_message").includes("bye bye") ||
-          localStorage.getItem("user_message").includes("goodbye") ||
-          localStorage.getItem("user_message").includes("see you") ||
-          localStorage.getItem("user_message").includes("see ya") ||
-          localStorage.getItem("user_message").includes("end") ||
-          isNewChat === true
-        ) {
-          console.log("store conversations");
-          await axios
-            .post("http://localhost:5000/conversations", {
-              user,
-              conversationTitle,
-              conversations,
-            })
-            .then((response) => {
-              if (response.status === 200) {
-                localStorage.removeItem("user_message");
-                setConversations("");
-              }
-            });
-        } else {
-        }
-      }
-    };
-    store_user_conversations();
+    store_user_conversations(
+      conversations,
+      isNewChat,
+      conversationTitle,
+      setConversations
+    );
   }, [conversations, isNewChat, conversationTitle]);
-
-  const fetching_user_conversations = async (chat_title) => {
-    await axios
-      .get(`http://localhost:5000/fetching_user_conversations/${chat_title}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response) => {
-        if (response.data.result === null) {
-        } else {
-          setFetchedConversation(true);
-          setFetchedConversations(response?.data?.result?.conversations);
-        }
-      });
-  };
-
-  const newChat = () => {
-    setIsNewChat(true);
-    if (!fetchedConversation) {
-      setTimeout(() => {
-        setConversations("");
-      }, 500);
-    } else {
-      setFetchedConversation(false);
-      setFetchedConversations("");
-    }
-    setIsNewChat(false);
-  };
 
   return (
     <div className="chatbot-container">
       <aside className={`sidemenu ${close ? "close" : "open"}`}>
-        {!close ? (
-          <>
-            <div className="new-chatbot-container">
-              <div className="sidemenu-button" onClick={() => newChat()}>
-                <span>
-                  <AddIcon
-                    style={{ fontSize: "1.1rem", color: "var(--sidebar-text)" }}
-                  />
-                </span>
-                New chat
-              </div>
-              <span className="close-button">
-                <Tooltip title="Close sidebar">
-                  <MenuIcon
-                    style={{ fontSize: "1.5rem", color: "var(--sidebar-text)" }}
-                    onClick={() => setClose(true)}
-                  />
-                </Tooltip>
-              </span>
-            </div>
-            <div className="divider"></div>
-            <div className="chat-history">
-              {conversationTitles.length === 0 ? (
-                <div className="sidemenu-chat">New conversation</div>
-              ) : (
-                conversationTitles.map((item, index) => (
-                  <div
-                    key={index}
-                    className="sidemenu-chat"
-                    onClick={() => fetching_user_conversations(item.title)}
-                  >
-                    {item.title}
-                  </div>
-                ))
-              )}
-            </div>
-          </>
-        ) : (
-          <span className="open-button">
-            <Tooltip title="Open sidebar">
-              <MenuIcon
-                style={{ fontSize: "1.5rem", color: "var(--sidebar-text)" }}
-                onClick={() => setClose(false)}
-              />
-            </Tooltip>
-          </span>
-        )}
+        <Sidebar
+          setIsNewChat={setIsNewChat}
+          close={close}
+          setClose={setClose}
+          conversationTitles={conversationTitles}
+          setFetchedConversation={setFetchedConversation}
+          setFetchedConversations={setFetchedConversations}
+          fetchedConversation={fetchedConversation}
+          setConversations={setConversations}
+        />
       </aside>
       <div className="chatbot-ui-container">
         <Banner />
@@ -696,52 +490,13 @@ function ChatbotInterface() {
                           />
                         ) : conversation.chatbot &&
                           conversation.response.includes("data:image") ? (
-                          <div key={conversation.id} id={conversation.id}>
-                            <img
-                              id={conversation.id}
-                              src={conversation.response}
-                              onClick={() =>
-                                setClickedImage(conversation.response)
-                              }
-                              alt="chat icon"
-                            />
-                            {clickedImage && (
-                              <div
-                                key={conversation.id}
-                                id={conversation.id}
-                                className="modal-container"
-                              >
-                                <div className="modal-image">
-                                  <CloseIcon
-                                    sx={{ fontSize: 40 }}
-                                    onClick={() =>
-                                      modalClose(conversation.response)
-                                    }
-                                  />
-                                </div>
-                                <div
-                                  key={conversation.id}
-                                  id={conversation.id}
-                                  className="download-container"
-                                >
-                                  <button
-                                    onClick={() =>
-                                      downloadDALLEImage(clickedImage)
-                                    }
-                                  >
-                                    <IoCloudDownloadOutline
-                                      sx={{ fontSize: 50 }}
-                                    />
-                                  </button>
-                                  <img
-                                    id={conversation.id}
-                                    src={clickedImage}
-                                    alt="enlarged"
-                                  />
-                                </div>
-                              </div>
-                            )}
-                          </div>
+                          <DisplayImages
+                            conversation={conversation}
+                            setClickedImage={setClickedImage}
+                            clickedImage={clickedImage}
+                            modalClose={modalClose}
+                            downloadDALLEImage={downloadDALLEImage}
+                          />
                         ) : conversation.chatbot &&
                           conversation.response.includes("recommendations") ? (
                           conversation.response
@@ -749,19 +504,7 @@ function ChatbotInterface() {
                           conversation.response.includes(
                             "https://open.spotify.com/embed"
                           ) ? (
-                          <>
-                            <iframe
-                              title="recommender"
-                              style={{ borderRadius: "12px" }}
-                              src={conversation.response}
-                              width="100%"
-                              height="352"
-                              frameBorder="0"
-                              allowFullScreen=""
-                              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                              loading="lazy"
-                            ></iframe>
-                          </>
+                          <Spotify conversation={conversation} />
                         ) : (conversation.chatbot &&
                             conversation.response.includes(
                               "Here are some genres you might like"
@@ -783,7 +526,7 @@ function ChatbotInterface() {
                         ) : !conversation.chatbot ? (
                           conversation.response
                         ) : (
-                          ""
+                          conversation.response
                         )}
                       </div>
                     </div>
@@ -812,52 +555,13 @@ function ChatbotInterface() {
                           />
                         ) : conversation.chatbot &&
                           conversation.response.includes("data:image") ? (
-                          <div key={conversation.id} id={conversation.id}>
-                            <img
-                              id={conversation.id}
-                              src={conversation.response}
-                              onClick={() =>
-                                setClickedImage(conversation.response)
-                              }
-                              alt="chat icon"
-                            />
-                            {clickedImage && (
-                              <div
-                                key={conversation.id}
-                                id={conversation.id}
-                                className="modal-container"
-                              >
-                                <div className="modal-image">
-                                  <CloseIcon
-                                    sx={{ fontSize: 40 }}
-                                    onClick={() =>
-                                      modalClose(conversation.response)
-                                    }
-                                  />
-                                </div>
-                                <div
-                                  key={conversation.id}
-                                  id={conversation.id}
-                                  className="download-container"
-                                >
-                                  <button
-                                    onClick={() =>
-                                      downloadDALLEImage(clickedImage)
-                                    }
-                                  >
-                                    <IoCloudDownloadOutline
-                                      sx={{ fontSize: 50 }}
-                                    />
-                                  </button>
-                                  <img
-                                    id={conversation.id}
-                                    src={clickedImage}
-                                    alt="enlarged"
-                                  />
-                                </div>
-                              </div>
-                            )}
-                          </div>
+                          <DisplayImages
+                            conversation={conversation}
+                            setClickedImage={setClickedImage}
+                            clickedImage={clickedImage}
+                            modalClose={modalClose}
+                            downloadDALLEImage={downloadDALLEImage}
+                          />
                         ) : conversation.chatbot &&
                           conversation.response.includes("recommendations") ? (
                           ""
@@ -865,19 +569,7 @@ function ChatbotInterface() {
                           conversation.response.includes(
                             "https://open.spotify.com/embed"
                           ) ? (
-                          <>
-                            <iframe
-                              title="recommender"
-                              style={{ borderRadius: "12px" }}
-                              src={conversation.response}
-                              width="100%"
-                              height="352"
-                              frameBorder="0"
-                              allowFullScreen=""
-                              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                              loading="lazy"
-                            ></iframe>
-                          </>
+                          <Spotify conversation={conversation} />
                         ) : (conversation.chatbot &&
                             conversation.response.includes(
                               "Here are some genres you might like"
