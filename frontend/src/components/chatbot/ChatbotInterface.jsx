@@ -32,7 +32,7 @@ import { dynamic_mood_tracking } from "./moods/FetchMoods";
 import Sidebar from "./Sidebar";
 import DisplayImages from "./images/DisplayImages";
 import Spotify from "./music/Spotify";
-import UserInputs from "./music/UserInputs";
+import UserInputs from "./UserInputs";
 
 function ChatbotInterface() {
   let [prompt, setPrompt] = useState("");
@@ -65,6 +65,7 @@ function ChatbotInterface() {
       return;
     }
     localStorage.setItem("user_message", prompt);
+    setPrompt("");
     const message = localStorage.getItem("user_message");
     if (!conversationTitle) {
       try {
@@ -82,7 +83,6 @@ function ChatbotInterface() {
       setPrompt("");
       return;
     }
-    setPrompt("");
     const chatbotResponseId = generateChatbotResponseId();
     const chatbotResponse = conversationList(true, "", chatbotResponseId);
     setConversations((prevConversations) => [
