@@ -28,7 +28,9 @@ const Info = () => {
               &times;
             </button>
             <h2>Chatbot Capabilities</h2>
-            <p style={{color: "var(--text)"}}>Here's how you can interact with the chatbot:</p>
+            <p style={{ color: "var(--text)" }}>
+              Here's how you can interact with the chatbot:
+            </p>
             <ul>
               <li>
                 <strong style={{ marginRight: "5px" }}>
@@ -88,6 +90,9 @@ const Info = () => {
                 <code style={{ marginRight: "4px", marginLeft: "4px" }}>
                   see ya
                 </code>{" "}
+                <code style={{ marginRight: "4px", marginLeft: "4px" }}>
+                  end
+                </code>
                 or
                 <code style={{ marginRight: "4px", marginLeft: "4px" }}>
                   exit
