@@ -81,7 +81,13 @@ function ChatbotInterface() {
 
   const recommend_songs = async (genre) => {
     const response = await axios.get(
-      `http://localhost:5000/music_recommendations/${genre}`
+      `http://localhost:5000/music_recommendations/${genre}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   };
@@ -89,7 +95,13 @@ function ChatbotInterface() {
   const generate_image = async (prompt) => {
     const response = await axios.post(
       `http://localhost:5000/image_generation`,
-      { prompt }
+      { prompt },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
     const genImage = `data:image/jpeg;base64,${response.data[0].result}`;
     return genImage;
@@ -472,14 +484,29 @@ function ChatbotInterface() {
 
   const fetch_emotion_from_text = async (prompt) => {
     const emotion = await axios.get(
-      `http://localhost:5000/emotion_classifier/${prompt}`
+      `http://localhost:5000/emotion_classifier/${prompt}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
     );
     localStorage.setItem("mood", emotion.data[0]);
     return emotion.data[0];
   };
 
   const fetch_chatbot_response = async (prompt) => {
-    const res = await axios.post(`http://localhost:5000/chat`, { prompt });
+    const res = await axios.post(
+      `http://localhost:5000/chat`,
+      { prompt },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
     return res;
   };
 
@@ -648,7 +675,12 @@ function ChatbotInterface() {
           timestamp: new Date().toISOString(),
         };
         console.log("MOOD TRACKING: ", mood_tracking);
-        axios.post(`http://localhost:5000/store_user_moods`, mood_tracking);
+        axios.post(`http://localhost:5000/store_user_moods`, mood_tracking, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
       }
     };
     dynamic_mood_tracking();
@@ -1027,15 +1059,14 @@ function ChatbotInterface() {
               placeholder="Message Revivo bot"
               className="text-box"
               value={prompt}
-              style={{resize: "none"}}
+              style={{ resize: "none" }}
               onChange={(e) => setPrompt(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") handleConversationSubmit(e);
               }}
             />
           </div>
-          <div className="user-item mic">
-          </div>
+          <div className="user-item mic"></div>
           <div className="user-item">
             <Tooltip title="Send">
               <Button
