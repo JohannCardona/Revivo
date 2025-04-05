@@ -107,7 +107,7 @@ function ChatbotInterface() {
             setSelectedSongGenre(true);
             const genreSuggestions =
               `🎵 ${
-                storedEmotion === "happiness" || storedEmotion === "love"
+                storedEmotion === "joy" || storedEmotion === "love"
                   ? "Here are some genres you might like"
                   : "Here are some genres you might like to make you feel better"
               }:\n\n` +
