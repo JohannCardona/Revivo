@@ -7,13 +7,17 @@ tips = Blueprint("tips", __name__)
 
 @tips.route("/store_tip/<category>", methods=["POST"])
 def store_category_tip(category):
-    data = request.get_json()
-    document = {
-        "user": data["user"],
-        "category": category,
-        "tip": data["currentTip"]
-    }
-    mongo_db.user_favourite_tips.insert_one(document)
+    jwt_token = request.authorization
+    token = jwt_token.token
+    decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
+    if decoded_token:
+        data = request.get_json()
+        document = {
+            "user": data["user"],
+            "category": category,
+            "tip": data["currentTip"]
+        }
+        mongo_db.user_favourite_tips.insert_one(document)
     return jsonify({"result": f"Tip stored successfully for category: {category}"}), HTTPStatus.OK
 
 @tips.route("/fetch_category_tips/<category>", methods=["GET"])
