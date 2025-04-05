@@ -77,3 +77,9 @@ export const music_prompts = (prompt) => {
     prompt.includes("another song") ||
     prompt.includes("other songs");
 };
+
+export const image_prompts = (prompt) => {
+  prompt.includes("create") ||
+    prompt.includes("generate") ||
+    prompt.includes("image");
+};
