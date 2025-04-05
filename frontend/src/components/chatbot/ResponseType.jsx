@@ -59,27 +59,18 @@ if (time >= 5 && time < 12) {
   day_time = "night";
 }
 
-export const exit_conversation = (prompt) => {
-  prompt.includes("bye") ||
-    prompt.includes("exit") ||
-    prompt.includes("bye bye") ||
-    prompt.includes("goodbye") ||
-    prompt.includes("see you") ||
-    prompt.includes("see ya");
-};
-
-export const music_prompts = (prompt) => {
-  prompt.includes("recommend song") ||
-    prompt.includes("recommend songs") ||
-    prompt.includes("recommend a song") ||
-    prompt.includes("songs") ||
-    prompt.includes("music") ||
-    prompt.includes("another song") ||
-    prompt.includes("other songs");
-};
-
-export const image_prompts = (prompt) => {
-  prompt.includes("create") ||
-    prompt.includes("generate") ||
-    prompt.includes("image");
+export const setSpotifyResponse = (
+  setConversations,
+  botMessageIndex,
+  chatbotDummyResponse,
+  setSelectedSong
+) => {
+  setConversations((prev) => {
+    const currentMessage = [...prev];
+    currentMessage[
+      botMessageIndex
+    ].response = `https://open.spotify.com/embed/track/${chatbotDummyResponse.songId}`;
+    return currentMessage;
+  });
+  setSelectedSong(true);
 };
