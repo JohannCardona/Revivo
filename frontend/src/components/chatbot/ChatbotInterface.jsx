@@ -420,18 +420,16 @@ function ChatbotInterface() {
 
   return (
     <div className="chatbot-container">
-      <aside className={`sidemenu ${close ? "close" : "open"}`}>
-        <Sidebar
-          setIsNewChat={setIsNewChat}
-          close={close}
-          setClose={setClose}
-          conversationTitles={conversationTitles}
-          setFetchedConversation={setFetchedConversation}
-          setFetchedConversations={setFetchedConversations}
-          fetchedConversation={fetchedConversation}
-          setConversations={setConversations}
-        />
-      </aside>
+      <Sidebar
+        setIsNewChat={setIsNewChat}
+        close={close}
+        setClose={setClose}
+        conversationTitles={conversationTitles}
+        setFetchedConversation={setFetchedConversation}
+        setFetchedConversations={setFetchedConversations}
+        fetchedConversation={fetchedConversation}
+        setConversations={setConversations}
+      />
       <div className="chatbot-ui-container">
         <Banner />
         <div ref={conversationRef} className="chat item-1">
