@@ -31,10 +31,19 @@ const CategoryTips = () => {
     setCurrentTip(tipsData[randomTip]);
     setTipTrack(tipTrack + 1);
     const count = tipTrack + 1;
-    axios.post(`http://localhost:5000/generate_tip_count`, {
-      user,
-      count,
-    });
+    axios.post(
+      `http://localhost:5000/generate_tip_count`,
+      {
+        user,
+        count,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
   };
 
   useEffect(() => {
@@ -56,10 +65,19 @@ const CategoryTips = () => {
   const store_category_tip = () => {
     if (currentTip && !favouriteTips.includes(currentTip)) {
       axios
-        .post(`http://localhost:5000/store_tip/${tipCategory}`, {
-          user,
-          currentTip,
-        })
+        .post(
+          `http://localhost:5000/store_tip/${tipCategory}`,
+          {
+            user,
+            currentTip,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
         .then((response) => {
           fireAlert(response.data.result, "success", "green");
         });
@@ -151,7 +169,11 @@ const CategoryTips = () => {
                 </motion.button>
               </div>
             </div>
-            <img className="no-favourites" src={theme === "light-theme" ? logo1 : logo} alt="Tips Logo" />
+            <img
+              className="no-favourites"
+              src={theme === "light-theme" ? logo1 : logo}
+              alt="Tips Logo"
+            />
           </div>
         </>
       ) : (
