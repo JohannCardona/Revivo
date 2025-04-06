@@ -2,66 +2,13 @@ import React, { useState } from "react";
 import login from "../../images/secure_login.svg";
 import "../../styles/login/InputForms.css";
 import "../../styles/login/RegisterLogin.css";
-import Swal from "sweetalert2";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Banner from "../Banner/MainBanner";
+import { handleUserSignIn } from "./account_api";
 
 function ExistingUser() {
   const [existingUser, setExistingUser] = useState("");
   const navigate = useNavigate();
-
-  const fireAlert = (response, type, color) => {
-    Swal.fire({
-      title: response,
-      confirmButtonText: "OK",
-      confirmButtonColor: color,
-      icon: type,
-    });
-  };
-
-  const fireAlert1 = (response, type, color) => {
-    Swal.fire({
-      title: response,
-      confirmButtonText: "OK",
-      confirmButtonColor: color,
-      icon: type,
-    }).then(() => {
-      navigateToChat();
-    });
-  };
-
-  const handleUserSignIn = (e) => {
-    e.preventDefault();
-    if (existingUser.trim() === "") {
-      fireAlert("Username must not be empty", "error", "red");
-    } else {
-      axios
-        .post("http://localhost:5000/login", {
-          existingUser,
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            const jwt_token = response.data.token;
-            localStorage.setItem("user", existingUser);
-            localStorage.setItem("token", jwt_token);
-            fireAlert1(
-              "You're in. Let's start the conversation.",
-              "success",
-              "green"
-            );
-          }
-        })
-        .catch((error) => {
-          Swal.fire({
-            title: error.response.data.result,
-            confirmButtonText: "OK",
-            confirmButtonColor: "#ff0055",
-            icon: "error",
-          });
-        });
-    }
-  };
 
   const goBackToRegister = () => {
     navigate("/");
@@ -91,12 +38,12 @@ function ExistingUser() {
                   placeholder="Enter your username"
                 />
               </div>
-              {/* Redirect to login form */}
+              {/* Redirect to chatbot interface */}
               <input
                 value="Sign in"
-                type="submit"
+                type="button"
                 className="mood-submit"
-                onClick={handleUserSignIn}
+                onClick={() => handleUserSignIn(existingUser, navigateToChat)}
               />
             </form>
           </div>
