@@ -2,63 +2,13 @@ import React, { useState } from "react";
 import login from "../../images/signup4.svg";
 import "../../styles/login/InputForms.css";
 import "../../styles/login/RegisterLogin.css";
-import Swal from "sweetalert2";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Banner from "../Banner/MainBanner";
+import { handleUserRegister } from "./account_api";
 
 function NewUser() {
   const [newUser, setNewUser] = useState("");
   const navigate = useNavigate();
-
-  const fireAlert = (response, type, color) => {
-    Swal.fire({
-      title: response,
-      confirmButtonText: "OK",
-      confirmButtonColor: color,
-      icon: type,
-    });
-  };
-
-  const fireAlert1 = (response, type, color) => {
-    Swal.fire({
-      title: response,
-      confirmButtonText: "OK",
-      confirmButtonColor: color,
-      icon: type,
-    }).then(() => {
-      navigateToLogin();
-    });
-  };
-
-  const handleUserRegister = (e) => {
-    e.preventDefault();
-    if (newUser.trim() === "") {
-      fireAlert("Username must not be empty", "error", "red");
-      return;
-    }
-    axios
-      .post("http://localhost:5000/register", {
-        newUser,
-      })
-      .then((response) => {
-        if (response.status === 201) {
-          fireAlert1(
-            "That was easy. Let's head to the login.",
-            "success",
-            "green"
-          );
-        }
-      })
-      .catch((error) => {
-        Swal.fire({
-          title: error.response.data.result,
-          confirmButtonText: "OK",
-          confirmButtonColor: "#ff0055",
-          icon: "error",
-        });
-      });
-  };
 
   const navigateToLogin = () => {
     navigate("/login");
@@ -70,7 +20,7 @@ function NewUser() {
       <div className="registerlogin-container">
         <div className="account-forms">
           <div className="new">
-            {/* Form that sign up field */}
+            {/* Form sign up fields */}
             <form className="login" noValidate>
               <h2 style={{ color: "var(--text)" }} className="form-title">
                 Sign up
@@ -84,12 +34,11 @@ function NewUser() {
                   placeholder="Enter your username"
                 />
               </div>
-              {/* Redirect to signin form */}
               <input
                 value="Sign up"
                 type="submit"
                 className="mood-submit"
-                onClick={handleUserRegister}
+                onClick={() => handleUserRegister(newUser, navigateToLogin)}
               />
             </form>
           </div>
