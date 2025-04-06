@@ -143,3 +143,25 @@ export const setSpotifyResponse = (
   });
   setSelectedSong(true);
 };
+
+export const get_song_data = (
+  chatbotDummyResponse,
+  setConversations,
+  botMessageIndex,
+  chatbotResponseId,
+  chatbotTypingResponse
+) => {
+  const songData = fetching_recommending_songs_response(chatbotDummyResponse);
+  setConversations((prev) => {
+    const currentMessage = [...prev];
+    currentMessage[botMessageIndex].response = songData;
+    return currentMessage;
+  });
+  setTimeout(() => {
+    const element = document.getElementById(chatbotResponseId);
+    if (element) {
+      chatbotTypingResponse(element, songData);
+    } else {
+    }
+  }, 0);
+};
