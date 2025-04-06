@@ -20,7 +20,7 @@ def store_user_moods():
             "timestamp": data["timestamp"]
         }
         mongo_db.user_mood_tracker.insert_one(document)
-    return jsonify({"result": "User mood stored successfully!!!"}), HTTPStatus.OK
+    return jsonify({"result": "User mood stored successfully"}), HTTPStatus.OK
 
 
 @userMoods.route("/fetch_user_moods", methods=["GET"])
