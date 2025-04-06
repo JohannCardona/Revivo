@@ -24,3 +24,19 @@ export const downloadDALLEImage = (imgURL) => {
   imageLink.click();
   document.body.removeChild(imageLink);
 };
+
+export const image_from_emotion = async (
+  setConversations,
+  botMessageIndex,
+  setDynamicChoice
+) => {
+  const storedEmotion = localStorage.getItem("mood");
+  const dallePrompt = `An abstract artistic interpretation of the ${storedEmotion} mood in a creative, modern style.`;
+  const imageUrl = await generate_image(dallePrompt);
+  setConversations((prev) => {
+    const currentMessage = [...prev];
+    currentMessage[botMessageIndex].response = imageUrl;
+    return currentMessage;
+  });
+  setDynamicChoice(false);
+};
