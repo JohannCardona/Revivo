@@ -58,19 +58,3 @@ if (time >= 5 && time < 12) {
 } else {
   day_time = "night";
 }
-
-export const setSpotifyResponse = (
-  setConversations,
-  botMessageIndex,
-  chatbotDummyResponse,
-  setSelectedSong
-) => {
-  setConversations((prev) => {
-    const currentMessage = [...prev];
-    currentMessage[
-      botMessageIndex
-    ].response = `https://open.spotify.com/embed/track/${chatbotDummyResponse.songId}`;
-    return currentMessage;
-  });
-  setSelectedSong(true);
-};
