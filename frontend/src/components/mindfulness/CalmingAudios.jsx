@@ -52,6 +52,7 @@ import { FaPause } from "react-icons/fa6";
 import CloseIcon from "@mui/icons-material/Close";
 import ScrollToSection from "../ScrollToSection";
 import AudiosSidebar from "./AudiosSidebar";
+import { handleAudioDurationFormat } from "./AudioDurationFormatter";
 
 const audios1 = [
   {
@@ -212,14 +213,6 @@ const AudioPlayer = () => {
   const [audioProgress, setAudioProgress] = useState({});
   const [audioPlaying, setAudioPlaying] = useState(false);
   const audioRef = useRef({});
-
-  const handleAudioDurationFormat = (sec) => {
-    const minutes = Math.floor(sec / 60);
-    const seconds = Math.floor(sec % 60)
-      .toString()
-      .padStart(2, "0");
-    return `${minutes}:${seconds}`;
-  };
 
   const handleToggleAudioPlayer = (item) => {
     setPlayAudio((prev) => ({
