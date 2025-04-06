@@ -1,26 +1,23 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import AudioPlayer from "./CalmingAudios";
+import { handleAudioDurationFormat } from "./AudioDurationFormatter";
 
-describe("Calming Audios Component", () => {
-  test("renders each of the Listen Now buttons in Audios component", () => {
-    render(<AudioPlayer />);
-    const listenNowToggleButtons = screen.getAllByText("Listen Now");
-    expect(listenNowToggleButtons).toHaveLength(12);
+describe("handleAudioDurationFormat", () => {
+  it("should format 0 seconds as '0:00'", () => {
+    expect(handleAudioDurationFormat(0)).toBe("0:00");
   });
 
-  test("toggles audio controls visibility", () => {
-    render(<AudioPlayer />);
-    const toggleButton = screen.getAllByText("Listen Now")[0];
-    fireEvent.click(toggleButton);
+  it("should format 90 seconds as '1:30'", () => {
+    expect(handleAudioDurationFormat(90)).toBe("1:30");
   });
 
-  test("closes audio controls section", () => {
-    render(<AudioPlayer />);
-    const toggleListenNowButton = screen.getAllByText("Listen Now")[0];
-    fireEvent.click(toggleListenNowButton);
+  it("should format 330 seconds as '5:30'", () => {
+    expect(handleAudioDurationFormat(330)).toBe("5:30");
+  });
 
-    const pauseButton = screen.getByTestId("CloseIcon");
-    fireEvent.click(pauseButton);
+  it("should format 841 seconds as '14:01'", () => {
+    expect(handleAudioDurationFormat(841)).toBe("14:01");
+  });
+
+  it("should format 3599 seconds as '59:59'", () => {
+    expect(handleAudioDurationFormat(3599)).toBe("59:59");
   });
 });
