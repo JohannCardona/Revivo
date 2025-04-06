@@ -51,7 +51,7 @@ function Sidebar({
         {!close ? (
           <>
             <div className="new-chatbot-container">
-              <div className="sidemenu-button" onClick={() => newChat()}>
+              <div className="sidemenu-button" onClick={newChat}>
                 <span>
                   <AddIcon
                     style={{ fontSize: "1.1rem", color: "var(--sidebar-text)" }}
