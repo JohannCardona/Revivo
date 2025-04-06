@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Comment } from "react-loader-spinner";
 import chaticon from "../../images/chatbot.svg";
 import "../../styles/chatbot/ChatbotInterface.css";
 import Swal from "sweetalert2";
@@ -30,6 +29,7 @@ import {
   conversationList,
   generateChatbotResponseId,
   day_time,
+  loading_message,
 } from "./ResponseType";
 
 function ChatbotInterface() {
@@ -523,16 +523,7 @@ function ChatbotInterface() {
                         index === fetchedConversations.length - 1 &&
                         conversation.chatbot &&
                         conversation.response === "" ? (
-                          <Comment
-                            visible={true}
-                            height="40"
-                            width="40"
-                            ariaLabel="comment-loading"
-                            wrapperStyle={{}}
-                            wrapperClass="comment-wrapper"
-                            color="#fff"
-                            backgroundColor="#50a081"
-                          />
+                          loading_message()
                         ) : conversation.chatbot &&
                           conversation.response.includes("data:image") ? (
                           <DisplayImages
@@ -588,16 +579,7 @@ function ChatbotInterface() {
                         index === conversations.length - 1 &&
                         conversation.chatbot &&
                         conversation.response === "" ? (
-                          <Comment
-                            visible={true}
-                            height="40"
-                            width="40"
-                            ariaLabel="comment-loading"
-                            wrapperStyle={{}}
-                            wrapperClass="comment-wrapper"
-                            color="#fff"
-                            backgroundColor="#50a081"
-                          />
+                          loading_message()
                         ) : conversation.chatbot &&
                           conversation.response.includes("data:image") ? (
                           <DisplayImages
