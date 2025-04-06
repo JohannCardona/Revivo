@@ -145,13 +145,12 @@ export const setSpotifyResponse = (
 };
 
 export const get_song_data = (
-  chatbotDummyResponse,
+  songData,
   setConversations,
   botMessageIndex,
   chatbotResponseId,
   chatbotTypingResponse
 ) => {
-  const songData = fetching_recommending_songs_response(chatbotDummyResponse);
   setConversations((prev) => {
     const currentMessage = [...prev];
     currentMessage[botMessageIndex].response = songData;
@@ -164,4 +163,67 @@ export const get_song_data = (
     } else {
     }
   }, 0);
+};
+
+export const music_options_recommender_message = (
+  setConversations,
+  botMessageIndex,
+  chatbotDummyResponse,
+  chatbotResponseId,
+  chatbotTypingResponse
+) => {
+  setConversations((prev) => {
+    const currentMessage = [...prev];
+    currentMessage[botMessageIndex].response = chatbotDummyResponse;
+    return currentMessage;
+  });
+  setTimeout(() => {
+    const element = document.getElementById(chatbotResponseId);
+    if (element) {
+      chatbotTypingResponse(element, chatbotDummyResponse);
+    } else {
+    }
+  }, 0);
+};
+
+export const music_recommendations_from_emotions = (
+  setSelectedSongGenre,
+  setConversations,
+  botMessageIndex,
+  chatbotResponseId,
+  chatbotTypingResponse,
+  setDynamicChoice,
+  setSelectedDynamicSongChoice
+) => {
+  const storedEmotion = localStorage.getItem("mood");
+  if (genreEmotions[storedEmotion]) {
+    const availableGenres = genreEmotions[storedEmotion];
+    setSelectedSongGenre(true);
+    const genreSuggestions =
+      `🎵 ${
+        storedEmotion === "joy" || storedEmotion === "love"
+          ? "Here are some genres you might like"
+          : "Here are some genres you might like to make you feel better"
+      }:\n\n` +
+      availableGenres.map((g, i) => `${i + 1}. ${g}`).join("\n") +
+      "\n\n💡Simply reply with a number of your choice.";
+    localStorage.setItem(
+      "availableDynamicGenres",
+      JSON.stringify(availableGenres)
+    );
+    setConversations((prev) => {
+      const currentMessage = [...prev];
+      currentMessage[botMessageIndex].response = genreSuggestions;
+      return currentMessage;
+    });
+    setTimeout(() => {
+      const element = document.getElementById(chatbotResponseId);
+      if (element) {
+        chatbotTypingResponse(element, genreSuggestions);
+      } else {
+      }
+    }, 0);
+  }
+  setDynamicChoice(false);
+  setSelectedDynamicSongChoice(true);
 };
