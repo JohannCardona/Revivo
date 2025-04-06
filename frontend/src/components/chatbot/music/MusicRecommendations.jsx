@@ -127,3 +127,19 @@ export const fetch_song_genre_selection = async (song_genre) => {
       }
     });
 };
+
+export const setSpotifyResponse = (
+  setConversations,
+  botMessageIndex,
+  chatbotDummyResponse,
+  setSelectedSong
+) => {
+  setConversations((prev) => {
+    const currentMessage = [...prev];
+    currentMessage[
+      botMessageIndex
+    ].response = `https://open.spotify.com/embed/track/${chatbotDummyResponse.songId}`;
+    return currentMessage;
+  });
+  setSelectedSong(true);
+};
