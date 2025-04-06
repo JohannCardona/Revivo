@@ -7,6 +7,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import logo from "../../images/meditation.svg";
 import logo1 from "../../images/mindfulness.svg";
+import { store_tip } from "./TipAPI";
 
 const CategoryTips = () => {
   const theme = localStorage.getItem("theme");
@@ -62,25 +63,11 @@ const CategoryTips = () => {
     fetch_category_tips();
   }, [tipCategory, currentTip, favouriteTips]);
 
-  const store_category_tip = () => {
+  const store_category_tip = async () => {
     if (currentTip && !favouriteTips.includes(currentTip)) {
-      axios
-        .post(
-          `http://localhost:5000/store_tip/${tipCategory}`,
-          {
-            user,
-            currentTip,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((response) => {
-          fireAlert(response.data.result, "success", "green");
-        });
+      const response = await store_tip(user, currentTip, tipCategory);
+      console.log(response);
+      fireAlert(response.data.result, "success", "green");
     } else if (!currentTip) {
       fireAlert(
         `Please generate a tip before clicking on Add to Favourites`,
