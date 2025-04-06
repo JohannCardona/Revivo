@@ -60,6 +60,51 @@ if (time >= 5 && time < 12) {
   day_time = "night";
 }
 
+export const get_chatbot_response = async (
+  message,
+  setConversations,
+  botMessageIndex,
+  chatbotResponseId
+) => {
+  const chatbot_response = await handleChatbotResponse(message);
+  setConversations((prev) => {
+    const currentMessage = [...prev];
+    currentMessage[botMessageIndex].response = chatbot_response;
+    return currentMessage;
+  });
+  setTimeout(() => {
+    const element = document.getElementById(chatbotResponseId);
+    if (element) {
+      chatbotTypingResponse(element, chatbot_response);
+    } else {
+    }
+  }, 0);
+};
+
+export const dynamic_chatbot_response = (
+  setConversations,
+  botMessageIndex,
+  chatbotResponseId,
+  setDynamicChoice
+) => {
+  const dynamicChoiceMessage =
+    `Would you like some music suggestions or an artistic image to help you relax? \n` +
+    `Please type "music" for music suggestions or "image" for an artistic image.`;
+  setConversations((prev) => {
+    const currentMessage = [...prev];
+    currentMessage[botMessageIndex].response = dynamicChoiceMessage;
+    return currentMessage;
+  });
+  setTimeout(() => {
+    const element = document.getElementById(chatbotResponseId);
+    if (element) {
+      chatbotTypingResponse(element, dynamicChoiceMessage);
+    } else {
+    }
+  }, 0);
+  setDynamicChoice(true);
+};
+
 export const loading_message = () => {
   return (
     <Comment
