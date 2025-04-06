@@ -9,8 +9,8 @@ import {
   PointElement,
   Legend,
 } from "chart.js";
-import axios from "axios";
 import NoteModal from "./NoteModal";
+import { get_moods } from "./MoodAPI";
 
 Chart.register(
   LineElement,
@@ -27,16 +27,8 @@ function MoodGraph() {
   const [selectUserNote, setSelectUserNote] = useState(null);
 
   const fetchUserMoods = async () => {
-    await axios
-      .get("http://localhost:5000/fetch_user_moods", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((response) => {
-        setUserMoodData(response.data.result);
-      });
+    const response = await get_moods();
+    setUserMoodData(response.data.result);
   };
 
   useEffect(() => {
