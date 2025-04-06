@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Comment } from "react-loader-spinner";
 const chatbotTypingSpeed = 10;
 
 const fetch_chatbot_response = async (prompt) => {
@@ -58,3 +59,18 @@ if (time >= 5 && time < 12) {
 } else {
   day_time = "night";
 }
+
+export const loading_message = () => {
+  return (
+    <Comment
+      visible={true}
+      height="40"
+      width="40"
+      ariaLabel="comment-loading"
+      wrapperStyle={{}}
+      wrapperClass="comment-wrapper"
+      color="#fff"
+      backgroundColor="#50a081"
+    />
+  );
+};
