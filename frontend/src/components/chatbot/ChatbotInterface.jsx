@@ -3,34 +3,34 @@ import { Comment } from "react-loader-spinner";
 import chaticon from "../../images/chatbot.svg";
 import "../../styles/chatbot/ChatbotInterface.css";
 import Swal from "sweetalert2";
+import axios from "axios";
 import Banner from "../Banner/Banner";
+import DisplayImages from "./images/DisplayImages";
+import { generate_image, downloadDALLEImage } from "./images/ArtisticImages";
+import Sidebar from "./Sidebar";
 import {
   genreEmotions,
+  fetch_song_genre_selection,
   recommend_songs,
   fetching_songs_array,
   fetching_recommending_songs_response,
-  fetch_song_genre_selection,
+  setSpotifyResponse,
 } from "./music/MusicRecommendations";
-import { generate_image, downloadDALLEImage } from "./images/ArtisticImages";
 import { fetch_emotion_from_text } from "./emotions/Emotions";
+import {
+  error_message,
+  fetch_conversation_title,
+  fetch_conversation_titles,
+} from "./chats/UserConversations";
+import UserInputs from "./UserInputs";
+import Spotify from "./music/Spotify";
 import {
   handleChatbotResponse,
   chatbotTypingResponse,
-  generateChatbotResponseId,
   conversationList,
+  generateChatbotResponseId,
   day_time,
-  setSpotifyResponse,
 } from "./ResponseType";
-import {
-  fetch_conversation_title,
-  store_user_conversations,
-  fetch_conversation_titles,
-} from "./chats/UserConversations";
-import { dynamic_mood_tracking } from "./moods/FetchMoods";
-import Sidebar from "./Sidebar";
-import DisplayImages from "./images/DisplayImages";
-import Spotify from "./music/Spotify";
-import UserInputs from "./UserInputs";
 
 function ChatbotInterface() {
   let [prompt, setPrompt] = useState("");
@@ -62,9 +62,11 @@ function ChatbotInterface() {
       setPrompt("");
       return;
     }
+
     localStorage.setItem("user_message", prompt);
     setPrompt("");
     const message = localStorage.getItem("user_message");
+
     if (!conversationTitle) {
       try {
         await fetch_conversation_title(message, setConversationTitle);
@@ -72,24 +74,27 @@ function ChatbotInterface() {
         console.error("Error generating conversation title:", error);
       }
     }
+
     const userResponse = conversationList(false, message, null);
     setConversations((prevConversations) => [
       ...prevConversations,
       userResponse,
     ]);
+
     if (
-      prompt.includes("bye") ||
-      prompt.includes("exit") ||
-      prompt.includes("bye bye") ||
-      prompt.includes("goodbye") ||
-      prompt.includes("see you") ||
-      prompt.includes("see ya") ||
-      prompt.includes("end")
+      message.includes("bye") ||
+      message.includes("exit") ||
+      message.includes("bye bye") ||
+      message.includes("goodbye") ||
+      message.includes("see you") ||
+      message.includes("see ya")
     ) {
       setPrompt("");
       return;
     }
+
     const chatbotResponseId = generateChatbotResponseId();
+    console.log(chatbotResponseId);
     const chatbotResponse = conversationList(true, "", chatbotResponseId);
     setConversations((prevConversations) => [
       ...prevConversations,
@@ -108,7 +113,7 @@ function ChatbotInterface() {
             setSelectedSongGenre(true);
             const genreSuggestions =
               `🎵 ${
-                storedEmotion === "joy" || storedEmotion === "love"
+                storedEmotion === "happiness" || storedEmotion === "love"
                   ? "Here are some genres you might like"
                   : "Here are some genres you might like to make you feel better"
               }:\n\n` +
@@ -276,19 +281,13 @@ function ChatbotInterface() {
         }
       }
     } catch (err) {
-      setLoadingChatbotResponse(false);
-      setConversations((prev) => {
-        const currentMessage = [...prev];
-        currentMessage[botMessageIndex].response = "Failed processing response";
-        return currentMessage;
-      });
-      setTimeout(() => {
-        const element = document.getElementById(chatbotResponseId);
-        if (element) {
-          chatbotTypingResponse(element, "Failed processing response");
-        } else {
-        }
-      }, 0);
+      error_message(
+        setLoadingChatbotResponse,
+        setConversations,
+        botMessageIndex,
+        chatbotResponseId,
+        chatbotTypingResponse
+      );
     }
   };
 
@@ -308,8 +307,7 @@ function ChatbotInterface() {
       prompt.includes("bye bye") ||
       prompt.includes("goodbye") ||
       prompt.includes("see you") ||
-      prompt.includes("see ya") ||
-      prompt.includes("end")
+      prompt.includes("see ya")
     ) {
       return;
     } else if (
@@ -406,16 +404,83 @@ function ChatbotInterface() {
   }, [conversationTitles]);
 
   useEffect(() => {
-    dynamic_mood_tracking(conversations);
+    const dynamic_mood_tracking = () => {
+      if (
+        conversations.length === 2 &&
+        conversations[1].response !== "" &&
+        (prompt.includes("recommend song") ||
+          prompt.includes("recommend songs") ||
+          prompt.includes("recommend a song") ||
+          prompt.includes("songs") ||
+          prompt.includes("music") ||
+          prompt.includes("another song") ||
+          prompt.includes("other songs") ||
+          prompt.includes("create") ||
+          prompt.includes("generate") ||
+          prompt.includes("image") ||
+          prompt.includes("hello") ||
+          prompt.includes("hi")) &&
+        localStorage.getItem("mood")
+      ) {
+        const mood_tracking = {
+          user: localStorage.getItem("user"),
+          mood:
+            localStorage.getItem("mood").charAt(0).toUpperCase() +
+            localStorage.getItem("mood").slice(1),
+          userNote: localStorage.getItem("user_message"),
+          timestamp: new Date().toISOString(),
+        };
+        axios.post(`http://localhost:5000/store_user_moods`, mood_tracking, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+      }
+    };
+    dynamic_mood_tracking();
   }, [conversations]);
 
   useEffect(() => {
-    store_user_conversations(
-      conversations,
-      isNewChat,
-      conversationTitle,
-      setConversations
-    );
+    const store_user_conversations = async () => {
+      const user = localStorage.getItem("user");
+      if (conversations.length !== 0) {
+        if (
+          localStorage.getItem("user_message").includes("bye") ||
+          localStorage.getItem("user_message").includes("exit") ||
+          localStorage.getItem("user_message").includes("bye bye") ||
+          localStorage.getItem("user_message").includes("goodbye") ||
+          localStorage.getItem("user_message").includes("see you") ||
+          localStorage.getItem("user_message").includes("see ya") ||
+          isNewChat === true
+        ) {
+          console.log("store conversations");
+          await axios
+            .post(
+              "http://localhost:5000/conversations",
+              {
+                user,
+                conversationTitle,
+                conversations,
+              },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
+            )
+            .then((response) => {
+              if (response.status === 200) {
+                localStorage.removeItem("user_message");
+                setConversations("");
+              }
+            });
+        } else {
+        }
+      }
+    };
+    store_user_conversations();
   }, [conversations, isNewChat, conversationTitle]);
 
   return (
@@ -506,7 +571,7 @@ function ChatbotInterface() {
                         ) : !conversation.chatbot ? (
                           conversation.response
                         ) : (
-                          conversation.response
+                          ""
                         )}
                       </div>
                     </div>
