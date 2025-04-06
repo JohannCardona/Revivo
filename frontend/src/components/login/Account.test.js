@@ -1,5 +1,5 @@
 import axios from "axios";
-import { handleUserRegister } from "./account_api";
+import { handleUserRegister, handleUserSignIn } from "./account_api";
 import Swal from "sweetalert2";
 
 jest.mock("axios");
@@ -68,11 +68,71 @@ describe("signup function", () => {
     };
     axios.post.mockRejectedValue(errorResponse);
 
-    await handleUserRegister("johann"); 
+    await handleUserRegister("johann");
 
     expect(Swal.fire).toHaveBeenCalledWith(
       expect.objectContaining({
         title: "Username taken",
+      })
+    );
+  });
+});
+
+describe("signin function", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    localStorage.clear();
+  });
+
+  it("should trigger call Swal.fire with the correct title if existing user is empty", () => {
+    const existingUser = "";
+    handleUserSignIn(existingUser);
+
+    expect(Swal.fire).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: "Username must not be empty",
+      })
+    );
+    expect(axios.post).not.toHaveBeenCalled();
+  });
+
+  it("should call axios.post with user data and call Swal.fire on 200 status", async () => {
+    const existingUser = "johann";
+    const token = "abc123";
+    axios.post.mockResolvedValue({
+      status: 200,
+      data: { token },
+    });
+
+    await handleUserSignIn(existingUser);
+
+    expect(axios.post).toHaveBeenCalledWith("http://localhost:5000/login", {
+      existingUser: existingUser,
+    });
+    expect(localStorage.getItem("user")).toBe(existingUser);
+    expect(localStorage.getItem("token")).toBe(token);
+    expect(Swal.fire).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: "You're in. Let's start the conversation.",
+      })
+    );
+  });
+
+  it("should trigger an error alert with the backend error message when axios.post fails with a response", async () => {
+    const testUser = "testuser";
+    const errorResponse = {
+      response: { data: { result: "You have entered an invalid username" } },
+    };
+    axios.post.mockRejectedValue(errorResponse);
+
+    await handleUserSignIn(testUser);
+
+    expect(Swal.fire).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: "You have entered an invalid username",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#ff0055",
+        icon: "error",
       })
     );
   });
