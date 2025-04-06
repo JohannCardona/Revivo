@@ -8,3 +8,12 @@ export const get_moods = () => {
     },
   });
 };
+
+export const storeUserMoods = (userMoods) => {
+  return axios.post("http://localhost:5000/store_user_moods", userMoods, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
