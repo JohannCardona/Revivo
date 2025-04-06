@@ -20,7 +20,7 @@ function NewUser() {
       <div className="registerlogin-container">
         <div className="account-forms">
           <div className="new">
-            {/* Form sign up fields */}
+            {/* Form that sign up field */}
             <form className="login" noValidate>
               <h2 style={{ color: "var(--text)" }} className="form-title">
                 Sign up
@@ -34,9 +34,10 @@ function NewUser() {
                   placeholder="Enter your username"
                 />
               </div>
+              {/* Redirect to signin form */}
               <input
                 value="Sign up"
-                type="submit"
+                type="button"
                 className="mood-submit"
                 onClick={() => handleUserRegister(newUser, navigateToLogin)}
               />
