@@ -49,17 +49,13 @@ export const genreEmotions = {
   fear: ["ambient", "classical", "chill", "calm", "rain", "sleep", "waves"],
 };
 
-export const recommend_songs = async (genre) => {
-  const response = await axios.get(
-    `http://localhost:5000/music_recommendations/${genre}`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }
-  );
-  return response.data;
+export const recommend_songs = (genre) => {
+  return axios.get(`http://localhost:5000/music_recommendations/${genre}`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
 };
 
 const getRandomSongGenres = (songArray, songCount) => {
