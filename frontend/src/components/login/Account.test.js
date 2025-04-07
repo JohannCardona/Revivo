@@ -118,7 +118,7 @@ describe("signin function", () => {
     );
   });
 
-  it("should trigger an error alert with the backend error message when axios.post fails with a response", async () => {
+  it("should trigger an error alert when the user enters an invalid username", async () => {
     const testUser = "testuser";
     const errorResponse = {
       response: { data: { result: "You have entered an invalid username" } },
