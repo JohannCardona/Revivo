@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export const generate_image = async (prompt) => {
-  const response = await axios.post(
+export const generate_image = (prompt) => {
+  return axios.post(
     `http://localhost:5000/image_generation`,
     { prompt },
     {
@@ -11,8 +11,6 @@ export const generate_image = async (prompt) => {
       },
     }
   );
-  const genImage = `data:image/jpeg;base64,${response.data[0].result}`;
-  return genImage;
 };
 
 export const downloadDALLEImage = (imgURL) => {
