@@ -96,7 +96,8 @@ function ChatbotInterface() {
       message.includes("bye bye") ||
       message.includes("goodbye") ||
       message.includes("see you") ||
-      message.includes("see ya")
+      message.includes("see ya") ||
+      message === "end"
     ) {
       setPrompt("");
       return;
@@ -371,7 +372,7 @@ function ChatbotInterface() {
       }
     };
     dynamic_mood_tracking();
-  }, [conversations]);
+  }, [conversations, prompt]);
 
   useEffect(() => {
     const store_user_conversations = async () => {
@@ -384,7 +385,7 @@ function ChatbotInterface() {
           localStorage.getItem("user_message").includes("goodbye") ||
           localStorage.getItem("user_message").includes("see you") ||
           localStorage.getItem("user_message").includes("see ya") ||
-          localStorage.getItem("user_message").includes("end") ||
+          localStorage.getItem("user_message") === "end" ||
           isNewChat === true
         ) {
           await axios
