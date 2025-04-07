@@ -280,9 +280,10 @@ function ChatbotInterface() {
         const songRecommendations = await recommend_songs(
           chosenRecommendedGenre
         );
-        setRecommendedSongs(songRecommendations);
+        console.log(songRecommendations);
+        setRecommendedSongs(songRecommendations.data);
         setSongSelection(true);
-        return songRecommendations;
+        return songRecommendations.data;
       } else {
         setSelectedSongGenre(true);
         return "💡Please choose a number from the song list.";
@@ -301,9 +302,9 @@ function ChatbotInterface() {
         const songRecommendations = await recommend_songs(
           chosenRecommendedGenre
         );
-        setRecommendedSongs(songRecommendations);
+        setRecommendedSongs(songRecommendations.data);
         setSongSelection(true);
-        return songRecommendations;
+        return songRecommendations.data;
       } else {
         setSelectedSongGenre(true);
         return "💡Please choose a number from the genre list.";
@@ -326,7 +327,9 @@ function ChatbotInterface() {
       prompt.includes("generate") ||
       prompt.includes("image")
     ) {
-      return await generate_image(prompt);
+      const response = await generate_image(prompt);
+      const genImage = `data:image/jpeg;base64,${response.data[0].result}`;
+      return genImage;
     } else {
       return await prompt;
     }
