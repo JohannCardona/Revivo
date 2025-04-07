@@ -2,8 +2,8 @@ import axios from "axios";
 import { Comment } from "react-loader-spinner";
 const chatbotTypingSpeed = 10;
 
-const fetch_chatbot_response = async (prompt) => {
-  const res = await axios.post(
+export const fetch_chatbot_response = (prompt) => {
+  return axios.post(
     `http://localhost:5000/chat`,
     { prompt },
     {
@@ -13,12 +13,6 @@ const fetch_chatbot_response = async (prompt) => {
       },
     }
   );
-  return res;
-};
-
-export const handleChatbotResponse = async (prompt) => {
-  const response = await fetch_chatbot_response(prompt);
-  return response.data.result;
 };
 
 export const chatbotTypingResponse = (word, chatbotRepsonse) => {
@@ -59,27 +53,6 @@ if (time >= 5 && time < 12) {
 } else {
   day_time = "night";
 }
-
-export const get_chatbot_response = async (
-  message,
-  setConversations,
-  botMessageIndex,
-  chatbotResponseId
-) => {
-  const chatbot_response = await handleChatbotResponse(message);
-  setConversations((prev) => {
-    const currentMessage = [...prev];
-    currentMessage[botMessageIndex].response = chatbot_response;
-    return currentMessage;
-  });
-  setTimeout(() => {
-    const element = document.getElementById(chatbotResponseId);
-    if (element) {
-      chatbotTypingResponse(element, chatbot_response);
-    } else {
-    }
-  }, 0);
-};
 
 export const dynamic_chatbot_response = (
   setConversations,
@@ -131,16 +104,17 @@ export const chatbot_response = async (
   botMessageIndex,
   chatbotResponseId
 ) => {
-  const chatbot_response = await handleChatbotResponse(message);
+  const chatbot_response = await fetch_chatbot_response(message);
+  const response = chatbot_response.data.result;
   setConversations((prev) => {
     const currentMessage = [...prev];
-    currentMessage[botMessageIndex].response = chatbot_response;
+    currentMessage[botMessageIndex].response = response;
     return currentMessage;
   });
   setTimeout(() => {
     const element = document.getElementById(chatbotResponseId);
     if (element) {
-      chatbotTypingResponse(element, chatbot_response);
+      chatbotTypingResponse(element, response);
     } else {
     }
   }, 0);
