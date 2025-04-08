@@ -14,6 +14,62 @@ function About() {
   const modalClose = () => {
     setClickedImage(null);
   };
+
+  const about_details = [
+    {
+      id: 1,
+      src: chatbot,
+      alt: "Chatbot",
+      title: "Chatbot",
+      text: "Our interactive chatbot is designed to provide support whenever you need it. Whether you're feeling overwhelmed or simply need someone to talk to, our bot offers guidance and a compassionate ear.",
+    },
+    {
+      id: 2,
+      src: mood,
+      alt: "Mood Tracking",
+      title: "Mood Tracking",
+      text: "Our interactive chatbot is designed to provide support whenever you need it. Whether you're feeling overwhelmed or simply need someone to talk to, our bot offers guidance and a compassionate ear.",
+    },
+    {
+      id: 3,
+      src: dashboard,
+      alt: "Dashboard",
+      title: "Dashboard",
+      text: "Our interactive chatbot is designed to provide support whenever you need it. Whether you're feeling overwhelmed or simply need someone to talk to, our bot offers guidance and a compassionate ear.",
+    },
+    {
+      id: 4,
+      src: badges,
+      alt: "Achievement Badges",
+      title: "Achievement Badges",
+      text: "Our interactive chatbot is designed to provide support whenever you need it. Whether you're feeling overwhelmed or simply need someone to talk to, our bot offers guidance and a compassionate ear.",
+    },
+    {
+      id: 5,
+      src: tips,
+      alt: "Tips",
+      title: "Tips",
+      text: "Our interactive chatbot is designed to provide support whenever you need it. Whether you're feeling overwhelmed or simply need someone to talk to, our bot offers guidance and a compassionate ear.",
+    },
+    {
+      id: 6,
+      src: audios,
+      alt: "Audios",
+      title: "Audios",
+      text: "Our interactive chatbot is designed to provide support whenever you need it. Whether you're feeling overwhelmed or simply need someone to talk to, our bot offers guidance and a compassionate ear.",
+    },
+    {
+      id: 7,
+      src: videos,
+      alt: "Videos",
+      title: "Videos",
+      text: "Our interactive chatbot is designed to provide support whenever you need it. Whether you're feeling overwhelmed or simply need someone to talk to, our bot offers guidance and a compassionate ear.",
+    },
+  ];
+
+  const ab = about_details.map((item) => item.src);
+  console.log(ab);
+
   return (
     <div className="about-page">
       <header className="about-header">
@@ -24,215 +80,63 @@ function About() {
         </p>
       </header>
 
-      <section className="feature-section">
-        <img
-          src={chatbot}
-          alt="Chatbot Support"
-          className="feature-image"
-          onClick={() => setClickedImage(chatbot)}
-        />
-        {clickedImage && (
-          <div className="modal-container">
-            <div className="modal-image">
-              <CloseIcon
-                sx={{ fontSize: 40 }}
-                onClick={() => modalClose(chatbot)}
+      {about_details.map((item) => (
+        <section key={item.id} className="feature-section">
+          {item.id % 2 !== 0 ? (
+            <>
+              <img
+                src={item.src}
+                alt={item.alt}
+                className="feature-image"
+                onClick={() => setClickedImage(item.src)}
               />
-            </div>
-            <div className="download-container">
-              <img src={clickedImage} alt="enlarged" />
-            </div>
-          </div>
-        )}
-        <div className="feature-content">
-          <h2>Chatbot</h2>
-          <p>
-            Our interactive chatbot is designed to provide support whenever you
-            need it. Whether you're feeling overwhelmed or simply need someone
-            to talk to, our bot offers guidance and a compassionate ear.
-          </p>
-        </div>
-      </section>
-
-      <section className="feature-section">
-        <div className="feature-content">
-          <h2>Mood Tracking</h2>
-          <p>
-            Track your daily mood and gain insights over time. Our mood tracker
-            helps you record and analyze your feelings, making it easier to
-            recognize patterns and manage your emotional well-being.
-          </p>
-        </div>
-        <img
-          src={mood}
-          alt="Mood Tracking"
-          className="feature-image"
-          onClick={() => setClickedImage(mood)}
-        />
-        {clickedImage && (
-          <div className="modal-container">
-            <div className="modal-image">
-              <CloseIcon
-                sx={{ fontSize: 40 }}
-                onClick={() => modalClose(mood)}
+              {clickedImage && (
+                <div className="modal-container">
+                  <div className="modal-image">
+                    <CloseIcon
+                      sx={{ fontSize: 40 }}
+                      onClick={() => modalClose(item.src)}
+                    />
+                  </div>
+                  <div className="download-container">
+                    <img src={clickedImage} alt="enlarged" />
+                  </div>
+                </div>
+              )}
+              <div className="feature-content">
+                <h2>{item.title}</h2>
+                <p>{item.text}</p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="feature-content">
+                <h2>{item.title}</h2>
+                <p>{item.text}</p>
+              </div>
+              <img
+                src={item.src}
+                alt={item.alt}
+                className="feature-image"
+                onClick={() => setClickedImage(item.src)}
               />
-            </div>
-            <div className="download-container">
-              <img src={clickedImage} alt="enlarged" />
-            </div>
-          </div>
-        )}
-      </section>
-
-      <section className="feature-section">
-        <img
-          src={dashboard}
-          alt="Dashboard Overview"
-          className="feature-image"
-          onClick={() => setClickedImage(dashboard)}
-        />
-        {clickedImage && (
-          <div className="modal-container">
-            <div className="modal-image">
-              <CloseIcon
-                sx={{ fontSize: 40 }}
-                onClick={() => modalClose(dashboard)}
-              />
-            </div>
-            <div className="download-container">
-              <img src={clickedImage} alt="enlarged" />
-            </div>
-          </div>
-        )}
-        <div className="feature-content">
-          <h2>Dashboard</h2>
-          <p>
-            Get a comprehensive overview of your progress and app features with
-            our modern dashboard. Monitor your mood trends, access the latest
-            advice, and navigate through all the tools with ease.
-          </p>
-        </div>
-      </section>
-
-      <section className="feature-section">
-        <div className="feature-content">
-          <h2>Achievement Badges</h2>
-          <p>
-            Celebrate your progress with our Achievements page. Earn badges and
-            track milestones as you complete tasks, maintain healthy habits, and
-            advance on your journey towards improved mental health.
-          </p>
-        </div>
-        <img
-          src={badges}
-          alt="Achievements"
-          className="feature-image"
-          onClick={() => setClickedImage(badges)}
-        />
-        {clickedImage && (
-          <div className="modal-container">
-            <div className="modal-image">
-              <CloseIcon
-                sx={{ fontSize: 40 }}
-                onClick={() => modalClose(badges)}
-              />
-            </div>
-            <div className="download-container">
-              <img src={clickedImage} alt="enlarged" />
-            </div>
-          </div>
-        )}
-      </section>
-
-      <section className="feature-section">
-        <img
-          src={tips}
-          alt="Advice"
-          className="feature-image"
-          onClick={() => setClickedImage(tips)}
-        />
-        {clickedImage && (
-          <div className="modal-container">
-            <div className="modal-image">
-              <CloseIcon
-                sx={{ fontSize: 40 }}
-                onClick={() => modalClose(tips)}
-              />
-            </div>
-            <div className="download-container">
-              <img src={clickedImage} alt="enlarged" />
-            </div>
-          </div>
-        )}
-        <div className="feature-content">
-          <h2>Tips</h2>
-          <p>
-            Explore practical advice and tips curated by mental health
-            professionals. Our advice section is designed to empower you with
-            useful strategies and information for daily well-being.
-          </p>
-        </div>
-      </section>
-
-      <section className="feature-section">
-        <div className="feature-content">
-          <h2>Audios</h2>
-          <p>
-            Relax and rejuvenate with our collection of soothing audio tracks.
-            From guided meditations to calming soundscapes, discover the perfect
-            audio to help center your mind.
-          </p>
-        </div>
-        <img
-          src={audios}
-          alt="Audios"
-          className="feature-image"
-          onClick={() => setClickedImage(audios)}
-        />
-        {clickedImage && (
-          <div className="modal-container">
-            <div className="modal-image">
-              <CloseIcon
-                sx={{ fontSize: 40 }}
-                onClick={() => modalClose(audios)}
-              />
-            </div>
-            <div className="download-container">
-              <img src={clickedImage} alt="enlarged" />
-            </div>
-          </div>
-        )}
-      </section>
-
-      <section className="feature-section">
-        <img
-          src={videos}
-          alt="Videos"
-          className="feature-image"
-          onClick={() => setClickedImage(videos)}
-        />
-        {clickedImage && (
-          <div className="modal-container">
-            <div className="modal-image">
-              <CloseIcon
-                sx={{ fontSize: 40 }}
-                onClick={() => modalClose(videos)}
-              />
-            </div>
-            <div className="download-container">
-              <img src={clickedImage} alt="enlarged" />
-            </div>
-          </div>
-        )}
-        <div className="feature-content">
-          <h2>Videos</h2>
-          <p>
-            Engage with expert advice and inspiring content through our video
-            library. Watch insightful videos that provide tips, strategies, and
-            personal stories to support your mental health journey.
-          </p>
-        </div>
-      </section>
+              {clickedImage && (
+                <div className="modal-container">
+                  <div className="modal-image">
+                    <CloseIcon
+                      sx={{ fontSize: 40 }}
+                      onClick={() => modalClose(item.src)}
+                    />
+                  </div>
+                  <div className="download-container">
+                    <img src={clickedImage} alt="enlarged" />
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+        </section>
+      ))}
     </div>
   );
 }
