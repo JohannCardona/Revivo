@@ -5,6 +5,9 @@ import Info from "../About/Info";
 
 const Banner = () => {
   const [tipText, setTipText] = useState("");
+  // Fetch tip categories JSON Object
+  // Get random index from category list
+  // From category list, get random index - tip text
   useEffect(() => {
     const tipCategories = Object.keys(tipsContent.tips);
     const todayDate = new Date().getDate();
