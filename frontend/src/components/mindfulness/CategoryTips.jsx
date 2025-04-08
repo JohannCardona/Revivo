@@ -33,7 +33,7 @@ const CategoryTips = () => {
     setTipTrack(tipTrack + 1);
     const count = tipTrack + 1;
     axios.post(
-      `http://localhost:5000/generate_tip_count`,
+      `${process.env.REACT_APP_BASE_URI}/generate_tip_count`,
       {
         user,
         count,
@@ -50,12 +50,15 @@ const CategoryTips = () => {
   useEffect(() => {
     const fetch_category_tips = async () => {
       axios
-        .get(`http://localhost:5000/fetch_category_tips/${tipCategory}`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
+        .get(
+          `${process.env.REACT_APP_BASE_URI}/fetch_category_tips/${tipCategory}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
         .then((response) => {
           setFavouriteTips(response.data.result);
         });
@@ -90,7 +93,7 @@ const CategoryTips = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         const response = fetch(
-          `http://localhost:5000/remove_favourite_tip/${tipCategory}`,
+          `${process.env.REACT_APP_BASE_URI}/remove_favourite_tip/${tipCategory}`,
           {
             method: "DELETE",
             headers: {

@@ -34,7 +34,7 @@ const MindfulnessTips = () => {
   useEffect(() => {
     const fetch_visited_categories = async () => {
       axios
-        .get(`http://localhost:5000/fetch_visited_categories`, {
+        .get(`${process.env.REACT_APP_BASE_URI}/fetch_visited_categories`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -57,7 +57,7 @@ const MindfulnessTips = () => {
     } else {
       axios
         .post(
-          `http://localhost:5000/category_click_count`,
+          `${process.env.REACT_APP_BASE_URI}/category_click_count`,
           {
             user,
             tipCategory,
