@@ -33,13 +33,12 @@ const fireAlertSignin = (response, type, color, navigateToChat) => {
 };
 
 export const handleUserRegister = (newUser, navigateToLogin) => {
-  // e.preventDefault();
   if (newUser.trim() === "") {
     fireAlert("Username must not be empty", "error", "red");
     return;
   }
   return axios
-    .post("http://localhost:5000/register", {
+    .post(`${process.env.REACT_APP_BASE_URI}/register`, {
       newUser,
     })
     .then((response) => {
@@ -64,13 +63,12 @@ export const handleUserRegister = (newUser, navigateToLogin) => {
 };
 
 export const handleUserSignIn = (existingUser, navigateToChat) => {
-  // e.preventDefault();
   if (existingUser.trim() === "") {
     fireAlert("Username must not be empty", "error", "red");
     return;
   }
   return axios
-    .post("http://localhost:5000/login", {
+    .post(`${process.env.REACT_APP_BASE_URI}/login`, {
       existingUser,
     })
     .then((response) => {
