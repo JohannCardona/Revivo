@@ -75,6 +75,21 @@ function PersonalStats() {
     },
   };
 
+  const options3 = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Most Chosen Music Genres In Conversations",
+      },
+    },
+  };
+
+  // Stacked chart
+  // Data - Check-in counter for day and night
   const dataset = (statsData) => {
     if (statsData) {
       return {
@@ -95,6 +110,8 @@ function PersonalStats() {
     }
   };
 
+  // Bar chart
+  // Data - Daily Check-in counter
   const dataset1 = (statsData) => {
     if (statsData) {
       return {
@@ -110,6 +127,8 @@ function PersonalStats() {
     }
   };
 
+  // Bar chart
+  // Data - Counter for frequent keywords for top music genres
   const dataset2 = (statsData, title, label, data, color) => {
     if (statsData) {
       return {
@@ -143,7 +162,7 @@ function PersonalStats() {
     setLoading(true);
     await timeout(50);
     axios
-      .get("http://localhost:5000/user_login_info", {
+      .get(`${process.env.REACT_APP_BASE_URI}/user_login_info`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -160,7 +179,7 @@ function PersonalStats() {
     setLoading(true);
     await timeout(200);
     axios
-      .get("http://localhost:5000/keyword_frequency", {
+      .get(`${process.env.REACT_APP_BASE_URI}/keyword_frequency`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -183,7 +202,7 @@ function PersonalStats() {
     setLoading(true);
     await timeout(200);
     axios
-      .get("http://localhost:5000/get_song_genre_count", {
+      .get(`${process.env.REACT_APP_BASE_URI}/get_song_genre_count`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -209,6 +228,7 @@ function PersonalStats() {
   }, []);
 
   if (periodStatsData) {
+    // Get total number for day count and night count by adding elements
     total_day_count = periodStatsData.datasets[0].data.reduce(
       (a, b) => a + b,
       0
@@ -336,7 +356,7 @@ function PersonalStats() {
         ) : Array.isArray(keywordData.labels) &&
           keywordData.labels.length > 0 ? (
           <div style={{ marginTop: 40 }}>
-            <Bar options={options} data={keywordData} />
+            <Bar options={options2} data={keywordData} />
           </div>
         ) : null}
         {loading ? (
@@ -363,7 +383,7 @@ function PersonalStats() {
         ) : Array.isArray(songGenreCount.labels) &&
           songGenreCount.labels.length > 0 ? (
           <div style={{ marginTop: 40 }}>
-            <Bar options={options} data={songGenreCount} />
+            <Bar options={options3} data={songGenreCount} />
           </div>
         ) : null}
       </div>
