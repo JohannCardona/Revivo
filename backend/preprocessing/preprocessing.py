@@ -35,6 +35,7 @@ def emoji_preprocessing(sentence: str):
 
 
 def sentence_preprocessing(sentence: str):
+    # Call the previous functions to perform preprocessing
     no_url = url_preprocessing(sentence=sentence)
     no_emoji = emoji_preprocessing(sentence=no_url)
     processed_sentences = rawtext_preprocessing(sentence=no_emoji)
@@ -91,5 +92,4 @@ if __name__ == "__main__":
     preprocess_datasets(path=emotion_path, new_folder=new_folder, columns_to_keep=keep_columns_emotion)
     convert_numeric_label_to_categorical(
         file_path="./processed/dair-ai-emotion.csv", destination=new_folder)
-    convert_numeric_label_to_categorical(
-        file_path="./processed/amuvarma_emotions-text.csv", destination=new_folder)
+

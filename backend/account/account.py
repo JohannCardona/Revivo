@@ -16,6 +16,7 @@ def home():
 
 @accounts.route("/register", methods=["POST"])
 def account_registration():
+    # Get username from front-end and perform checks
     data = request.get_json()
     if len(data["newUser"]) == 0:
         return jsonify({"result": "Username is required"}), HTTPStatus.BAD_REQUEST
@@ -35,6 +36,7 @@ def account_registration():
 
 @accounts.route("/login", methods=["POST"])
 def account_login():
+    # Get username for existing user and perform checks
     data = request.get_json()
     now = datetime.datetime.now().strftime("%d-%m-%Y")
     hour = datetime.datetime.now().hour
@@ -45,6 +47,8 @@ def account_login():
         return jsonify({"result": "Username is required"}), HTTPStatus.BAD_REQUEST
 
     user = mongo_db.users.find_one({"username": data["existingUser"]})
+    # If user exists
+    # Add login counter to existing user object
     if user is not None:
         login_date = mongo_db.user_login_stats.find_one(
             {"user": user["username"], "login_date": now})
@@ -52,12 +56,15 @@ def account_login():
             time = "day_count"
         else:
             time = "night_count"
+        # If current date exists
+        # Add counter to same object
         if login_date:
             mongo_db.user_login_stats.update_one(
                 {"user": user["username"],
                     "login_date": login_date["login_date"]},
                 {"$inc": {"count": 1, time: 1}},
             )
+        # Add login counter to new object
         else:
             mongo_db.user_login_stats.insert_one({
                 "user": user["username"],
@@ -69,6 +76,7 @@ def account_login():
     else:
         return jsonify({"result": "You have entered an invalid username"}), HTTPStatus.UNAUTHORIZED
 
+    # Create token
     exp = (datetime.datetime.now() + datetime.timedelta(minutes=60)).timestamp()
     payload = {"user": user["username"], "expiration_date": exp}
     jwt_token = jwt.encode(payload=payload, key="revivo", algorithm="HS256")
@@ -77,6 +85,7 @@ def account_login():
 
 @accounts.route("/user_login_info", methods=["GET"])
 def user_login_info():
+    # Extract token from request header
     jwt_token = request.authorization
     token = jwt_token.token
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
@@ -91,6 +100,7 @@ def user_login_info():
         {"user": user}, query)
 
     day = []
+    # Process existing user objects and extract login counters
     for data in stats_data:
         day.append({
             "date": data["login_date"],
@@ -98,6 +108,7 @@ def user_login_info():
             "day_count": data["day_count"],
             "night_count": data["night_count"]
         })
+    
     sorted_day = date_comparison(date_object=day)
     if profile_data:
         pass
@@ -105,6 +116,7 @@ def user_login_info():
 
 
 def date_comparison(date_object):
+    # Sort by day
     date_format = "%d-%m-%Y"
     sorted_dates = sorted(
         date_object, key=lambda y: datetime.datetime.strptime(y["date"], date_format))

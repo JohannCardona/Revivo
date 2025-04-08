@@ -23,7 +23,8 @@ stopwords.update(more_stopwords)
 
 
 @conversations.route("/conversations", methods=["POST"])
-def account_registration():
+def store_user_conversation():
+    # Extract conversation messages from front-end
     data = request.get_json()
     mongo_db.user_conversations.insert_one(data)
     return jsonify({"result": "Conversation stored succesfully"}), HTTPStatus.OK
@@ -31,10 +32,12 @@ def account_registration():
 
 @conversations.route("/fetching_user_conversations/<chat_title>", methods=["GET"])
 def fetching_user_conversations(chat_title):
+    # Extract token from request header
     jwt_token = request.authorization
     token = jwt_token.token
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
     user = decoded_token["user"]
+    # Fetch conversation messages for specific chat
     chats = mongo_db.user_conversations.find_one(
         {"user": user, "conversationTitle": chat_title}, {"_id": 0})
     return jsonify({"result": chats}), HTTPStatus.OK
@@ -42,26 +45,33 @@ def fetching_user_conversations(chat_title):
 
 @conversations.route("/keyword_frequency", methods=["GET"])
 def fetch_keyword_frequency():
+    # Extract token from request header
     jwt_token = request.authorization
     token = jwt_token.token
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
     user = decoded_token["user"]
+    # Fetch user conversations
     objects = mongo_db.user_conversations.find(
         {"user": user})
     keyword_frequency = []
     for i in objects:
         if "conversations" not in i:
             return jsonify({"result": "No conversations found"}), HTTPStatus.NO_CONTENT
+        # Filter the messages that are not from the user
         for j in i["conversations"]:
             if j["chatbot"] == False:
                 keyword_frequency.append({"response": j["response"]})
+    # Join all user messages
     get_text = " ".join(keyword["response"] for keyword in keyword_frequency)
     process_text = re.sub(r"[^\w\s]", "", get_text.lower())
     process_numbers = re.sub(r"\b\d+\b", "", process_text)
+    # Remove unnecessary words from the messages
     remove_stopwords = [
         keyword for keyword in process_numbers.split() if keyword not in stopwords]
+    # Retrieve top 5 words from the messages
     counter = Counter(remove_stopwords)
     frequent_words = counter.most_common(5)
+    # Store counter alonside word in a list
     most_frequent_words = [{"keyword": keyword, "frequency": frequency}
                            for keyword, frequency in frequent_words]
     return jsonify({"result": most_frequent_words}), HTTPStatus.OK
@@ -69,13 +79,15 @@ def fetch_keyword_frequency():
 
 @conversations.route("/post_song_genre_selection", methods=["POST"])
 def post_song_genre_selection():
+    # # Extract token from request header
     jwt_token = request.authorization
     token = jwt_token.token
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
     user = decoded_token["user"]
+    # Extract song counter from front-end
     data = request.get_json()
-    print(data)
 
+    # Store song counter to DB
     mongo_db.song_genres_count.update_one(
         {"user": user, "songGenre": data["song_genre"]}, {
             "$inc": {"count": 1}},
@@ -83,13 +95,16 @@ def post_song_genre_selection():
 
     return jsonify({"result": "Song genre count stored successfully!!!"}), HTTPStatus.OK
 
+
 @conversations.route("/get_song_genre_count", methods=["GET"])
 def get_song_genre_count():
+    # Extract token from request header
     jwt_token = request.authorization
     token = jwt_token.token
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
     user = decoded_token["user"]
 
+    # Fetch song counter for specific user
     genre_count = mongo_db.song_genres_count.find({"user": user}, {"_id": 0})
     genre_count = list(genre_count.sort("count", -1).limit(5))
     print(genre_count)

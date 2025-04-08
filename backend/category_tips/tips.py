@@ -7,11 +7,14 @@ tips = Blueprint("tips", __name__)
 
 @tips.route("/store_tip/<category>", methods=["POST"])
 def store_category_tip(category):
+    # Extract token from request header
     jwt_token = request.authorization
     token = jwt_token.token
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
     if decoded_token:
+        # Extract tip from front-end
         data = request.get_json()
+        # Add it to the user tip object
         document = {
             "user": data["user"],
             "category": category,
@@ -22,6 +25,7 @@ def store_category_tip(category):
 
 @tips.route("/fetch_category_tips/<category>", methods=["GET"])
 def fetch_category_tips(category):
+    # Extract token from request header
     jwt_token = request.authorization
     token = jwt_token.token
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
@@ -35,6 +39,7 @@ def fetch_category_tips(category):
 
 @tips.route("/fetch_favourite_tips", methods=["GET"])
 def fetch_favourite_tips():
+    # Extract token from request header
     jwt_token = request.authorization
     token = jwt_token.token
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
@@ -47,6 +52,7 @@ def fetch_favourite_tips():
 @tips.route("/remove_favourite_tip/<category>", methods=["DELETE"])
 def remove_category_tip(category):
     data = request.get_json()
+    # Extract token from request header
     jwt_token = request.authorization
     token = jwt_token.token
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
@@ -63,10 +69,13 @@ def category_click_count():
 
 @tips.route("/fetch_visited_categories", methods=["GET"])
 def fetch_visited_categories():
+    # Extract token from request header
     jwt_token = request.authorization
     token = jwt_token.token
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
     user = decoded_token["user"]
+    # Fetch badges object for specific user
+    # Add them to a list
     category_names = mongo_db.categories_badge.find({"user": user}, {"_id": 0, "user": 0})
     categories = []
     for name in category_names:
@@ -76,7 +85,9 @@ def fetch_visited_categories():
 
 @tips.route("/generate_tip_count", methods=["POST"])
 def generate_tip_count():
+    # Get value from front-end
     data = request.get_json()
+    # Create counter object if not in DB - increase counter by 1
     existing_count = mongo_db.generate_tip_count.find_one({"user": data["user"]}, {"_id": 0})
     if existing_count is not None:
         mongo_db.generate_tip_count.update_one(
@@ -88,9 +99,11 @@ def generate_tip_count():
 
 @tips.route("/fetch_tip_count", methods=["GET"])
 def fetch_tip_count():
+    # Extract token from request header
     jwt_token = request.authorization
     token = jwt_token.token
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
     user = decoded_token["user"]
+    # Fetch counter objects for specific user
     tip_count = mongo_db.generate_tip_count.find_one({"user": user}, {"_id": 0, "user": 0})
     return jsonify({"result": tip_count}), HTTPStatus.OK

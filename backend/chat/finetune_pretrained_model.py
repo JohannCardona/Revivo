@@ -76,5 +76,6 @@ trainer.train()
 eval_results = trainer.evaluate()
 print(eval_results)
 
+# Save model metadata
 model.save_pretrained("./mental_health_chatbot_finetuned")
 tokenizer.save_pretrained("./mental_health_chatbot_finetuned")
