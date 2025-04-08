@@ -54,7 +54,7 @@ import ScrollToSection from "../ScrollToSection";
 import AudiosSidebar from "./AudiosSidebar";
 import { handleAudioDurationFormat } from "./AudioDurationFormatter";
 
-const audios1 = [
+const audios = [
   {
     id: "meditation",
     category: "Meditation",
@@ -246,7 +246,7 @@ const AudioPlayer = () => {
       </div>
       <div className="audios-container">
         <h1>Mindful Audio Experience</h1>
-        {audios1.map((au) => (
+        {audios.map((au) => (
           <div id={au.id} key={au.id}>
             <h2>{au.category}</h2>
             {au.audios.map((audio_item) => (

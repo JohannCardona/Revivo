@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import "../../styles/motivation/audiossidebar.css";
 
 function AudiosSidebar() {
+  // Sidebar menus closed by default
   const [menuGroups, setMenuGroups] = useState({
     corePractices: false,
     dailySupport: false,
     ambientInstrumental: false,
   });
+
   const handleMenuGroupToggle = (group) => {
     setMenuGroups((prev) => ({ ...prev, [group]: !prev[group] }));
   };
+
   const core_practices = [
     { name: "Meditation Audios", link: "meditation" },
     { name: "Mindfulness Audios", link: "mindfulness" },
