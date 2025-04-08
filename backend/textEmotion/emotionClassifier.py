@@ -72,11 +72,11 @@ def emotion_model(model_name, max_length, optimizer, loss):
 
 if __name__ == "__main__":
     training = False
-    LR = 0.00002
+    LR = 2e-5
     OPTIMIZER = keras.optimizers.Adam(learning_rate=LR)
     LOSS = "sparse_categorical_crossentropy"
     BATCH = 64
-    EPOCHS = 5
+    EPOCHS = 20
     MODEL_NAME = "bert-base-uncased"
     MAX_LENGTH = 128
     NUM_LABELS = 6
@@ -85,11 +85,14 @@ if __name__ == "__main__":
             "backend\textEmotion\checkpoint\model.h5", monitor="val_loss", save_best_only=True, mode="min")
         df = pd.read_csv(
             "backend\preprocessing\processed\dair-ai-emotion.csv")
-        df = label_encoding(df=df.head(15000))
+        df = label_encoding(df=df)
+        print("train test split")
         train_features, val_features, test_features, train_labels, val_labels, test_labels = train_val_test_split(
             df=df)
+        print("text tokenisation")
         train_tokens, val_tokens, test_tokens = tokenize_sentences(
             train_features, val_features, test_features, MODEL_NAME, MAX_LENGTH)
+        print("tensor converter for data performance")
         train_set, val_set = convert_data_to_tensors(
             train_tokens["input_ids"], val_tokens["input_ids"], train_tokens["attention_mask"], val_tokens["attention_mask"], train_labels, val_labels, BATCH)
         train_set = train_set.prefetch(tf.data.AUTOTUNE)
@@ -101,27 +104,6 @@ if __name__ == "__main__":
         print("TRAINING...")
         history = emotionClassifier.fit(
             x=train_set, epochs=EPOCHS, validation_data=(val_set), callbacks=[modelCheckpoint])
-
-        loss_values = history.history["loss"]
-        val_loss_values = history.history["val_loss"]
-        acc_values = history.history["accuracy"]
-        val_acc_values = history.history["val_accuracy"]
-
-        plt.figure(figsize=(12, 8))
-        plt.plot(history.epoch, loss_values, label="TRAIN LOSS")
-        plt.plot(history.epoch, val_loss_values, label="VAL LOSS")
-        plt.legend(loc="upper right")
-        plt.xlabel("EPOCHS")
-        plt.ylabel("LOSS")
-        plt.show()
-
-        plt.figure(figsize=(12, 8))
-        plt.plot(history.epoch, acc_values, label="TRAIN ACCURACY")
-        plt.plot(history.epoch, val_acc_values, label="VAL ACCURACY")
-        plt.legend(loc="upper right")
-        plt.xlabel("EPOCHS")
-        plt.ylabel("ACCURACY")
-        plt.show()
 
         test_set = tf.data.Dataset.from_tensor_slices(
             ((test_tokens["input_ids"], test_tokens["attention_mask"]), tf.convert_to_tensor(test_labels))).batch(BATCH)

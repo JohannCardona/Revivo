@@ -16,10 +16,11 @@ classes = {0: "sadness", 1: "joy", 2: "love",
 
 @emotion_classifier.route("/emotion_classifier/<prompt>", methods=['GET'])
 def fetch_emotion_from_text(prompt: str):
+    # Extract token from request header
     jwt_token = request.authorization
     token = jwt_token.token
-    categorical_value = ""
     decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
+    categorical_value = ""
     if decoded_token:
         sentence_tokenizer = transformers.AutoTokenizer.from_pretrained(MODEL_NAME)
         text_tokens = sentence_tokenizer(prompt, add_special_tokens=True, padding="max_length",
