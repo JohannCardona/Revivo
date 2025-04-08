@@ -73,6 +73,7 @@ const MindfulnessTips = () => {
           console.log(response.data.result);
         });
       let title = "";
+      // Unlock badge by displaying pop-up message whenever user clicks on one of the tip category boxes
       if (tipCategory.toLowerCase() === "mindfulness") {
         title = "Badge Earned: Visit Mindfulness Tips";
       } else if (tipCategory.toLowerCase() === "motivation") {
