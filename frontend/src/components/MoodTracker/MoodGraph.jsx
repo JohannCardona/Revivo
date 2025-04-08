@@ -68,6 +68,9 @@ function MoodGraph() {
   };
 
   const displayNotesModal = (dataPoints) => {
+    // Check if moods have been added
+    // Get index of selected point
+    // Fetch linked note if inserted by user
     if (dataPoints.length > 0) {
       const dataPointIndex = dataPoints[0].index;
       const clickedDataPoint = userMoodData[dataPointIndex];
@@ -76,6 +79,8 @@ function MoodGraph() {
     }
   };
 
+  // Label - date of entry
+  // Data point - entered mood and optional note
   const moodData = {
     labels: userMoodData.map((item) =>
       new Date(item.timestamp).toLocaleDateString()
