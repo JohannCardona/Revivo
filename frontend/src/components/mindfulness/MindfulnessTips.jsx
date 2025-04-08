@@ -34,7 +34,7 @@ const MindfulnessTips = () => {
   useEffect(() => {
     const fetch_visited_categories = async () => {
       axios
-        .get(`${process.env.REACT_APP_BASE_URI}/fetch_visited_categories`, {
+        .get(`http://localhost:5000/fetch_visited_categories`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
