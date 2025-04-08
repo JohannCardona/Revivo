@@ -12,7 +12,7 @@ describe("signup function", () => {
     jest.clearAllMocks();
   });
 
-  it("should trigger signup_alert and call Swal.fire with the correct title if user is empty", () => {
+  it("should trigger call Swal.fire with correct title if username is empty", () => {
     const newUser = "";
     handleUserRegister(newUser);
 
@@ -24,7 +24,7 @@ describe("signup function", () => {
     expect(axios.post).not.toHaveBeenCalled();
   });
 
-  it("should call axios.post with user data and call Swal.fire on 201 status", async () => {
+  it("should call axios.post with username and call Swal.fire on status code 201", async () => {
     const newUser = "testuser";
     const response = { status: 201 };
     axios.post.mockResolvedValue(response);
@@ -33,9 +33,12 @@ describe("signup function", () => {
 
     await Promise.resolve();
 
-    expect(axios.post).toHaveBeenCalledWith("http://localhost:5000/register", {
-      newUser: newUser,
-    });
+    expect(axios.post).toHaveBeenCalledWith(
+      `${process.env.REACT_APP_BASE_URI}/register`,
+      {
+        newUser: newUser,
+      }
+    );
     expect(Swal.fire).toHaveBeenCalledWith(
       expect.objectContaining({
         title: "That was easy. Let's head to the login.",
@@ -96,7 +99,7 @@ describe("signin function", () => {
     expect(axios.post).not.toHaveBeenCalled();
   });
 
-  it("should call axios.post with user data and call Swal.fire on 200 status", async () => {
+  it("should call axios.post with user data and call Swal.fire on status code 200", async () => {
     const existingUser = "johann";
     const token = "abc123";
     axios.post.mockResolvedValue({
@@ -106,9 +109,12 @@ describe("signin function", () => {
 
     await handleUserSignIn(existingUser);
 
-    expect(axios.post).toHaveBeenCalledWith("http://localhost:5000/login", {
-      existingUser: existingUser,
-    });
+    expect(axios.post).toHaveBeenCalledWith(
+      `${process.env.REACT_APP_BASE_URI}/login`,
+      {
+        existingUser: existingUser,
+      }
+    );
     expect(localStorage.getItem("user")).toBe(existingUser);
     expect(localStorage.getItem("token")).toBe(token);
     expect(Swal.fire).toHaveBeenCalledWith(
