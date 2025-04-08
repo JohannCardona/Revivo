@@ -16,15 +16,6 @@ classes = {0: "sadness", 1: "joy", 2: "love",
 
 @emotion_classifier.route("/emotion_classifier/<prompt>", methods=['GET'])
 def fetch_emotion_from_text(prompt: str):
-    """
-    Get user context from chatbot conversation and fetch emotion tag from AI model
-
-    Params:
-        input: user prompt
-
-    Returns:
-        str: emotion tag
-    """
     jwt_token = request.authorization
     token = jwt_token.token
     categorical_value = ""
