@@ -67,6 +67,8 @@ const CategoryTips = () => {
   }, [tipCategory, currentTip, favouriteTips]);
 
   const store_category_tip = async () => {
+    // Check if tip was already generated
+    // Otherwise add it to favourites section
     if (currentTip && !favouriteTips.includes(currentTip)) {
       const response = await store_tip(user, currentTip, tipCategory);
       console.log(response);
@@ -114,6 +116,7 @@ const CategoryTips = () => {
 
   return (
     <div className="category-tips-container">
+      {/* Display this if no tips have been added to favourites section */}
       {favouriteTips.length === 0 ? (
         <>
           <div className="no-favourites-container">
@@ -168,6 +171,7 @@ const CategoryTips = () => {
         </>
       ) : (
         <>
+          {/* Display this if tips have been added to favourites section */}
           <h1
             style={{ marginTop: 40 }}
             className="category-tips-container-heading"
