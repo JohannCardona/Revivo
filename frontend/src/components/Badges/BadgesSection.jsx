@@ -14,6 +14,7 @@ function BadgesSection() {
     "Motivation",
   ];
 
+  // Manage state of badges - badge is locked by default
   const [badgesInfo, setBadgesInfo] = useState([
     { id: 1, badgeName: "Generated First Tip", badgeUnlocked: false },
     { id: 2, badgeName: "Visit Mindfulness Tips", badgeUnlocked: false },
@@ -63,6 +64,7 @@ function BadgesSection() {
           );
           setVisitCategories(categories);
           setBadgesInfo((badges) =>
+            // if tip category has been visited, update state to unlocked
             badges.map((badge) => {
               if (
                 badge.badgeName === "Visit Mindfulness Tips" &&
@@ -121,6 +123,7 @@ function BadgesSection() {
           if (response?.data?.result?.count) {
             const tipCount = response.data.result.count;
             setBadgesInfo((prevBadges) =>
+              // if number of generated tips has been reached, update state to unlocked
               prevBadges.map((badge) => {
                 if (
                   badge.badgeName === "Generated First Tip" &&
@@ -170,6 +173,7 @@ function BadgesSection() {
     }
   }, [visitCategories.length, tipCategories.length]);
 
+  // Percentage of completed badges
   const badgesCompleted = badgesInfo.filter(
     (achievementBadge) => achievementBadge.badgeUnlocked
   ).length;
