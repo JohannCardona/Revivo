@@ -20,7 +20,7 @@ function NewUser() {
       <div className="registerlogin-container">
         <div className="account-forms">
           <div className="new">
-            {/* Form that sign up field */}
+            {/* Form that contains sign up fields */}
             <form className="login" noValidate>
               <h2 style={{ color: "var(--text)" }} className="form-title">
                 Sign up
