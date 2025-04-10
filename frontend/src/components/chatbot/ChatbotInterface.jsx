@@ -72,10 +72,12 @@ function ChatbotInterface() {
       return;
     }
 
+    // Store user query in local storage to use it later within the function
     localStorage.setItem("user_message", prompt);
     setPrompt("");
     const message = localStorage.getItem("user_message");
 
+    // Fetch chat title from CHATGPT API
     if (!conversationTitle) {
       try {
         await fetch_conversation_title(message, setConversationTitle);
@@ -84,12 +86,14 @@ function ChatbotInterface() {
       }
     }
 
+    // Store user message in conversations array
     const userResponse = conversationList(false, message, null);
     setConversations((prevConversations) => [
       ...prevConversations,
       userResponse,
     ]);
 
+    // End conversation if any of the following keywords are passed by the user
     if (
       message.includes("bye") ||
       message.includes("exit") ||
@@ -103,6 +107,8 @@ function ChatbotInterface() {
       return;
     }
 
+    // Generate unique ID for chatbot response
+    // Store it in the conversations array
     const chatbotResponseId = generateChatbotResponseId();
     const chatbotResponse = conversationList(true, "", chatbotResponseId);
     setConversations((prevConversations) => [
@@ -113,9 +119,12 @@ function ChatbotInterface() {
     setLoadingChatbotResponse(true);
     const botMessageIndex = conversations.length + 1;
     try {
+      // If random chance
       if (dynamicChoice) {
         const suggestionChoice = message;
+        // Generate response when user selects music
         if (suggestionChoice === "music") {
+          // Fetch music recommendations based on detected emotion
           music_recommendations_from_emotions(
             setSelectedSongGenre,
             setConversations,
@@ -125,6 +134,7 @@ function ChatbotInterface() {
             setDynamicChoice,
             setSelectedDynamicSongChoice
           );
+          // Generate image based on detected emotion
         } else if ("image") {
           image_from_emotion(
             setConversations,
@@ -133,7 +143,9 @@ function ChatbotInterface() {
           );
         }
       } else {
+        // Get chatbot response type depending on the user message
         const chatbotDummyResponse = await handleChatbotResponseType(message);
+        // Display Spotify embedded frame
         if (chatbotDummyResponse.album) {
           setSpotifyResponse(
             setConversations,
@@ -141,6 +153,7 @@ function ChatbotInterface() {
             chatbotDummyResponse,
             setSelectedSong
           );
+          // Display music genre recommendations message
         } else if (chatbotDummyResponse.includes("Simply reply")) {
           music_options_recommender_message(
             setConversations,
@@ -161,6 +174,7 @@ function ChatbotInterface() {
             "Please choose a number from the song list"
           )
         ) {
+          // Display song suggestions list
           get_chosen_number(
             setConversations,
             botMessageIndex,
@@ -172,6 +186,7 @@ function ChatbotInterface() {
             "Please choose a number from the genre list"
           )
         ) {
+          // Display music genre message
           get_chosen_number(
             setConversations,
             botMessageIndex,
@@ -179,8 +194,10 @@ function ChatbotInterface() {
             chatbotResponseId
           );
         } else if (Array.isArray(chatbotDummyResponse)) {
+          // Make call to Spotify API
           const songData =
             fetching_recommending_songs_response(chatbotDummyResponse);
+          // Display song recommendations list
           get_song_data(
             songData,
             setConversations,
@@ -188,6 +205,7 @@ function ChatbotInterface() {
             chatbotResponseId,
             chatbotTypingResponse
           );
+          // Generated image from DALL-E
         } else if (chatbotDummyResponse.includes("data:image")) {
           setConversations((prev) => {
             const currentMessage = [...prev];
@@ -195,6 +213,7 @@ function ChatbotInterface() {
             return currentMessage;
           });
         } else {
+          // Extract emotion from user message
           const extractedEmotion = await fetch_emotion_from_text(message);
           const randomiser = Math.random();
           if (
@@ -202,6 +221,7 @@ function ChatbotInterface() {
             genreEmotions[extractedEmotion] &&
             conversations.length !== 0
           ) {
+            // Display message for music or image based on emotion and random chance
             get_dynamic_chatbot_response(
               setConversations,
               botMessageIndex,
@@ -209,6 +229,7 @@ function ChatbotInterface() {
               setDynamicChoice
             );
           } else {
+            // Display normal chatbot response (fine-tuned model / callback CHATGPT API)
             chatbot_response(
               setConversations,
               message,
@@ -239,6 +260,7 @@ function ChatbotInterface() {
   };
 
   const handleChatbotResponseType = async (prompt) => {
+    // Keywords to exit conversation
     if (
       prompt.includes("bye") ||
       prompt.includes("exit") ||
@@ -249,6 +271,7 @@ function ChatbotInterface() {
     ) {
       return;
     } else if (
+      // Keywords to get music recommendations
       prompt.includes("recommend song") ||
       prompt.includes("recommend songs") ||
       prompt.includes("recommend a song") ||
@@ -257,6 +280,7 @@ function ChatbotInterface() {
       prompt.includes("another song") ||
       prompt.includes("other songs")
     ) {
+      // Fetch list of genres
       const random_song_genres = fetching_songs_array();
       setSelectedSongGenre(true);
       return random_song_genres;
@@ -269,10 +293,12 @@ function ChatbotInterface() {
       const dynamicArray = JSON.parse(
         localStorage.getItem("availableDynamicGenres")
       );
+      // Get user genre selection number when emotion is detected
       if (
         selectedGenreNumber >= 0 &&
         selectedGenreNumber < dynamicArray.length
       ) {
+        // Fetch song recommendations based on selected genre
         const chosenRecommendedGenre = dynamicArray[selectedGenreNumber];
         await fetch_song_genre_selection(chosenRecommendedGenre);
         localStorage.setItem("chosenGenre", chosenRecommendedGenre);
@@ -289,12 +315,14 @@ function ChatbotInterface() {
         return "💡Please choose a number from the song list.";
       }
     } else if (selectedSongGenre === true && !isNaN(prompt)) {
+      // Get user song number selection
       const selectedGenreNumber = parseInt(prompt) - 1;
       const randomFiveArray = JSON.parse(localStorage.getItem("randomFive"));
       if (
         selectedGenreNumber >= 0 &&
         selectedGenreNumber < randomFiveArray.length
       ) {
+        // Fetch song suggestions list
         const chosenRecommendedGenre = randomFiveArray[selectedGenreNumber];
         localStorage.setItem("chosenGenre", chosenRecommendedGenre);
         await fetch_song_genre_selection(chosenRecommendedGenre);
@@ -310,6 +338,7 @@ function ChatbotInterface() {
         return "💡Please choose a number from the genre list.";
       }
     } else if (songSelection && !isNaN(prompt)) {
+      // Get song number selection
       const selectedSongNumber = parseInt(prompt) - 1;
       if (
         selectedSongNumber >= 0 &&
@@ -323,14 +352,18 @@ function ChatbotInterface() {
         return "💡Please choose a number from the song list.";
       }
     } else if (
+      // Keywords to generate image
       prompt.includes("create") ||
       prompt.includes("generate") ||
       prompt.includes("image")
     ) {
+      // Make call to DALL-E API
       const response = await generate_image(prompt);
+      // Fetch image URL
       const genImage = `data:image/jpeg;base64,${response.data[0].result}`;
       return genImage;
     } else {
+      // User message for normal conversation with AI model
       return await prompt;
     }
   };
@@ -341,6 +374,8 @@ function ChatbotInterface() {
 
   useEffect(() => {
     const dynamic_mood_tracking = () => {
+      // Conversations array contains two messages and user message is not empty
+      // Add extracted emotion to mood tracker feature
       if (
         conversations.length === 2 &&
         conversations[1].response !== "" &&
@@ -358,6 +393,8 @@ function ChatbotInterface() {
           prompt.includes("hi")) &&
         localStorage.getItem("mood")
       ) {
+        // Create mood object
+        // Make the first letter uppercase
         const mood_tracking = {
           user: localStorage.getItem("user"),
           mood:
@@ -379,6 +416,7 @@ function ChatbotInterface() {
 
   useEffect(() => {
     const store_user_conversations = async () => {
+      // Get username and store chat messages if user utilises the following keywords
       const user = localStorage.getItem("user");
       if (conversations.length !== 0) {
         if (
@@ -408,6 +446,7 @@ function ChatbotInterface() {
             )
             .then((response) => {
               if (response.status === 200) {
+                // Remove user message from local storage and empty conversations array
                 localStorage.removeItem("user_message");
                 setConversations("");
               }
