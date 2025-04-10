@@ -84,6 +84,9 @@ if __name__ == "__main__":
     keep_columns_emotion = [
         ['text', 'label'],
     ]
+    keep_columns_health = [
+        ["Context", "Response"]
+    ]
 
     preprocess_datasets(path=emotion_path, new_folder=new_folder,
                         columns_to_keep=keep_columns_emotion)
