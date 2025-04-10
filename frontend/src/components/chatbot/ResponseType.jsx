@@ -2,6 +2,7 @@ import axios from "axios";
 import { Comment } from "react-loader-spinner";
 const chatbotTypingSpeed = 10;
 
+// Main function to get the chatbot message from the fine-tuned LLM/callback to CHATGPT API
 export const fetch_chatbot_response = (prompt) => {
   return axios.post(
     `http://localhost:5000/chat`,
@@ -15,15 +16,18 @@ export const fetch_chatbot_response = (prompt) => {
   );
 };
 
-export const chatbotTypingResponse = (word, chatbotRepsonse) => {
+// Simulate the chatbot typing the message like the LLMs
+export const chatbotTypingResponse = (word, chatbotResponse) => {
   let index = 0;
+  // Get the message length and display each word from the message in a sequence until it reaches the end
   const chatbotResponseInterval = setInterval(() => {
-    if (index < chatbotRepsonse.length) {
-      word.innerHTML += chatbotRepsonse.charAt(index);
+    if (index < chatbotResponse.length) {
+      word.innerHTML += chatbotResponse.charAt(index);
       index++;
     } else {
       clearInterval(chatbotResponseInterval);
     }
+    // Speed value for displaying the message
   }, chatbotTypingSpeed);
 };
 
@@ -42,6 +46,8 @@ export const conversationList = (chatbot, response, responseId) => {
   };
 };
 
+// day_time - dynamic value depending on the time of day
+// Used in empty chat interface
 const time = new Date().getHours();
 export let day_time = "";
 if (time >= 5 && time < 12) {
@@ -54,41 +60,19 @@ if (time >= 5 && time < 12) {
   day_time = "night";
 }
 
-export const dynamic_chatbot_response = (
-  setConversations,
-  botMessageIndex,
-  chatbotResponseId,
-  setDynamicChoice
-) => {
-  const dynamicChoiceMessage =
-    `Would you like some music suggestions or an artistic image to help you relax? \n` +
-    `Please type "music" for music suggestions or "image" for an artistic image.`;
-  setConversations((prev) => {
-    const currentMessage = [...prev];
-    currentMessage[botMessageIndex].response = dynamicChoiceMessage;
-    return currentMessage;
-  });
-  setTimeout(() => {
-    const element = document.getElementById(chatbotResponseId);
-    if (element) {
-      chatbotTypingResponse(element, dynamicChoiceMessage);
-    } else {
-    }
-  }, 0);
-  setDynamicChoice(true);
-};
-
 export const get_chosen_number = (
   setConversations,
   botMessageIndex,
   chatbotDummyResponse,
   chatbotResponseId
 ) => {
+  // Store selected number message about music genre or song selections
   setConversations((prev) => {
     const currentMessage = [...prev];
     currentMessage[botMessageIndex].response = chatbotDummyResponse;
     return currentMessage;
   });
+  // Display it on the screen
   setTimeout(() => {
     const element = document.getElementById(chatbotResponseId);
     if (element) {
@@ -104,13 +88,17 @@ export const chatbot_response = async (
   botMessageIndex,
   chatbotResponseId
 ) => {
+  // Call to model in backend
   const chatbot_response = await fetch_chatbot_response(message);
+  // Extract the response from the object
   const response = chatbot_response.data.result;
+  // Store the message on the conversations array
   setConversations((prev) => {
     const currentMessage = [...prev];
     currentMessage[botMessageIndex].response = response;
     return currentMessage;
   });
+  // Display it on the screen
   setTimeout(() => {
     const element = document.getElementById(chatbotResponseId);
     if (element) {
@@ -126,14 +114,17 @@ export const get_dynamic_chatbot_response = (
   chatbotResponseId,
   setDynamicChoice
 ) => {
+  // Message based on random chance (>0.7)
   const dynamicChoiceMessage =
     `Would you like some music suggestions or an artistic image to help you relax? \n` +
     `Please type "music" for music suggestions or "image" for an artistic image.`;
+  // Store the message in the conversations array
   setConversations((prev) => {
     const currentMessage = [...prev];
     currentMessage[botMessageIndex].response = dynamicChoiceMessage;
     return currentMessage;
   });
+  // Display message on the screen
   setTimeout(() => {
     const element = document.getElementById(chatbotResponseId);
     if (element) {
@@ -144,6 +135,7 @@ export const get_dynamic_chatbot_response = (
   setDynamicChoice(true);
 };
 
+// Loading spinner object
 export const loading_message = () => {
   return (
     <Comment
