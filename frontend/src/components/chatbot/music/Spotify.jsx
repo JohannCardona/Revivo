@@ -1,5 +1,7 @@
 import React from "react";
 
+// Embedded frame for Spotify player
+// conversation - contains the Spotify ID of the selected song
 function Spotify({ conversation }) {
   return (
     <div>
