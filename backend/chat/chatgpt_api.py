@@ -2,6 +2,7 @@ import openai
 import os
 from dotenv import load_dotenv
 
+# This is to load the API key from the environment variables
 load_dotenv()
 
 

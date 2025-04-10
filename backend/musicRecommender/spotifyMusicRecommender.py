@@ -3,16 +3,15 @@ from http import HTTPStatus
 import base64
 import requests
 import os
-from dotenv import load_dotenv
 from random import randint
 import jwt
 
-load_dotenv()
 spotify_recommender = Blueprint("spotify_recommender", __name__)
 
-# Links and auth headers for API request
+# This is to load the secrets from the environment variables
 CLIENT_ID = os.environ.get('CLIENT_ID')
 CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
+# Links and auth headers for API request
 TOKEN_URL = 'https://accounts.spotify.com/api/token'
 SEARCH_URL = 'https://api.spotify.com/v1/search'
 

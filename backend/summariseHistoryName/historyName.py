@@ -6,6 +6,7 @@ from db.db import mongo_db
 import jwt
 from dotenv import load_dotenv
 
+# This is to load the secrets from the environment variables
 load_dotenv()
 conversation_title = Blueprint("conversation_title", __name__)
 

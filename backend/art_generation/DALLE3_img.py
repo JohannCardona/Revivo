@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 import os
 import jwt
 
+# This is to load the API key from the environment variables
 load_dotenv()
 
 generation = Blueprint("generation", __name__)
