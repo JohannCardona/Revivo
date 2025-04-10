@@ -4,16 +4,20 @@ import AddIcon from "@mui/icons-material/Add";
 import { Tooltip } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
+// conversationTitles - chat titles list for specific user
+// setFetchedConversations - array for fetched chat messages
+// setConversations - state for chat messages
 function Sidebar({
   setIsNewChat,
   close,
   setClose,
-  conversationTitles,
+  conversationTitles, 
   setFetchedConversation,
   setFetchedConversations,
   fetchedConversation,
   setConversations,
 }) {
+  // Fetch the messages from saved chat when clicking the chat title
   const fetching_user_conversations = async (chat_title) => {
     await axios
       .get(`http://localhost:5000/fetching_user_conversations/${chat_title}`, {
@@ -26,12 +30,14 @@ function Sidebar({
       .then((response) => {
         if (response.data.result === null) {
         } else {
+          // Set the messages to the array to display them on the screen
           setFetchedConversation(true);
           setFetchedConversations(response?.data?.result?.conversations);
         }
       });
   };
 
+  // Empty chat messages array when clicking new chat button
   const newChat = () => {
     setIsNewChat(true);
     if (!fetchedConversation) {
