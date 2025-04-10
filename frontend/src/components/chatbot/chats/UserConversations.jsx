@@ -42,12 +42,15 @@ export const error_message = (
   chatbotResponseId,
   chatbotTypingResponse
 ) => {
+  // Loading spinner set false
+  // Save message to conversations array
   setLoadingChatbotResponse(false);
   setConversations((prev) => {
     const currentMessage = [...prev];
     currentMessage[botMessageIndex].response = "Failed processing response";
     return currentMessage;
   });
+  // Display message on screen
   setTimeout(() => {
     const element = document.getElementById(chatbotResponseId);
     if (element) {
