@@ -2,6 +2,9 @@ import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { IoCloudDownloadOutline } from "react-icons/io5";
 
+// conversation - array for chat messages
+// setClickedImage - setter state for the selected image
+// clickedImage - getter state for selected image
 function DisplayImages({
   conversation,
   setClickedImage,
