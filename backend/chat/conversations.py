@@ -5,10 +5,8 @@ from nltk.corpus import stopwords
 import jwt
 import re
 from collections import Counter
-from dotenv import load_dotenv
 
 conversations = Blueprint("conversations", __name__)
-load_dotenv()
 stopwords = set(stopwords.words("english"))
 more_stopwords = {
     "yes", "no", "okay", "hi", "hello", "bye", "thanks", "thank", "please",
