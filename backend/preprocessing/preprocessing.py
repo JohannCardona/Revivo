@@ -59,7 +59,8 @@ def preprocess_datasets(path, new_folder, columns_to_keep):
         new_path = os.path.join(new_folder, file)
         save_processed_data(df=df, new_path=new_path)
 
-def convert_labels_to_lowercase(file_path:str, destination:str):
+
+def convert_labels_to_lowercase(file_path: str, destination: str):
     df = load_data(file_path)
     df["label"] = df["label"].progress_apply(str.lower)
     filename = file_path.split("/")
@@ -69,27 +70,22 @@ def convert_labels_to_lowercase(file_path:str, destination:str):
 
 def convert_numeric_label_to_categorical(file_path: str, destination: str):
     df = load_data(file_path)
-    df["label"] = df["label"].progress_apply(lambda label: "sadness" if label == 0 else "joy" if label == 1 else "love" if label == 2 else "anger" if label == 3 else "fear" if label == 4 else "surprise" if label == 5 else None)
+    df["label"] = df["label"].progress_apply(lambda label: "sadness" if label == 0 else "joy" if label == 1 else "love" if label ==
+                                             2 else "anger" if label == 3 else "fear" if label == 4 else "surprise" if label == 5 else None)
     filename = file_path.split("/")
     new_path = destination+"/"+filename[2]
     save_processed_data(df=df, new_path=new_path)
 
+
 if __name__ == "__main__":
     new_folder = "processed"
-    emotion_path = "./emotion_datasets"
+    emotion_path = "./emotion_dataset"
     health_path = "./mental_health_datasets"
     keep_columns_emotion = [
         ['text', 'label'],
-        ['text', 'label'],
-        ['text', 'admiration',
-        'embarrassment', 'excitement', 'fear', 'gratitude', 'grief', 'joy',
-        'love', 'nervousness', 'optimism', 'pride', 'realization', 'relief',
-        'remorse', 'sadness', 'surprise', 'neutral'],
-        ['text', 'label'],
-        ['text', 'label']
     ]
 
-    preprocess_datasets(path=emotion_path, new_folder=new_folder, columns_to_keep=keep_columns_emotion)
+    preprocess_datasets(path=emotion_path, new_folder=new_folder,
+                        columns_to_keep=keep_columns_emotion)
     convert_numeric_label_to_categorical(
         file_path="./processed/dair-ai-emotion.csv", destination=new_folder)
-
