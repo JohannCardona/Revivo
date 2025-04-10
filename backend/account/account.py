@@ -2,11 +2,9 @@ from flask import Blueprint, request, jsonify
 from http import HTTPStatus
 from db.db import mongo_db
 import jwt
-from dotenv import load_dotenv
 import datetime
 
 accounts = Blueprint("accounts", __name__)
-load_dotenv()
 
 
 @accounts.route("/")
