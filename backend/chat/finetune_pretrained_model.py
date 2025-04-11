@@ -3,6 +3,7 @@ from datasets import Dataset
 from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments, Trainer
 from peft import get_peft_model, LoraConfig, TaskType
 
+# Code for experiments on GPU server
 df = pd.read_csv("preprocessed_dataset.csv")
 
 df = df.dropna()
