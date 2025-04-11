@@ -75,6 +75,17 @@ def preprocess_datasets(path, new_folder, columns_to_keep, column1, column2=None
         new_path = os.path.join(new_folder, file)
         save_processed_data(df=df, new_path=new_path)
 
+# Code from experiments in GPU server
+def combine_data(path):
+    data = []
+    for path, _, filenames in os.walk(path):
+        for filename in filenames:
+            if filename.endswith(".csv"):
+                df = load_data(os.path.join(path, filename))
+                data.append(df)
+    newDF = pd.concat(data, ignore_index=True)
+    newDF.to_csv("health_processed/processed_dataset.csv", index=False)
+
 
 def convert_labels_to_lowercase(file_path: str, destination: str):
     df = load_data(file_path)
@@ -110,5 +121,6 @@ if __name__ == "__main__":
     ]
     preprocess_datasets(path=health_path, new_folder=new_folder_health,
                         columns_to_keep=keep_columns_health, column1="Context", column2="Response")
+    # combine_data(path=new_folder_health)
     # convert_numeric_label_to_categorical(
     #     file_path="./processed/dair-ai-emotion.csv", destination=new_folder)
