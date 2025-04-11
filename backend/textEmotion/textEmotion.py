@@ -4,7 +4,6 @@ import keras
 from flask import Blueprint, jsonify, request
 from http import HTTPStatus
 import jwt
-from transformers.optimization_tf import WarmUp
 
 emotion_classifier = Blueprint("emotion_classifier", __name__)
 
