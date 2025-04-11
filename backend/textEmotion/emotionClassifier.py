@@ -122,6 +122,10 @@ if __name__ == "__main__":
     training = True
     LR = 2e-5
     OPTIMIZER = keras.optimizers.Adam(learning_rate=LR)
+    log_dir = "checkpoint/log"
+    TENSORBOARD = keras.callbacks.TensorBoard(log_dir=log_dir)
+    EARLY_STOPPING = keras.callbacks.EarlyStopping(
+        monitor="val_loss", patience=5, mode="min", restore_best_weights=True)
     LOSS = "sparse_categorical_crossentropy"
     BATCH = 64
     EPOCHS = 20
