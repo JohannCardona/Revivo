@@ -3,12 +3,22 @@ import re
 import os
 import emoji
 from tqdm import tqdm
+from datasets import load_dataset
 tqdm.pandas()
 
 
 def load_data(path: str):
     df = pd.read_csv(path)
     return df
+
+# Code from experiments in GPU server
+def load_mental_health_datasets():
+    data = ["mental_health_counseling_conversations", "EmoCareAI/Psych8k", "marmikpandya/mental-health",
+            "PrinceAyush/Mental_Health_conv"]
+    for i in data:
+        df = load_dataset(i)
+        filename = i.split("/")[1]
+        df["train"].to_csv(f"mental_health_datasets/{filename}.csv")
 
 
 def save_processed_data(df: pd.DataFrame, new_path):
@@ -42,19 +52,25 @@ def sentence_preprocessing(sentence: str):
     return processed_sentences
 
 
-def preprocess_datasets(path, new_folder, columns_to_keep):
+def preprocess_datasets(path, new_folder, columns_to_keep, column1, column2=None):
     datasets = []
     os.makedirs(new_folder, exist_ok=True)
     for path, _, filenames in os.walk(path):
         for filename in filenames:
             if filename.endswith(".csv"):
                 datasets.append(filename)
-
     for file, columns in zip(datasets, columns_to_keep):
         df = load_data(os.path.join(path, file))
-        df["text"] = df["text"].progress_apply(
-            sentence_preprocessing)
         df = df.dropna(axis=0)
+        # Code from experiments in GPU server
+        if path == "./mental_health_datasets":
+            df[column1] = df[column1].progress_apply(
+                sentence_preprocessing)
+            df[column2] = df[column2].progress_apply(
+                sentence_preprocessing)
+        else:
+            df[column1] = df[column1].progress_apply(
+                sentence_preprocessing)
         df = df[columns]
         new_path = os.path.join(new_folder, file)
         save_processed_data(df=df, new_path=new_path)
@@ -78,17 +94,21 @@ def convert_numeric_label_to_categorical(file_path: str, destination: str):
 
 
 if __name__ == "__main__":
-    new_folder = "processed"
+    new_folder_emotion = "emotion_processed"
+    new_folder_health = "health_processed"
     emotion_path = "./emotion_dataset"
     health_path = "./mental_health_datasets"
     keep_columns_emotion = [
         ['text', 'label'],
     ]
+    # Code from experiments in GPU server
     keep_columns_health = [
-        ["Context", "Response"]
+        ["Context", "Response"],
+        ["Context", "Response"],
+        ["Context", "Response"],
+        ["Context", "Response"],
     ]
-
-    preprocess_datasets(path=emotion_path, new_folder=new_folder,
-                        columns_to_keep=keep_columns_emotion)
-    convert_numeric_label_to_categorical(
-        file_path="./processed/dair-ai-emotion.csv", destination=new_folder)
+    preprocess_datasets(path=health_path, new_folder=new_folder_health,
+                        columns_to_keep=keep_columns_health, column1="Context", column2="Response")
+    # convert_numeric_label_to_categorical(
+    #     file_path="./processed/dair-ai-emotion.csv", destination=new_folder)
