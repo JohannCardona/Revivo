@@ -1,5 +1,6 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
+# Code for experiments on GPU server
 tokenizer = AutoTokenizer.from_pretrained(
     r"Revivo\backend\chat\mental_health_chatbot_finetuned")
 model = AutoModelForCausalLM.from_pretrained(
