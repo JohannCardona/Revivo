@@ -1,10 +1,9 @@
-# import logs
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
 tokenizer = AutoTokenizer.from_pretrained(
-    r"C:\mental_health_chatbot_finetuned")
+    r"Revivo\backend\chat\mental_health_chatbot_finetuned")
 model = AutoModelForCausalLM.from_pretrained(
-    r"C:\mental_health_chatbot_finetuned")
+    r"Revivo\backend\chat\mental_health_chatbot_finetuned")
 
 def chat_model(user_input):
     # Prepare context for user message
