@@ -25,8 +25,8 @@ def fetch_emotion_from_text(prompt: str):
         sentence_tokenizer = transformers.AutoTokenizer.from_pretrained(MODEL_NAME)
         text_tokens = sentence_tokenizer(prompt, add_special_tokens=True, padding="max_length",
                                         truncation=True, max_length=MAX_LENGTH, return_tensors="tf")
-        emotionClassifier = keras.models.load_model(r"C:\Users\JohCa\Documents\GitHub\Revivo\backend\textEmotion\checkpoint\tiny_bert_connect_drop2.h5", custom_objects={
-                                                    "TFBertModel": transformers.TFBertModel, "WarmUp": WarmUp})
+        emotionClassifier = keras.models.load_model(r"Revivo\backend\textEmotion\checkpoint\tiny_bert_connect_drop2.h5", custom_objects={
+                                                    "TFBertModel": transformers.TFBertModel})
         user_input = [np.array(text_tokens["input_ids"]),
                     np.array(text_tokens["attention_mask"])]
         preds = emotionClassifier.predict(user_input)
