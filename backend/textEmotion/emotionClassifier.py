@@ -131,7 +131,7 @@ if __name__ == "__main__":
     EPOCHS = 20
     MODEL_NAME1 = "bert-base-uncased"
     MODEL_NAME = "huawei-noah/TinyBERT_General_4L_312D"
-    MODEL_NAME2 = "distilbert-based-uncased"
+    MODEL_NAME2 = "distilbert-base-uncased"
     MAX_LENGTH = 128
     NUM_LABELS = 6
     if training == True:
