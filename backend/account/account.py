@@ -3,6 +3,41 @@ from http import HTTPStatus
 from db.db import mongo_db
 import jwt
 import datetime
+import re
+from better_profanity import profanity
+
+# 1. Load the default blacklist
+profanity.load_censor_words()
+profanity.add_censor_words(["idiot", "asshole", "stupid", "dumb", "moron", "imbecile", "fool", "loser", "freak", "weirdo",
+                            "admin", "moderator", "support", "staff", "test", "user"])
+
+# 2. Cast every word to str, then escape
+badwords = [str(w) for w in profanity.CENSOR_WORDSET]
+escaped = (re.escape(w) for w in badwords)
+
+# 3. Build your whole-word regex
+pattern = re.compile(
+    r'\b(?:' + '|'.join(escaped) + r')\b',
+    flags=re.IGNORECASE
+)
+
+spam_pattern = re.compile(r'(.)\1{3,}', re.IGNORECASE)
+
+def is_spam_username(text: str) -> bool:
+    return bool(spam_pattern.search(text))
+
+
+def contains_profanity_whole(text) -> bool:
+    # 1) bytes → decode
+    if isinstance(text, (bytes, bytearray)):
+        text = text.decode('utf-8', errors='ignore')
+    # 2) non-str → cast to str
+    elif not isinstance(text, str):
+        text = str(text)
+    # 3) now safe to regex against
+    return bool(pattern.search(text))
+
+
 
 accounts = Blueprint("accounts", __name__)
 
@@ -16,10 +51,16 @@ def home():
 def account_registration():
     # Get username from front-end and perform checks
     data = request.get_json()
+    w = contains_profanity_whole(data["newUser"])
+    print(w)
     if len(data["newUser"]) == 0:
         return jsonify({"result": "Username is required"}), HTTPStatus.BAD_REQUEST
     elif len(data["newUser"]) < 3:
         return jsonify({"result": "Username must be at least three characters long"}), HTTPStatus.BAD_REQUEST
+    elif len(data["newUser"]) > 20:
+        return jsonify({"result": "Username is too long. Please enter a username of 20 characters or fewer"}), HTTPStatus.BAD_REQUEST
+    elif w or is_spam_username(data["newUser"]):
+        return jsonify({"result": "Username is not appropriate. Please try again"}), HTTPStatus.BAD_REQUEST
     user = mongo_db.users.find_one({"username": data["newUser"]})
 
     if user:
