@@ -13,11 +13,15 @@ spotify_recommender = Blueprint("spotify_recommender", __name__)
 
 CLIENT_ID = os.environ.get('CLIENT_ID')
 CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
+JWT_SECRET = os.environ.get('JWT_SECRET')
 # Links and auth headers for API request
 TOKEN_URL = 'https://accounts.spotify.com/api/token'
 SEARCH_URL = 'https://api.spotify.com/v1/search'
 
-def spotify_login_token():
+
+def spotify_login_token() -> str | None:
+    if not CLIENT_ID or not CLIENT_SECRET:
+        return None
     auth = f"{CLIENT_ID}:{CLIENT_SECRET}"
     auth_header = base64.b64encode(auth.encode()).decode()
     res = requests.post(
@@ -31,35 +35,43 @@ def spotify_login_token():
     )
 
     if res.status_code == 200:
-        return res.json().get("access_token"), res.status_code
+        return res.json().get("access_token")
     else:
         return None
 
 
 @spotify_recommender.route("/music_recommendations/<genre>", methods=['GET'])
-def music_recommendations(genre):
+def music_recommendations(genre: str) -> tuple:
     # Extract token from request header
-    jwt_token = request.authorization
-    token = jwt_token.token
-    decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
+    auth = request.authorization
+    if not auth or not auth.token:
+        return jsonify({"error": "Missing authorization token"}), HTTPStatus.UNAUTHORIZED
+
+    try:
+        jwt.decode(auth.token, key=JWT_SECRET, algorithms=["HS256"])
+    except jwt.ExpiredSignatureError:
+        return jsonify({"error": "Token has expired"}), HTTPStatus.UNAUTHORIZED
+    except jwt.InvalidTokenError:
+        return jsonify({"error": "Invalid token"}), HTTPStatus.UNAUTHORIZED
+
+    spot_token = spotify_login_token()
+    if not spot_token:
+        return jsonify({"error": "Failed to authenticate with Spotify"}), HTTPStatus.INTERNAL_SERVER_ERROR
+
+    headers = {"Authorization": f"Bearer {spot_token}"}
+    # Get random value for extracting song objects from API
+    offset = randint(0, 50)
+    params = {"q": f"genre:{genre}", "type": "track", "limit": 5, "offset": offset}
+    res = requests.get(SEARCH_URL, headers=headers, params=params)
+
+    if res.status_code != 200:
+        return jsonify({"error": "Failed to fetch music recommendations"}), res.status_code
+
+    music_info = res.json()
     recommended_songs = []
-    if decoded_token:
-        spot_token = spotify_login_token()
-        if not spot_token:
-            return jsonify({"result": "Failed to authenticate with Spotify"}), HTTPStatus.INTERNAL_SERVER_ERROR
-
-        headers = {"Authorization": f"Bearer {spot_token[0]}"}
-        # Get random value for extracting song objects from API
-        offset = randint(0, 50)
-        params = {"q": f"genre:{genre}", "type": "track", "limit": 5, "offset": offset}
-        res = requests.get(SEARCH_URL, headers=headers, params=params)
-
-        if res.status_code != 200:
-            return jsonify({"result": "Failed to authenticate with Spotify"}), res.status_code
-        music_info = res.json()
-        # Fetch metadata objects for 5 songs
-        for song in music_info["tracks"]["items"]:
-            songs_info = {"name": song["name"], "artist": ", ".join(
-                [artist["name"] for artist in song["artists"]]), "album": song["album"]["name"], "albumDate": song["album"]["release_date"], "spotifyURL": song["external_urls"]["spotify"], "songId": song["id"]}
-            recommended_songs.append(songs_info)
+    # Fetch metadata objects for 5 songs
+    for song in music_info["tracks"]["items"]:
+        songs_info = {"name": song["name"], "artist": ", ".join(
+            [artist["name"] for artist in song["artists"]]), "album": song["album"]["name"], "albumDate": song["album"]["release_date"], "spotifyURL": song["external_urls"]["spotify"], "songId": song["id"]}
+        recommended_songs.append(songs_info)
     return jsonify(recommended_songs), HTTPStatus.OK
