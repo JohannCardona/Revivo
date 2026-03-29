@@ -13,6 +13,8 @@ load_dotenv()
 
 generation = Blueprint("generation", __name__)
 
+JWT_SECRET = os.environ.get('JWT_SECRET')
+
 # Create DALL-E object
 client = openai.OpenAI(
     organization=os.environ.get('organization'),
@@ -21,15 +23,23 @@ client = openai.OpenAI(
 )
 
 @generation.route("/image_generation", methods=["POST"])
-def get_user_prompt():
-    # Extract token from request header
-    jwt_token = request.authorization
-    token = jwt_token.token
-    decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
-    url = ""
-    if decoded_token:
-        # Get user prompt from front-end
-        data = request.get_json()
+def get_user_prompt() -> tuple:
+    auth = request.authorization
+    if not auth or not auth.token:
+        return jsonify({"error": "Missing authorization token"}), HTTPStatus.UNAUTHORIZED
+
+    try:
+        jwt.decode(auth.token, key=JWT_SECRET, algorithms=["HS256"])
+    except jwt.ExpiredSignatureError:
+        return jsonify({"error": "Token has expired"}), HTTPStatus.UNAUTHORIZED
+    except jwt.InvalidTokenError:
+        return jsonify({"error": "Invalid token"}), HTTPStatus.UNAUTHORIZED
+
+    data = request.get_json()
+    if not data or "prompt" not in data:
+        return jsonify({"error": "Missing 'prompt' in request body"}), HTTPStatus.BAD_REQUEST
+
+    try:
         response = client.images.generate(
             model="dall-e-3",
             prompt=data["prompt"],
@@ -38,21 +48,18 @@ def get_user_prompt():
             n=1,
             response_format="b64_json"
         )
-        # Return BSON URL for the generated image
-        img_url = response.data[0].b64_json
-        url = compress_image_url(img_url)
-    return jsonify({"result": url}, HTTPStatus.OK)
+    except openai.OpenAIError as e:
+        return jsonify({"error": f"Image generation failed: {str(e)}"}), HTTPStatus.INTERNAL_SERVER_ERROR
+
+    img_b64 = response.data[0].b64_json
+    url = compress_image(img_b64)
+    return jsonify({"result": url}), HTTPStatus.OK
 
 
-def compress_image_url(b64_json, format="JPEG", encoding="utf-8", quality=50):
+def compress_image(b64_json: str, format: str = "JPEG", encoding: str = "utf-8", quality: int = 50) -> str:
     data = b64decode(b64_json)
     with BytesIO(data) as image_buff:
         image = Image.open(image_buff)
-        compressed_buff = BytesIO()
-        # Compress image using specified quality and format
-        image.save(compressed_buff, format=format,
-                   quality=quality, optimize=True)
-        # Convert the image data back to BSON URL
-        compressed_b64 = b64encode(
-            compressed_buff.getvalue()).decode(encoding=encoding)
-    return compressed_b64
+        with BytesIO() as compressed_buff:
+            image.save(compressed_buff, format=format, quality=quality, optimize=True)
+            return b64encode(compressed_buff.getvalue()).decode(encoding=encoding)
