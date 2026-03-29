@@ -22,7 +22,7 @@ mentalHealthVideos = [
                 "video_url": "https://www.youtube.com/embed/XTlDS7ju_28",
             },
             {
-                "video_title": "Copying Mechanisms You Shouldn't Ignore",
+                "video_title": "Coping Mechanisms You Shouldn't Ignore",
                 "video_url": "https://www.youtube.com/embed/PyIyxeMXKeg",
             },
         ],
@@ -48,7 +48,7 @@ mentalHealthVideos = [
                 "video_url": "https://www.youtube.com/embed/GLAdRgft7pU",
             },
             {
-                "video_title": "8 Things Resilient ",
+                "video_title": "8 Things Resilient People Do",
                 "video_url": "https://www.youtube.com/embed/RJKbr8VvvbY",
             },
         ],
@@ -135,7 +135,7 @@ mentalHealthVideos = [
         "category": "Nutrition and mental health",
         "videos": [
             {
-                "video_title": "how Food Heals",
+                "video_title": "How Food Heals",
                 "video_url": "https://www.youtube.com/embed/7sTJIH1Maxs",
             },
             {
@@ -318,7 +318,7 @@ mentalHealthVideos = [
         "videos": [
             {
                 "video_title": "Emotional Healing",
-                "video_url": "https://www.youtube.com/embed/ZsTKyYOuK84",
+                "video_url": "https://www.youtube.com/embed/SmbIcdJ0Zx8",
             },
             {
                 "video_title": "Heal Body and Mind",
@@ -368,5 +368,7 @@ mentalHealthVideos = [
 ]
 
 
-def store_videos():
-    mongo_db.video_library.insert_many(mentalHealthVideos)
+def store_videos() -> None:
+    # Only insert if the collection is empty to prevent duplicate records
+    if mongo_db.video_library.count_documents({}) == 0:
+        mongo_db.video_library.insert_many(mentalHealthVideos)
