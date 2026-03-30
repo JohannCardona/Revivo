@@ -1,4 +1,5 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, typing
+from typing import Union
 from http import HTTPStatus
 import base64
 import requests
@@ -19,7 +20,7 @@ TOKEN_URL = 'https://accounts.spotify.com/api/token'
 SEARCH_URL = 'https://api.spotify.com/v1/search'
 
 
-def spotify_login_token() -> str | None:
+def spotify_login_token() -> Union[str, None]:
     if not CLIENT_ID or not CLIENT_SECRET:
         return None
     auth = f"{CLIENT_ID}:{CLIENT_SECRET}"
