@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint, request, jsonify, typing
 from typing import Union
 from http import HTTPStatus
@@ -8,6 +9,7 @@ import re
 from collections import Counter
 
 conversations = Blueprint("conversations", __name__)
+JWT_SECRET = os.environ.get('JWT_SECRET')
 stopwords = set(stopwords.words("english"))
 more_stopwords = {
     "yes", "no", "okay", "hi", "hello", "bye", "thanks", "thank", "please",
@@ -27,7 +29,8 @@ def _decode_token() -> Union[tuple[dict, None], tuple[None, tuple]]:
     if not jwt_token or not jwt_token.token:
         return None, (jsonify({"error": "Missing authorization token"}), HTTPStatus.UNAUTHORIZED)
     try:
-        decoded = jwt.decode(jwt_token.token, key="revivo", algorithms=["HS256"])
+        decoded = jwt.decode(
+            jwt_token.token, key=JWT_SECRET, algorithms=["HS256"])
         return decoded, None
     except jwt.InvalidTokenError:
         return None, (jsonify({"error": "Invalid token"}), HTTPStatus.UNAUTHORIZED)
