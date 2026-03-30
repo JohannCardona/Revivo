@@ -11,20 +11,24 @@ chat = Blueprint("chat", __name__)
 def chatbot_conversations():
     # Extract token from request header
     jwt_token = request.authorization
-    token = jwt_token.token
-    decoded_token = jwt.decode(token, key="revivo", algorithms=["HS256"])
-    response = ""
-    if decoded_token:
-        # Extract user prompt from front-end
-        data = request.get_json()
-        punct_marks = {".", "!", "?"}
-        response = ""
-        # Make a call to the LLM model
-        bot_response = chat_model(data["prompt"])
-        # If incomplete answer, callback to ChatGPT API
-        if bot_response.strip()[-1] not in punct_marks:
-            gpt_response = get_chatgpt_bot_response(prompt=data["prompt"])
-            response = gpt_response
-        else:
-            response = bot_response
+    if not jwt_token or not jwt_token.token:
+        return jsonify({"error": "Missing authorization token"}), HTTPStatus.UNAUTHORIZED
+    try:
+        decoded_token = jwt.decode(jwt_token.token, key="revivo", algorithms=["HS256"])
+    except jwt.InvalidTokenError:
+        return jsonify({"error": "Invalid token"}), HTTPStatus.UNAUTHORIZED
+
+    # Extract user prompt from front-end
+    data = request.get_json()
+    if not data or "prompt" not in data:
+        return jsonify({"error": "Missing prompt"}), HTTPStatus.BAD_REQUEST
+
+    punct_marks = {".", "!", "?"}
+    # Make a call to the LLM model
+    bot_response = chat_model(data["prompt"])
+    # If incomplete answer, callback to ChatGPT API
+    if not bot_response.strip() or bot_response.strip()[-1] not in punct_marks:
+        response = get_chatgpt_bot_response(prompt=data["prompt"])
+    else:
+        response = bot_response
     return jsonify({"result": response}), HTTPStatus.OK
