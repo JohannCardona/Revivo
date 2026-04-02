@@ -9,22 +9,29 @@ const Banner = () => {
   // Get random index from category list
   // From category list, get random index - tip text
   useEffect(() => {
+    const today = new Date();
+    const daySeed =
+      today.getFullYear() * 10000 +
+      (today.getMonth() + 1) * 100 +
+      today.getDate();
+
     const tipCategories = Object.keys(tipsContent.tips);
-    const todayDate = new Date().getDate();
-    const tipTopicIndex = todayDate % tipCategories.length;
-    const selectedTipTopic = tipCategories[tipTopicIndex];
+    const selectedTipTopic = tipCategories[daySeed % tipCategories.length];
     const tipsFromSelectedTopic = tipsContent.tips[selectedTipTopic];
-    const tipIndex = todayDate % tipsFromSelectedTopic.length;
-    const selectedTipText = tipsFromSelectedTopic[tipIndex];
+    const selectedTipText =
+      tipsFromSelectedTopic[daySeed % tipsFromSelectedTopic.length];
 
     setTipText(selectedTipTopic + ": " + selectedTipText);
   }, []);
 
   return (
     <div className="banner-container">
+      <div className="info">
+        <Info />
+      </div>
       <h1 className="banner-title">
         <svg
-          style={{ width: "14px", marginRight: "7px" }}
+          className="banner-icon"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 384 512"
         >
@@ -33,9 +40,6 @@ const Banner = () => {
         Tip of the Day
       </h1>
       <p className="banner-text">{tipText}</p>
-      <div className="info">
-        <Info />
-      </div>
     </div>
   );
 };
