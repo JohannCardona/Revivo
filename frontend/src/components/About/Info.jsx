@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/about/info.css";
 
 const Info = () => {
@@ -11,6 +11,11 @@ const Info = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    document.body.style.overflow = isModalOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [isModalOpen]);
 
   return (
     <div className="tooltip-container">
@@ -28,76 +33,26 @@ const Info = () => {
               &times;
             </button>
             <h2>Chatbot Capabilities</h2>
-            <p style={{ color: "var(--text)" }}>
-              Here's how you can interact with the chatbot:
-            </p>
+            <p>Here's how you can interact with the chatbot:</p>
             <ul>
               <li>
-                <strong style={{ marginRight: "5px" }}>
-                  General Conversation:{" "}
-                </strong>{" "}
-                Enjoy a normal chat with the bot.
+                <strong>General Conversation:</strong> Enjoy a normal chat with the bot.
               </li>
               <li>
-                <strong style={{ marginRight: "5px" }}>
-                  Artistic Image Generation:{" "}
-                </strong>{" "}
-                To create artistic images using DALL-E, include both{" "}
-                <code style={{ marginRight: "4px", marginLeft: "4px" }}>
-                  generate
-                </code>{" "}
-                and{" "}
-                <code style={{ marginRight: "4px", marginLeft: "4px" }}>
-                  image
-                </code>{" "}
-                in your message.
+                <strong>Artistic Image Generation:</strong> To create artistic images
+                using DALL-E, include both <code>generate</code> and <code>image</code> in
+                your message.
               </li>
               <li>
-                <strong style={{ marginRight: "5px" }}>
-                  Music Recommendations:{" "}
-                </strong>{" "}
-                For music suggestions from Spotify, include keywords such as{" "}
-                <code style={{ marginRight: "4px", marginLeft: "4px" }}>
-                  songs
-                </code>
-                ,{" "}
-                <code style={{ marginRight: "4px", marginLeft: "4px" }}>
-                  music
-                </code>
-                ,
-                <code style={{ marginRight: "4px", marginLeft: "4px" }}>
-                  recommend song
-                </code>
-                , or <code style={{ marginLeft: "4px" }}>other songs</code>.
+                <strong>Music Recommendations:</strong> For music suggestions from
+                Spotify, include keywords such as <code>songs</code>, <code>music</code>,{" "}
+                <code>recommend song</code>, or <code>other songs</code>.
               </li>
               <li>
-                <strong style={{ marginRight: "5px" }}>
-                  Ending the Conversation:{" "}
-                </strong>{" "}
-                Use{" "}
-                <code style={{ marginRight: "4px", marginLeft: "4px" }}>
-                  goodbye
-                </code>
-                <code style={{ marginRight: "4px", marginLeft: "4px" }}>
-                  bye
-                </code>
-                <code style={{ marginRight: "4px", marginLeft: "4px" }}>
-                  bye bye
-                </code>
-                <code style={{ marginRight: "4px", marginLeft: "4px" }}>
-                  see you
-                </code>
-                <code style={{ marginRight: "4px", marginLeft: "4px" }}>
-                  see ya
-                </code>{" "}
-                <code style={{ marginRight: "4px", marginLeft: "4px" }}>
-                  end
-                </code>
-                or
-                <code style={{ marginRight: "4px", marginLeft: "4px" }}>
-                  exit
-                </code>{" "}
-                when you want to end the chat.
+                <strong>Ending the Conversation:</strong> Use <code>goodbye</code>,{" "}
+                <code>bye</code>, <code>bye bye</code>, <code>see you</code>,{" "}
+                <code>see ya</code>, <code>end</code>, or <code>exit</code> when you
+                want to end the chat.
               </li>
             </ul>
           </div>
