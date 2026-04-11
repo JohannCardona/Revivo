@@ -50,6 +50,16 @@
 .button-nav {
     background-color: var(--button-nav);
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.75;
+    letter-spacing: 0.02857em;
+    color: white;
+    border: none;
+    text-transform: uppercase;
+    padding: 6px 8px;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
 .dropdown-menu {

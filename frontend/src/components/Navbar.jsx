@@ -15,11 +15,6 @@ import DropDownMenu1 from "./DropDownMenu1";
 
 function Navbar() {
   const { toggleTheme } = useContext(ThemeContext);
-
-  const handleThemeToggle = () => {
-    toggleTheme();
-  };
-
   const navigate = useNavigate();
   const buttons = [
     { text: "Chatbot", to: "/chat" },
@@ -43,19 +38,6 @@ function Navbar() {
   const user = localStorage.getItem("token");
   const [isDropdownVisible, setDropdownVisible] = useState(false);
   const [isDropdownVisible1, setDropdownVisible1] = useState(false);
-  const handleMouseEnter = () => {
-    setDropdownVisible(true);
-  };
-  const handleMouseEnter1 = () => {
-    setDropdownVisible1(true);
-  };
-
-  const handleMouseLeave = () => {
-    setDropdownVisible(false);
-  };
-  const handleMouseLeave1 = () => {
-    setDropdownVisible1(false);
-  };
 
   return (
     <div className="navigation-bar">
@@ -95,84 +77,45 @@ function Navbar() {
           >
             About
           </Button>
-          {localStorage.getItem("token")
-            ? buttons.map((button) => {
-                return (
-                  <Button
-                    key={button.text}
-                    component={Link}
-                    to={button.to}
-                    color="inherit"
-                    sx={{
-                      "&:hover": {
-                        backgroundColor: "var(--navbar)",
-                      },
-                    }}
-                  >
-                    {button.text}
-                  </Button>
-                );
-              })
-            : ""}
-          {localStorage.getItem("token") ? (
+          {user &&
+            buttons.map((button) => (
+              <Button
+                key={button.text}
+                component={Link}
+                to={button.to}
+                color="inherit"
+                sx={{
+                  "&:hover": {
+                    backgroundColor: "var(--navbar)",
+                  },
+                }}
+              >
+                {button.text}
+              </Button>
+            ))}
+          {user && (
             <div style={{ display: "flex", alignItems: "center" }}>
               <div
                 style={{ position: "relative" }}
                 className="menu"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
+                onMouseEnter={() => setDropdownVisible(true)}
+                onMouseLeave={() => setDropdownVisible(false)}
               >
-                <button
-                  className="button-nav"
-                  style={{
-                    marginBottom: 1,
-                    fontSize: "0.875rem",
-                    fontWeight: 500,
-                    lineHeight: "1.75",
-                    letterSpacing: "0.02857em",
-                    color: "white",
-                    border: "none",
-                    textTransform: "uppercase",
-                    padding: "6px 8px",
-                    cursor: "pointer",
-                    borderRadius: "4px",
-                  }}
-                >
-                  Usage
-                </button>
-                {isDropdownVisible === true ? <DropDownMenu /> : ""}
+                <button className="button-nav">Usage</button>
+                {isDropdownVisible && <DropDownMenu />}
               </div>
               <div
                 style={{ position: "relative" }}
                 className="menu"
-                onMouseEnter={handleMouseEnter1}
-                onMouseLeave={handleMouseLeave1}
+                onMouseEnter={() => setDropdownVisible1(true)}
+                onMouseLeave={() => setDropdownVisible1(false)}
               >
-                <button
-                  className="button-nav"
-                  style={{
-                    marginBottom: 1,
-                    fontSize: "0.875rem",
-                    fontWeight: 500,
-                    lineHeight: "1.75",
-                    letterSpacing: "0.02857em",
-                    color: "white",
-                    border: "none",
-                    textTransform: "uppercase",
-                    padding: "6px 8px",
-                    cursor: "pointer",
-                    borderRadius: "4px",
-                  }}
-                >
-                  Library
-                </button>
-                {isDropdownVisible1 === true ? <DropDownMenu1 /> : ""}
+                <button className="button-nav">Library</button>
+                {isDropdownVisible1 && <DropDownMenu1 />}
               </div>
             </div>
-          ) : (
-            ""
           )}
-          {localStorage.getItem("token") ? (
+          {user && (
             <Button
               sx={{
                 "&:hover": {
@@ -185,14 +128,12 @@ function Navbar() {
             >
               Logout
             </Button>
-          ) : (
-            ""
           )}
           <nav>
             <input
               type="checkbox"
               id="theme-toggle"
-              onChange={handleThemeToggle}
+              onChange={toggleTheme}
               hidden
             />
             <label htmlFor="theme-toggle" className="theme-toggle"></label>
